@@ -1,0 +1,4 @@
+repository "miniProject/miniProject@14569752658063@cloud"
+  path "/"
+    br "/main"
+    co "/main"
