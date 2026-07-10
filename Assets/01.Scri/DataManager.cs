@@ -6,8 +6,10 @@ public class DataManager : MonoBehaviour
     public static DataManager instance;
 
     Dictionary<int,Tride> Trides = new Dictionary<int,Tride>();
+    Dictionary<int,Training> Trainings = new Dictionary<int,Training>();
 
     [SerializeField] private TrideDataManager TrideBox;
+    [SerializeField] private TrainingDataManager TrainingBox;
     private void Awake()
     {
         if(instance == null)
@@ -21,10 +23,12 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
+    // 밑에 2개는 제네릭으로 묶는거 가능할 거 같기도?
     void Start()
     {
         LoadTrideData();
+        LoadTrainingData();
     }
 
     private void LoadTrideData()
@@ -39,5 +43,19 @@ public class DataManager : MonoBehaviour
     public Tride GetTrideData(int id)
     {
         return Trides.GetValueOrDefault(id);
+    }
+
+    private void LoadTrainingData()
+    {
+        for(int i = 0; i < TrainingBox.TrainingList.Count; i++)
+        {
+           Training training = TrainingBox.TrainingList[i].Clone();
+            Trainings[i] = training;
+        }
+    }
+
+    public Training GetTrainingData(int id)
+    {
+        return Trainings.GetValueOrDefault(id);
     }
 }

@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02ac5deb93926024b98d49d62f635a74, type: 3}
+  m_Name: TrainingData
+  m_EditorClassIdentifier: Assembly-CSharp::TrainingDataManager
+  TrainingList:
+  - id: 100
+    icon: {fileID: 0}
+    name: "\uCCB4\uB825 \uAC15\uD654"
+    price: 500
+    upgrad: 0
+  - id: 101
+    icon: {fileID: 0}
+    name: "\uACF5\uACA9\uB825 \uAC15\uD654"
+    price: 500
+    upgrad: 0
+  - id: 102
+    icon: {fileID: 0}
+    name: "\uBC29\uC5B4\uB825 \uAC15\uD654"
+    price: 500
+    upgrad: 0
+  - id: 103
+    icon: {fileID: 0}
+    name: "\uD06C\uB9AC\uD2B8\uCEEC \uD655\uB960 \uAC15\uD654"
+    price: 1000
+    upgrad: 0
+  - id: 104
+    icon: {fileID: 0}
+    name: "\uB3C8 \uD68D\uB4DD\uB7C9 \uC5C5 "
+    price: 3000
+    upgrad: 0
+  - id: 105
+    icon: {fileID: 0}
+    name: "\uCD5C\uB300 \uB9D0 \uAC2F\uC218 \uC99D\uAC00"
+    price: 5000
+    upgrad: 0
+  - id: 106
+    icon: {fileID: 0}
+    name: "\uCCB4\uB825 \uD68C\uBCF5\uB7C9 \uAC15\uD654"
+    price: 1500
+    upgrad: 0
+  - id: 107
+    icon: {fileID: 0}
+    name: "\uD589\uC6B4 \uAC15\uD654"
+    price: 5000
+    upgrad: 0
+  - id: 108
+    icon: {fileID: 0}
+    name: "\uBC29\uD574\uD655\uB960 \uAC15\uD654"
+    price: 3000
+    upgrad: 0
+  - id: 109
+    icon: {fileID: 0}
+    name: "\uD68C\uD53C\uC728 \uAC15\uD654"
+    price: 3000
+    upgrad: 0
+  - id: 110
+    icon: {fileID: 0}
+    name: "\uC0AC\uAC70\uB9AC \uC99D\uAC00(\uC5D8\uD504\uC804\uC6A9)"
+    price: 5000
+    upgrad: 0
+  - id: 111
+    icon: {fileID: 0}
+    name: "\uAC10\uC5FC\uD655\uB960 \uAC15\uD654(\uC5B8\uB370\uB4DC \uC804\uC6A9)"
+    price: 5000
+    upgrad: 0
+  - id: 112
+    icon: {fileID: 0}
+    name: "\uB0A9\uCE58\uD655\uC728 \uAC15\uD654(\uACE0\uBE14\uB9B0 \uC804\uC6A9)"
+    price: 5000
+    upgrad: 0
+  - id: 113
+    icon: {fileID: 0}
+    name: "\uBD80\uD65C\uD655\uC728 \uAC15\uD654(\uCC9C\uC0AC\uC804\uC6A9)"
+    price: 5000
+    upgrad: 0
+  - id: 114
+    icon: {fileID: 0}
+    name: "\uC774\uAC83\uC740... \uACFC\uC5F0?"
+    price: 999999
+    upgrad: 0

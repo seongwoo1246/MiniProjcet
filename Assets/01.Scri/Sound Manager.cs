@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class SoundManager : MonoBehaviour
 {
@@ -48,12 +49,42 @@ public class SoundManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        SetBGMVolume(PlayerPrefs.GetFloat("BGMSound", 0.5f));
+        SetSFXVolume(PlayerPrefs.GetFloat("SFXSound", 0.5f));
+        SetVoiceVolume(PlayerPrefs.GetFloat("VoiceSound", 0.5f));
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetBGMVolume(float volume)
     {
-        
+        StartSceneBgm.volume = volume;
+        LobbySceneBgm.volume = volume;
+        HumenSceneBgm.volume = volume;
+        UndeadSceneBgm.volume = volume;
+        GoblinSceneBgm.volume = volume;
+        ElfSceneBgm.volume = volume;
+        AngelSceneBgm.volume = volume;
+        GameEndSceneBgm.volume = volume;
+        PlayerPrefs.SetFloat("BGMSound",volume);
     }
+    public void SetSFXVolume(float volume)
+    {
+        clickSound.volume = volume;
+        DrowSound.volume = volume;
+        WinSound.volume = volume;
+        DefeatSound.volume = volume;
+        TakeDamageSound.volume = volume;
+        PlayerPrefs.SetFloat("SFXSound", volume);
+    }
+
+    public void SetVoiceVolume(float volume)
+    {
+        HumenSound.volume= volume;
+        GoblinSound.volume= volume;
+        ElfSound.volume= volume;
+        AngelSound.volume= volume;
+        UndeadSound.volume= volume;
+        PlayerPrefs.SetFloat("VoiceSound",volume);
+    }
+
+  
 }
