@@ -69,28 +69,41 @@ public class TrideUi : LobbyUiManager
 {
     [SerializeField] GameObject TrideSlot;
     [SerializeField] GameObject TrideSelect;
-    private Image H_Icon1;
-    private Image G_Icon2;
-    private Image E_Icon3;
-    private Image U_Icon4;
-    private Image A_Icon5;
-    private TextMeshProUGUI H_name;
-    private TextMeshProUGUI G_name;
-    private TextMeshProUGUI E_name;
-    private TextMeshProUGUI U_name;
-    private TextMeshProUGUI A_name;
+    [SerializeField] TrideDataManager TrideM;
+   
     private Image SelectIcon;
     private TextMeshProUGUI SelectName;
     private TextMeshProUGUI SelectDescription;
     private TextMeshProUGUI SelectCharter;
-    // 반복문으로 줄일 수 있는건 줄이자
-
-    public int TrideId = -1;
-    public int GetTrideId() => TrideId;
-
-
-    public List<TrideUi> TrideUiList = new List<TrideUi>();
     
+    // 이것도 똑같이 밑이랑 만들기
+
+
+    
+
+    public List<TrideSlot> TrideUiList = new List<TrideSlot>();
+
+    public void ItTrideSlot()
+    {
+       
+        for (int i = 0; i < TrideUiList.Count; i++)
+        {
+            int TrideId = TrideM.TrideList[i].id;
+
+            var TrideData = DataManager.instance.GetTrideData(TrideId);
+            if (TrideData != null)
+            {
+                
+                //TrideSlot slot = 
+                //if (slot != null)
+                //{
+                  
+                //    TrideUiList.Add(slot);
+                //}
+            }
+        }
+    }
+
 
     private void Start()
     {
@@ -133,6 +146,9 @@ public class TrainingUi : LobbyUiManager
 {
     public static TrainingUi Instance;
 
+    [SerializeField] GameObject TrainingPanel;
+
+
     [SerializeField] private TrainingDataManager TrainingM;
     public Sprite icon;
     public TextMeshProUGUI Level;
@@ -162,10 +178,22 @@ public class TrainingUi : LobbyUiManager
     private void Start()
     {
         ItTrainingSlot();
+        TrainingPanel.SetActive(false);
         NoMoney.gameObject.SetActive(false);
         money.text = $" 현재 소유 금액 : {haveMoney}";
     }
 
+    public override void OpenPanel()
+    {
+        base.OpenPanel();
+        TrainingPanel.SetActive(true);
+
+    }
+    public override void ExitPanel()
+    {
+        TrainingPanel.SetActive(false);
+        base.ExitPanel();
+    }
     public void ItTrainingSlot()
     {
         foreach(TrainingSlot slot in TrainingSlots)
