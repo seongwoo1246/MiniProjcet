@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class AlbumSlot : MonoBehaviour
 {
-    public AlbumUi album;
+    private AlbumUi album;
     private Sprite memori;
 
     private int Albumid = -1;

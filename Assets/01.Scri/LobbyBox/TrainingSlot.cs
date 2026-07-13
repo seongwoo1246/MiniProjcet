@@ -4,22 +4,17 @@ using UnityEngine.UI;
 
 public class TrainingSlot : MonoBehaviour
 {
-    public Sprite icon;
-    public TextMeshProUGUI Level;
-    public TextMeshProUGUI name;
-    public TextMeshProUGUI price;
+    private Sprite icon;
+    private TextMeshProUGUI Level;
+    private TextMeshProUGUI name;
+    private TextMeshProUGUI price;
 
     private int TrainingId = -1;
     private int UpgradeCount = 0;
 
     public int GetTrainingID() => TrainingId;
    
-     void Start()
-    {
-        Button button = GetComponent<Button>();
-        if(button != null)
-        { button.onClick.AddListener(UpgradeLevel); }
-    }
+   
 
     public void UpgradeLevel()
     {

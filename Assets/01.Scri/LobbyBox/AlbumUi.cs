@@ -1,17 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AlbumUi : LobbyUiManager
 {
     [SerializeField] private AlbumDataManager AlbumM;
-    public int SelectAlbum = -1;
+   
 
 
     [SerializeField] GameObject Memori;
     public GameObject ViewMemoris;
+    public Image viewMemoriSprite;
     public GameObject TrideAlbum;
 
-    public Sprite imege;
+    private Sprite imege;
     public Transform AlbumCanva;
 
 
@@ -58,6 +60,7 @@ public class AlbumUi : LobbyUiManager
         if (Data != null)
         {
             imege = Data.image;
+            viewMemoriSprite.sprite = Data.image;
         }
     }
 
@@ -72,11 +75,6 @@ public class AlbumUi : LobbyUiManager
     {
         TrideAlbum.SetActive(false);
         base.ExitPanel();
-    }
-
-    public void ExitMemori()
-    {
-        Memori.SetActive(false);
     }
 
     public void ViewMemoriExit()

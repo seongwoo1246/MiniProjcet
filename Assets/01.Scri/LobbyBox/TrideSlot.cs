@@ -2,16 +2,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class TrideSlot : MonoBehaviour
 {
-    public Sprite icon;
-    public Sprite iconIn;
-    public TextMeshProUGUI name;
-    public TextMeshProUGUI character;
-    public TextMeshProUGUI TrideDescription;
+    private Sprite icon;
+    private Sprite iconIn;
+    private TextMeshProUGUI name;
+    private TextMeshProUGUI character;
+    private TextMeshProUGUI TrideDescription;
 
-    TrideUi trideUi;
-    BattleUi battleUi;
+   protected TrideUi trideUi;
+    protected BattleUi battleUi;
  
     private int TrideId = -1;
    
@@ -20,6 +21,9 @@ public class TrideSlot : MonoBehaviour
        
         trideUi = GetComponent<TrideUi>();
       battleUi = GetComponent<BattleUi>();
+        Button button = GetComponent<Button>();
+        if (button != null)
+            button.onClick.AddListener(OnSlotTride);
     }
     public void OnSlotTride()
     {
@@ -29,13 +33,7 @@ public class TrideSlot : MonoBehaviour
         trideUi.TrideSlot.SetActive(true);
     }
 
-    public void OnSlotBattle()
-    {
-        if (TrideId == -1)
-            return;
-        trideUi.SelectTride(TrideId);
-        battleUi.BattleSlot.SetActive(true);
-    }
+   
    
 
     public void SetTride(int id ,Sprite icon, string name, string character, string Description)

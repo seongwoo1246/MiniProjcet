@@ -13,12 +13,12 @@ public class LobbyUiManager : MonoBehaviour
 
     virtual public void  OpenPanel()
     {
-        Instantiate(dim);
+       // Instantiate(dim);
     }
 
     virtual public void ExitPanel()
     {
-        Destroy(dim);
+        //Destroy(dim);
     }
 
     

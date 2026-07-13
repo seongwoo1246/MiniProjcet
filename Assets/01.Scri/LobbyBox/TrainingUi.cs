@@ -10,10 +10,10 @@ public class TrainingUi : LobbyUiManager
 
 
     [SerializeField] private TrainingDataManager TrainingM;
-    public Sprite icon;
-    public TextMeshProUGUI Level;
-    public TextMeshProUGUI name;
-    public TextMeshProUGUI price;
+    //private Sprite icon;
+    //private TextMeshProUGUI Level;
+    //private TextMeshProUGUI name;
+    //private TextMeshProUGUI price;
     public GameObject Trainingslot;
     public Transform TrainingContent;
     public TextMeshProUGUI money;

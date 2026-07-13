@@ -1,15 +1,23 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class BattleUi : LobbyUiManager
 {
     [SerializeField] GameObject Battle;
     public GameObject BattleSlot;
-    //이거 아닌거 같기는 한데 안돼면 Slot에서 직접 번호 받아오기
-    private int battleId;
+
+    private Image SelectIcon;
+    private TextMeshProUGUI SelectName;
+    private TextMeshProUGUI SelectDescription;
+    private TextMeshProUGUI SelectCharter;
+
+    private int battleId =-1;
 
     public override void Start()
     {
+        
         Battle.SetActive(false);
         BattleSlot.SetActive(false);
     }
@@ -31,7 +39,22 @@ public class BattleUi : LobbyUiManager
     {
         BattleSlot.SetActive(false);
     }
+    public void SelectBattle(int id)
+    {
 
+        battleId = id;
+
+        var TrideData = DataManager.instance.GetTrideData(battleId);
+        if (TrideData != null)
+        {
+            SelectIcon.sprite = TrideData.icon;
+            SelectName.text = TrideData.name;
+            SelectDescription.text = TrideData.trideDescription;
+            SelectCharter.text = TrideData.character;
+        }
+
+
+    }
     public void StartBattel()
     {
         if (battleId == -1)
