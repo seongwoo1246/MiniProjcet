@@ -10,19 +10,29 @@ public class TrideSlot : MonoBehaviour
     public TextMeshProUGUI character;
     public TextMeshProUGUI TrideDescription;
 
+    TrideUi trideUi;
+    BattleUi battleUi;
     private int TrideId = -1;
    
     private void Start()
     {
-        Button button = GetComponent<Button>();
-        if (button != null)
-        { button.onClick.AddListener(onSlotClicked);}
+        trideUi = GetComponent<TrideUi>();
+      battleUi = GetComponent<BattleUi>();
     }
-    public void onSlotClicked()
+    public void OnSlotTride()
     {
         if (TrideId == -1)
             return;
-        TrideUi.instance.SelectTride(TrideId);
+        trideUi.SelectTride(TrideId);
+        trideUi.TrideSlot.SetActive(true);
+    }
+
+    public void OnSlotBattle()
+    {
+        if (TrideId == -1)
+            return;
+        trideUi.SelectTride(TrideId);
+        battleUi.BattleSlot.SetActive(true);
     }
 
     public void SetTride(int id ,Sprite icon, string name, string character, string Description)

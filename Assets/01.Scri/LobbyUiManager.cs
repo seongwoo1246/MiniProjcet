@@ -67,9 +67,9 @@ public class SetUPUi : LobbyUiManager
 }
 public class TrideUi : LobbyUiManager
 {
-    public static TrideUi instance;
+    
 
-    [SerializeField] GameObject TrideSlot;
+     public GameObject TrideSlot;
     [SerializeField] GameObject TrideSelect;
     [SerializeField] TrideDataManager TrideM;
     [SerializeField] Transform TrideCanva;
@@ -85,16 +85,7 @@ public class TrideUi : LobbyUiManager
 
 
     public List<TrideSlot> TrideUiList = new List<TrideSlot>();
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-            Destroy(gameObject);
-    }
+ 
     public void ItTrideSlot()
     {
         foreach (TrideSlot slot in TrideUiList)
@@ -150,7 +141,7 @@ public class TrideUi : LobbyUiManager
                 SelectDescription.text = TrideData.trideDescription;
                 SelectCharter.text = TrideData.character;
             }
-        TrideSelect.SetActive(true);
+       
 
     }
     public void ExitSelect()
@@ -303,7 +294,56 @@ public class StateUi : LobbyUiManager
         DetailState.SetActive(false);
     }
 
+}
 
+public class BattleUi : LobbyUiManager
+{
+    [SerializeField] GameObject Battle;
+    public GameObject BattleSlot;
+
+    private int battleId;
+
+    private void Start()
+    {
+        Battle.SetActive(false);
+        BattleSlot.SetActive(false);
+    }
+
+    public override void OpenPanel()
+    {  
+        base.OpenPanel();
+        Battle.SetActive(true);
+    
+    }
+
+    public override void ExitPanel()
+    {
+        Battle.SetActive(false);
+        base.ExitPanel();
+    }
+
+    public void ExitSelectBattle()
+    {
+        BattleSlot.SetActive(false);
+    }
+
+    public void StartBattel()
+    {
+        if (battleId == -1)
+            return;
+       switch(battleId)
+        {
+            case 0: ScenesM.instance.LoadHumenScene(); break;
+
+            case 1: ScenesM.instance.LoadGoblinScene(); break;
+
+            case 2: ScenesM.instance.LoadElfScene(); break;
+
+            case 3: ScenesM.instance.LoadUndeadScene(); break;
+
+            case 4: ScenesM.instance.LoadAngelScene(); break;
+        }
+    }
 
 
 }

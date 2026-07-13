@@ -15,9 +15,6 @@ EditorBuildSettings:
     path: Assets/00.Scenes/BattleHumen.unity
     guid: 2726b7c662cead6479752406b5ab0fd3
   - enabled: 1
-    path: Assets/00.Scenes/GameEnding.unity
-    guid: 6059e6036ad4d1940853051a8ebee360
-  - enabled: 1
     path: Assets/00.Scenes/Battle Undead.unity
     guid: d8cffe8a12bce0048be0eb5c53bf067b
   - enabled: 1
