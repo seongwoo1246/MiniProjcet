@@ -1,5 +1,4 @@
 using TMPro;
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,14 +14,14 @@ public class TrainingSlot : MonoBehaviour
 
     public int GetTrainingID() => TrainingId;
    
-    private void Start()
+     void Start()
     {
         Button button = GetComponent<Button>();
         if(button != null)
-        {  }
+        { button.onClick.AddListener(UpgradeLevel); }
     }
 
-    public void UpgradeLevel(int id)
+    public void UpgradeLevel()
     {
         if (TrainingId == -1)
             return;
@@ -33,7 +32,10 @@ public class TrainingSlot : MonoBehaviour
             {
                 TrainingUi.Instance.haveMoney -= Data.price;
                 TrainingUi.Instance.money.text = $" 현재 소유 금액 : {TrainingUi.Instance.haveMoney}";
-
+                //플레이어 스탯에 강화해주는 효과 넣어주기 
+                Data.price = (int)(Data.price * 1.5);
+                UpgradeCount++;
+                Level.text = UpgradeCount.ToString();
             }
             else
                 TrainingUi.Instance.BuyXX();

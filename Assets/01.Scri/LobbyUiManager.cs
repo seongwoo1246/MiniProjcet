@@ -67,25 +67,41 @@ public class SetUPUi : LobbyUiManager
 }
 public class TrideUi : LobbyUiManager
 {
+    public static TrideUi instance;
+
     [SerializeField] GameObject TrideSlot;
     [SerializeField] GameObject TrideSelect;
     [SerializeField] TrideDataManager TrideM;
+    [SerializeField] Transform TrideCanva;
    
     private Image SelectIcon;
     private TextMeshProUGUI SelectName;
     private TextMeshProUGUI SelectDescription;
     private TextMeshProUGUI SelectCharter;
-    
-    // 이것도 똑같이 밑이랑 만들기
 
 
-    
+
+    private int TrideId = -1;
+
 
     public List<TrideSlot> TrideUiList = new List<TrideSlot>();
-
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+            Destroy(gameObject);
+    }
     public void ItTrideSlot()
     {
-       
+        foreach (TrideSlot slot in TrideUiList)
+        {
+            if (slot != null) slot.gameObject.SetActive(false);
+        }
+        TrideUiList.Clear();
         for (int i = 0; i < TrideUiList.Count; i++)
         {
             int TrideId = TrideM.TrideList[i].id;
@@ -93,13 +109,13 @@ public class TrideUi : LobbyUiManager
             var TrideData = DataManager.instance.GetTrideData(TrideId);
             if (TrideData != null)
             {
-                
-                //TrideSlot slot = 
-                //if (slot != null)
-                //{
-                  
-                //    TrideUiList.Add(slot);
-                //}
+                GameObject go = Instantiate(TrideSlot, TrideCanva);
+                TrideSlot slot = go.GetComponent<TrideSlot>();
+                if (slot != null)
+                {
+                    slot.SetTride(TrideData.id, TrideData.icon, TrideData.name, TrideData.character, TrideData.trideDescription);
+                    TrideUiList.Add(slot);
+                }
             }
         }
     }
@@ -121,11 +137,21 @@ public class TrideUi : LobbyUiManager
         base.ExitPanel();
     }
 
-    public void OpenSelect()
+    public void SelectTride(int id)
     {
+       
+        TrideId = id;
+
+            var TrideData = DataManager.instance.GetTrideData(TrideId);
+            if (TrideData != null)
+            {
+                SelectIcon.sprite = TrideData.icon;
+                SelectName.text = TrideData.name;
+                SelectDescription.text = TrideData.trideDescription;
+                SelectCharter.text = TrideData.character;
+            }
         TrideSelect.SetActive(true);
-        // 플레이어의 캐릭터가 이걸로 바뀔 예정
-        // 선택한 id를 비교해서 맞으면 정보 교환 하는 식
+
     }
     public void ExitSelect()
     {
@@ -134,8 +160,16 @@ public class TrideUi : LobbyUiManager
 
     public void TrideSlectOk()
     {
-        // 플레이어의 캐릭터가 이걸로 바뀔 예정
-        // 선택한 id를 비교해서 이름 특성 종족설명 바뀜
+        if(TrideId ==-1)
+        { return; }
+        var TrideData = DataManager.instance.GetTrideData(TrideId);
+        if (TrideData != null)
+        {
+            // 플레이어의 캐릭터가 이걸로 바뀔 예정
+            // 선택한 id를 비교해서 이름 특성 종족설명 바뀜
+        }
+
+
         TrideSelect.SetActive(false);
         TrideSlot.SetActive(false);
         Destroy(dim);
