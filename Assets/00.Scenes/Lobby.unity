@@ -2348,7 +2348,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &358517532
 RectTransform:
@@ -2953,7 +2953,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &393111485
 RectTransform:
@@ -3519,7 +3519,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &453349521
 RectTransform:
@@ -11834,7 +11834,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &1587165903
 RectTransform:
@@ -14778,6 +14778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AlbumUi
   dim: {fileID: 1156094236268068491, guid: 34a0b432c271c804a90f007bee871850, type: 3}
   AlbumM: {fileID: 11400000, guid: 5bd2a8a8c1d001546b14f4cac8b9842d, type: 2}
+  dimP: {fileID: 1627362112}
   Memori: {fileID: 6565132856349357530, guid: 2a28c7c25bd3faf459e865ba44e632e1, type: 3}
   ViewMemoris: {fileID: 17477848}
   viewMemoriSprite: {fileID: 17477850}

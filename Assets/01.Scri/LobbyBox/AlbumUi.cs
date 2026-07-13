@@ -5,9 +5,9 @@ using UnityEngine.UI;
 public class AlbumUi : LobbyUiManager
 {
     [SerializeField] private AlbumDataManager AlbumM;
-   
 
 
+    public Transform dimP;
     [SerializeField] GameObject Memori;
     public GameObject ViewMemoris;
     public Image viewMemoriSprite;
@@ -67,14 +67,14 @@ public class AlbumUi : LobbyUiManager
 
     public override void OpenPanel()
     {
-        base.OpenPanel();
+        
         TrideAlbum.SetActive(true);
     }
 
     public override void ExitPanel()
     {
         TrideAlbum.SetActive(false);
-        base.ExitPanel();
+          
     }
 
     public void ViewMemoriExit()
