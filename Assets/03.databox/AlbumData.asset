@@ -12,4 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1389a87f2c65e84469409efe02a6630f, type: 3}
   m_Name: AlbumData
   m_EditorClassIdentifier: Assembly-CSharp::AlbumDataManager
-  AlbumList: []
+  AlbumList:
+  - id: 1000
+    image: {fileID: -8872988855792500742, guid: 4cd4be0e22da7594e82d8585ab0796b6, type: 3}
+  - id: 1001
+    image: {fileID: -6292877482096798556, guid: d7d81b7236812f846b95adb90cb8c34c, type: 3}
+  - id: 1002
+    image: {fileID: 9188384748228924726, guid: ae25ffad1ce18614fb899830ad841d14, type: 3}
+  - id: 1003
+    image: {fileID: 2333170693180799042, guid: 759c8e144ef70ce49a01ea2835ed09fb, type: 3}
+  - id: 1004
+    image: {fileID: -8230788914363475812, guid: 722f8c5ab6a558c46bfa2339425b73ba, type: 3}
+  - id: 1005
+    image: {fileID: 2640966015464738381, guid: f6ef98f13a8c3ea498350afc9972d140, type: 3}
+  - id: 1006
+    image: {fileID: -7704319123764802110, guid: 6b51b8f1d1c640d45b3d6aad32d278ce, type: 3}
+  - id: 1007
+    image: {fileID: 5192505229604773496, guid: 08ce484a518be414791916ee2bca18e1, type: 3}
+  - id: 1008
+    image: {fileID: -6816710645177533507, guid: 1b559349bae664b4fa4a438043db2530, type: 3}
+  - id: 1009
+    image: {fileID: -807735702486541992, guid: dd0e74dde8c642b45a37f691b7efaae3, type: 3}
