@@ -300,7 +300,7 @@ public class BattleUi : LobbyUiManager
 {
     [SerializeField] GameObject Battle;
     public GameObject BattleSlot;
-
+    //이거 아닌거 같기는 한데 안돼면 Slot에서 직접 번호 받아오기
     private int battleId;
 
     private void Start()
@@ -346,4 +346,42 @@ public class BattleUi : LobbyUiManager
     }
 
 
+}
+
+public class AlbumUi : LobbyUiManager
+{
+    [SerializeField] GameObject Memori;
+    public GameObject TrideAlbum;
+
+    private int AlbumId = -1;
+
+    private void Start()
+    {
+        TrideAlbum.SetActive(false);
+        Memori.SetActive(false);
+    }
+
+    public override void OpenPanel()
+    {
+        base.OpenPanel();
+        TrideAlbum.SetActive(true);
+    }
+
+    public override void ExitPanel()
+    {
+        TrideAlbum.SetActive(false);
+        base.ExitPanel();
+    }
+
+    public void ExitMemori()
+    {
+        Memori.SetActive(false);
+    }
+
+    public void ViewMemori()
+    {
+        if (AlbumId == -1)
+            return;
+        
+    }
 }

@@ -7,9 +7,11 @@ public class DataManager : MonoBehaviour
 
     Dictionary<int,Tride> Trides = new Dictionary<int,Tride>();
     Dictionary<int,Training> Trainings = new Dictionary<int,Training>();
+    Dictionary<int,Album> Albums = new Dictionary<int,Album>();
 
     [SerializeField] private TrideDataManager TrideBox;
     [SerializeField] private TrainingDataManager TrainingBox;
+    [SerializeField] private AlbumDataManager AlbumBox;
     private void Awake()
     {
         if(instance == null)
@@ -29,6 +31,7 @@ public class DataManager : MonoBehaviour
     {
         LoadTrideData();
         LoadTrainingData();
+        LoadAlbumData();
     }
 
     private void LoadTrideData()
@@ -58,4 +61,19 @@ public class DataManager : MonoBehaviour
     {
         return Trainings.GetValueOrDefault(id);
     }
+    private void LoadAlbumData()
+    {
+        for(int i = 0; i < AlbumBox.AlbumList.Count; i++)
+        {
+           Album album = AlbumBox.AlbumList[i].Clone();
+            Albums[i] = album;
+        }
+    }
+
+    public Album GetAlbumData(int id)
+    {
+        return Albums.GetValueOrDefault(id);
+    }
+
+
 }

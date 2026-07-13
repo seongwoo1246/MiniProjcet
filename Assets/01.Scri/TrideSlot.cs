@@ -12,10 +12,12 @@ public class TrideSlot : MonoBehaviour
 
     TrideUi trideUi;
     BattleUi battleUi;
+ 
     private int TrideId = -1;
    
     private void Start()
     {
+       
         trideUi = GetComponent<TrideUi>();
       battleUi = GetComponent<BattleUi>();
     }
@@ -34,6 +36,7 @@ public class TrideSlot : MonoBehaviour
         trideUi.SelectTride(TrideId);
         battleUi.BattleSlot.SetActive(true);
     }
+   
 
     public void SetTride(int id ,Sprite icon, string name, string character, string Description)
     {
