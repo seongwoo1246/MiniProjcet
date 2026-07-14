@@ -7,7 +7,7 @@ public class TrideSlot : MonoBehaviour
 {
     private Sprite icon;
     private Sprite iconIn;
-    private TextMeshProUGUI name;
+    private TextMeshProUGUI name1;
     private TextMeshProUGUI character;
     private TextMeshProUGUI TrideDescription;
 
@@ -41,7 +41,7 @@ public class TrideSlot : MonoBehaviour
        TrideId = id;
         this.icon = icon;
         iconIn = icon;
-        this.name.text = name;
+        name1.text = name;
         this.character.text = character;
         TrideDescription.text = Description;
     }

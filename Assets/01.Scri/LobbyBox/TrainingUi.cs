@@ -16,9 +16,8 @@ public class TrainingUi : LobbyUiManager
     public TextMeshProUGUI NoMoney;
     public int haveMoney = 0;
 
-
-
-    List<TrainingSlot> TrainingSlots = new List<TrainingSlot>();
+   
+    public List<TrainingSlot> TrainingSlots = new List<TrainingSlot>();
     private void Awake()
     {
         if (Instance == null)
@@ -53,7 +52,7 @@ public class TrainingUi : LobbyUiManager
     public void ItTrainingSlot()
     {
       
-        for (int i = 0; i < TrainingSlots.Count; i++)
+        for (int i = 0; i < TrainingM.TrainingList.Count; i++)
         {
             
             var TrainingData = TrainingM.TrainingList[i].Clone();
@@ -67,6 +66,7 @@ public class TrainingUi : LobbyUiManager
                 {
                     slot.SetTraining(TrainingData.id, TrainingData.icon, TrainingData.name, TrainingData.price, TrainingData.upgrad);
                     TrainingSlots.Add(slot);
+                    slot.gameObject.SetActive(true);
                 }
             }
         }

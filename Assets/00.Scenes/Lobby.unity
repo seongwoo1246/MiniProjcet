@@ -2337,7 +2337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrideUi
   dim: {fileID: 1156094236268068491, guid: 34a0b432c271c804a90f007bee871850, type: 3}
-  TrideSlot: {fileID: 923289124}
+  TrideSlot: {fileID: 4506894626256820063, guid: f16d5057b40ecb245a8a01a8b729a9b4, type: 3}
   TrideSelect: {fileID: 304442462}
   TrideM: {fileID: 11400000, guid: 8f060fa795172cc4396e4dbcc6a21258, type: 2}
   TrideCanva: {fileID: 435410243}
@@ -3508,11 +3508,12 @@ MonoBehaviour:
   dim: {fileID: 1156094236268068491, guid: 34a0b432c271c804a90f007bee871850, type: 3}
   TrainingPanel: {fileID: 239107502}
   TrainingM: {fileID: 11400000, guid: fd4076f6af25bec48a588d53d782b7dc, type: 2}
-  Trainingslot: {fileID: 4506894626256820063, guid: f16d5057b40ecb245a8a01a8b729a9b4, type: 3}
+  Trainingslot: {fileID: 7802049144582570059, guid: 077723d484676324fb20224a7da69bab, type: 3}
   TrainingContent: {fileID: 454037413}
   money: {fileID: 1891768460}
   NoMoney: {fileID: 507249161}
   haveMoney: 0
+  TrainingSlots: []
 --- !u!1 &454037412
 GameObject:
   m_ObjectHideFlags: 0
@@ -13803,7 +13804,9 @@ MonoBehaviour:
   dim: {fileID: 1156094236268068491, guid: 34a0b432c271c804a90f007bee871850, type: 3}
   TrideM: {fileID: 11400000, guid: 8f060fa795172cc4396e4dbcc6a21258, type: 2}
   Battle: {fileID: 1509003632}
-  BattleSlot: {fileID: 1729132701}
+  BattleCanvas: {fileID: 1429322149}
+  BattleSlot: {fileID: 6089493193472773824, guid: df7b2d9f3cee18849bece0e860d2c730, type: 3}
+  battleSlots: []
 --- !u!1 &1966938688
 GameObject:
   m_ObjectHideFlags: 0
@@ -14833,7 +14836,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AlbumUi
   dim: {fileID: 1156094236268068491, guid: 34a0b432c271c804a90f007bee871850, type: 3}
   AlbumM: {fileID: 11400000, guid: 5bd2a8a8c1d001546b14f4cac8b9842d, type: 2}
-  dimP: {fileID: 1627362112}
   Memori: {fileID: 6565132856349357530, guid: 2a28c7c25bd3faf459e865ba44e632e1, type: 3}
   ViewMemoris: {fileID: 17477848}
   viewMemoriSprite: {fileID: 17477850}

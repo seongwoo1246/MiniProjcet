@@ -19,7 +19,7 @@ public class BattleUi : LobbyUiManager
 
     private int battleId =-1;
 
-    List<BattleSlot> battleSlots = new List<BattleSlot>();
+    public List<BattleSlot> battleSlots = new List<BattleSlot>();
 
     public override void Start()
     {
@@ -33,11 +33,11 @@ public class BattleUi : LobbyUiManager
     public void ItBattleSlot()
     {
 
-        for (int i = 0; i < battleSlots.Count; i++)
+        for (int i = 0; i < TrideM.TrideList.Count; i++)
         {
 
 
-            var TrideData = TrideM.TrideList[battleId].Clone();
+            var TrideData = TrideM.TrideList[i].Clone();
            
             if (TrideData != null)
             {
@@ -48,6 +48,7 @@ public class BattleUi : LobbyUiManager
                 {
                     slot.SetTride(TrideData.id, TrideData.icon, TrideData.name, TrideData.character, TrideData.trideDescription);
                     battleSlots.Add(slot);
+                    slot.gameObject.SetActive(true);
                 }
             }
         }

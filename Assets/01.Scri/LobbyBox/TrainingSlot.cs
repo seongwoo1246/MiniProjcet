@@ -7,13 +7,13 @@ public class TrainingSlot : MonoBehaviour
     [SerializeField] TrainingDataManager TrainingM;
     private Sprite icon;
     private TextMeshProUGUI Level;
-    private TextMeshProUGUI name;
+    private TextMeshProUGUI name1;
     private TextMeshProUGUI price;
 
     private int TrainingId = -1;
     private int UpgradeCount = 0;
 
-    public int GetTrainingID() => TrainingId;
+    
    
    
 
@@ -42,7 +42,7 @@ public class TrainingSlot : MonoBehaviour
     {
         TrainingId = id;
         this.icon = icon;
-        this.name.text = name;
+        name1.text = name;
         this.price.text = price.ToString();
         Level.text = level.ToString(); ;
             

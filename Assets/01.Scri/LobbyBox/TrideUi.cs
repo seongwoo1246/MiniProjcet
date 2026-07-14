@@ -28,11 +28,11 @@ public class TrideUi : LobbyUiManager
     public void ItTrideSlot()
     {
        
-        for (int i = 0; i < TrideUiList.Count; i++)
+        for (int i = 0; i < TrideM.TrideList.Count; i++)
         {
             
 
-            var TrideData = TrideM.TrideList[TrideId].Clone();
+            var TrideData = TrideM.TrideList[i].Clone();
            
             if (TrideData != null)
             {
@@ -43,6 +43,7 @@ public class TrideUi : LobbyUiManager
                 {
                     slot.SetTride(TrideData.id, TrideData.icon, TrideData.name, TrideData.character, TrideData.trideDescription);
                     TrideUiList.Add(slot);
+                    slot.gameObject.SetActive(true);
                 }
             }
         }

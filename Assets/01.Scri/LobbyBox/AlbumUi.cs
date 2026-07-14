@@ -7,7 +7,7 @@ public class AlbumUi : LobbyUiManager
     [SerializeField] private AlbumDataManager AlbumM;
 
 
-    public Transform dimP;
+    
     [SerializeField] GameObject Memori;
     public GameObject ViewMemoris;
     public Image viewMemoriSprite;
@@ -57,6 +57,8 @@ public class AlbumUi : LobbyUiManager
 
 
         var Data = AlbumM.AlbumList[id].Clone();
+        if (Data == null)
+        
         if (Data != null)
         {
             imege = Data.image;
