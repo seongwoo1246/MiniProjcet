@@ -10,10 +10,6 @@ public class TrainingUi : LobbyUiManager
 
 
     [SerializeField] private TrainingDataManager TrainingM;
-    //private Sprite icon;
-    //private TextMeshProUGUI Level;
-    //private TextMeshProUGUI name;
-    //private TextMeshProUGUI price;
     public GameObject Trainingslot;
     public Transform TrainingContent;
     public TextMeshProUGUI money;
@@ -56,20 +52,17 @@ public class TrainingUi : LobbyUiManager
     }
     public void ItTrainingSlot()
     {
-        foreach (TrainingSlot slot in TrainingSlots)
-        {
-            if (slot != null) slot.gameObject.SetActive(false);
-        }
-        TrainingSlots.Clear();
+      
         for (int i = 0; i < TrainingSlots.Count; i++)
         {
-            int TrainingId = TrainingM.TrainingList[i].id;
-
-            var TrainingData = DataManager.instance.GetTrainingData(TrainingId);
+            
+            var TrainingData = TrainingM.TrainingList[i].Clone();
+           
             if (TrainingData != null)
             {
                 GameObject go = Instantiate(Trainingslot, TrainingContent);
                 TrainingSlot slot = go.GetComponent<TrainingSlot>();
+
                 if (slot != null)
                 {
                     slot.SetTraining(TrainingData.id, TrainingData.icon, TrainingData.name, TrainingData.price, TrainingData.upgrad);

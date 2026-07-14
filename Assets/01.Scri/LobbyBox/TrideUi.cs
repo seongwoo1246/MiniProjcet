@@ -27,20 +27,18 @@ public class TrideUi : LobbyUiManager
 
     public void ItTrideSlot()
     {
-        foreach (TrideSlot slot in TrideUiList)
-        {
-            if (slot != null) slot.gameObject.SetActive(false);
-        }
-        TrideUiList.Clear();
+       
         for (int i = 0; i < TrideUiList.Count; i++)
         {
-            int TrideId = TrideM.TrideList[i].id;
+            
 
-            var TrideData = DataManager.instance.GetTrideData(TrideId);
+            var TrideData = TrideM.TrideList[TrideId].Clone();
+           
             if (TrideData != null)
             {
                 GameObject go = Instantiate(TrideSlot, TrideCanva);
                 TrideSlot slot = go.GetComponent<TrideSlot>();
+               
                 if (slot != null)
                 {
                     slot.SetTride(TrideData.id, TrideData.icon, TrideData.name, TrideData.character, TrideData.trideDescription);
@@ -53,6 +51,7 @@ public class TrideUi : LobbyUiManager
 
     public override void Start()
     {
+        ItTrideSlot();
         TrideSlot.SetActive(false);
         TrideSelect.SetActive(false);
     }
@@ -72,7 +71,7 @@ public class TrideUi : LobbyUiManager
 
         TrideId = id;
 
-        var TrideData = DataManager.instance.GetTrideData(TrideId);
+        var TrideData = TrideM.TrideList[TrideId].Clone();
         if (TrideData != null)
         {
             SelectIcon.sprite = TrideData.icon;
@@ -92,7 +91,7 @@ public class TrideUi : LobbyUiManager
     {
         if (TrideId == -1)
         { return; }
-        var TrideData = DataManager.instance.GetTrideData(TrideId);
+        var TrideData = TrideM.TrideList[TrideId].Clone();
         if (TrideData != null)
         {
             // 플레이어의 캐릭터가 이걸로 바뀔 예정

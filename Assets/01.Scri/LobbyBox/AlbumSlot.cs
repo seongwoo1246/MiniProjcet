@@ -31,6 +31,7 @@ public class AlbumSlot : MonoBehaviour
         album.SelectMemori(Albumid);
         album.ViewMemoris.SetActive(true);
 
+
     }
 
     public void SetMemori(int id, Sprite sprite)

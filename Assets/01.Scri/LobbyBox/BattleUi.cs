@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,8 +6,11 @@ using UnityEngine.UI;
 
 public class BattleUi : LobbyUiManager
 {
+    [SerializeField] TrideDataManager TrideM;
     [SerializeField] GameObject Battle;
+    [SerializeField] Transform BattleCanvas;
     public GameObject BattleSlot;
+
 
     private Image SelectIcon;
     private TextMeshProUGUI SelectName;
@@ -15,13 +19,39 @@ public class BattleUi : LobbyUiManager
 
     private int battleId =-1;
 
+    List<BattleSlot> battleSlots = new List<BattleSlot>();
+
     public override void Start()
     {
         
         Battle.SetActive(false);
         BattleSlot.SetActive(false);
+        ItBattleSlot();
     }
 
+
+    public void ItBattleSlot()
+    {
+
+        for (int i = 0; i < battleSlots.Count; i++)
+        {
+
+
+            var TrideData = TrideM.TrideList[battleId].Clone();
+           
+            if (TrideData != null)
+            {
+                GameObject go = Instantiate(BattleSlot, BattleCanvas);
+                BattleSlot slot = go.GetComponent<BattleSlot>();
+               
+                if (slot != null)
+                {
+                    slot.SetTride(TrideData.id, TrideData.icon, TrideData.name, TrideData.character, TrideData.trideDescription);
+                    battleSlots.Add(slot);
+                }
+            }
+        }
+    }
     public override void OpenPanel()
     {
         base.OpenPanel();
@@ -44,7 +74,7 @@ public class BattleUi : LobbyUiManager
 
         battleId = id;
 
-        var TrideData = DataManager.instance.GetTrideData(battleId);
+        var TrideData = TrideM.TrideList[battleId].Clone();
         if (TrideData != null)
         {
             SelectIcon.sprite = TrideData.icon;

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class TrainingSlot : MonoBehaviour
 {
+    [SerializeField] TrainingDataManager TrainingM;
     private Sprite icon;
     private TextMeshProUGUI Level;
     private TextMeshProUGUI name;
@@ -20,7 +21,7 @@ public class TrainingSlot : MonoBehaviour
     {
         if (TrainingId == -1)
             return;
-        var Data = DataManager.instance.GetTrainingData(TrainingId);
+        var Data = TrainingM.TrainingList[TrainingId].Clone();
         if(Data != null)
         {
             if (TrainingUi.Instance.haveMoney >= Data.price)

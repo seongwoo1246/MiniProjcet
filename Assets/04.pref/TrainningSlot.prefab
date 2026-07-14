@@ -672,6 +672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38280073b5d61a0489d2664f2ad1394f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainingSlot
+  TrainingM: {fileID: 11400000, guid: fd4076f6af25bec48a588d53d782b7dc, type: 2}
 --- !u!1 &8207494277833406669
 GameObject:
   m_ObjectHideFlags: 0

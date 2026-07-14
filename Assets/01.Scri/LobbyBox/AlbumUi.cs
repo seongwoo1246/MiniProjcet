@@ -18,35 +18,35 @@ public class AlbumUi : LobbyUiManager
 
 
 
-    List<AlbumSlot> albumSlots = new List<AlbumSlot>();
+    public List<AlbumSlot> albumSlots = new List<AlbumSlot>();
     public override void Start()
     {
+        
         ViewMemoris.SetActive(false);
         TrideAlbum.SetActive(false);
-        Memori.SetActive(false);
+        
         ItAlbumSlot();
     }
 
     public void ItAlbumSlot()
     {
-        foreach (var slot in albumSlots)
-        {
-            if (slot != null) slot.gameObject.SetActive(false);
-        }
-        albumSlots.Clear();
+        
         for (int i = 0; i < AlbumM.AlbumList.Count; i++)
         {
-            int albumId = AlbumM.AlbumList[i].id;
-
-            var albumData = DataManager.instance.GetAlbumData(albumId);
+         
+            var albumData = AlbumM.AlbumList[i].Clone();
+           
+            
             if (albumData != null)
             {
                 GameObject go = Instantiate(Memori, AlbumCanva);
                 AlbumSlot slot = go.GetComponent<AlbumSlot>();
+             
                 if (slot != null)
                 {
                     slot.SetMemori(albumData.id, albumData.image);
                     albumSlots.Add(slot);
+                    slot.gameObject.SetActive(true);
                 }
             }
         }
@@ -56,7 +56,7 @@ public class AlbumUi : LobbyUiManager
     {
 
 
-        var Data = DataManager.instance.GetAlbumData(id);
+        var Data = AlbumM.AlbumList[id].Clone();
         if (Data != null)
         {
             imege = Data.image;
