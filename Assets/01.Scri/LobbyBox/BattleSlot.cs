@@ -13,8 +13,8 @@ public class BattleSlot : TrideSlot
     {
         if (battleId == -1)
             return;
-        battleUi.SelectBattle(battleId);
-        battleUi.SelectEnemy.SetActive(true);
+        BattleUi.Instance.SelectBattle(battleId);
+        BattleUi.Instance.SelectEnemy.SetActive(true);
     }
 
     public override void SetTride(int id, Sprite icon, string name, string character, string Description)
@@ -23,9 +23,9 @@ public class BattleSlot : TrideSlot
         battleId = id;
         TrideId = id;
 
-        if(this.icon != null)
+        if(icon1 != null)
         {
-            this.icon.sprite = icon;
+            icon1.sprite = icon;
         }
         
         if( BattleUi.Instance != null )

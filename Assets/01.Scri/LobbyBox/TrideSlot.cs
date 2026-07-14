@@ -5,26 +5,19 @@ using UnityEngine.UI;
 
 public class TrideSlot : MonoBehaviour
 {
-    public Image icon;
+    public Image icon1;
 
-    protected TrideUi trideUi;
-    protected BattleUi battleUi;
+    
  
     protected int TrideId = -1;
    
-     void Start()
-    {
-       
-        trideUi = GetComponent<TrideUi>();
-      battleUi = GetComponent<BattleUi>();
-        
-    }
+   
     public void OnSlotTride()
     {
         if (TrideId == -1)
             return;
-        trideUi.SelectTride(TrideId);
-        trideUi.TrideSelectSpace.SetActive(true);
+        TrideUi.instance.SelectTride(TrideId);
+        TrideUi.instance.TrideSelectSpace.SetActive(true);
     }
 
    
@@ -35,7 +28,7 @@ public class TrideSlot : MonoBehaviour
         if(id == -1) return;
        TrideId = id;
         if(icon != null)
-       this.icon.sprite = icon;
+       icon1.sprite = icon;
 
         if(TrideUi.instance != null)
         {

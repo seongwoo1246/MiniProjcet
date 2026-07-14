@@ -66,9 +66,10 @@ public class BattleUi : LobbyUiManager
 
                 if (slot != null)
                 {
+                    slot.gameObject.SetActive(true);
                     slot.SetTride(TrideData.id, TrideData.icon, TrideData.name, TrideData.character, TrideData.trideDescription);
                     battleSlots.Add(slot);
-                    slot.gameObject.SetActive(true);
+                   
                 }
             }
         }

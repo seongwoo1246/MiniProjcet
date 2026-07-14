@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c5fd7e480953434a90132178030ef66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrideSlot
-  icon: {fileID: 9138417635304193581}
+  icon1: {fileID: 9138417635304193581}
 --- !u!1 &5754205645990322247
 GameObject:
   m_ObjectHideFlags: 0
