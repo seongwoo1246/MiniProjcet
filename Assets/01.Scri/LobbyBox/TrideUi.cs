@@ -6,39 +6,67 @@ using UnityEngine.UI;
 
 public class TrideUi : LobbyUiManager
 {
+    public static TrideUi instance;
 
-
-    public GameObject TrideSlot;
+    [SerializeField] GameObject TrideSlot;
     [SerializeField] GameObject TrideSelect;
     [SerializeField] TrideDataManager TrideM;
     [SerializeField] Transform TrideCanva;
+    public GameObject TrideSelectSpace;
 
     private Image SelectIcon;
     private TextMeshProUGUI SelectName;
     private TextMeshProUGUI SelectDescription;
     private TextMeshProUGUI SelectCharter;
 
-
+   
+    public Image iconIn;
+    public TextMeshProUGUI name1;
+    public TextMeshProUGUI character;
+    public TextMeshProUGUI TrideDescription;
 
     private int TrideId = -1;
 
 
     public List<TrideSlot> TrideUiList = new List<TrideSlot>();
 
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            ItTrideSlot();
+            
+        }
+        else
+            Destroy(gameObject);
+            
+    }
+   
+
+
+    public override void Start()
+    {
+
+        TrideSelectSpace.SetActive(false);
+        TrideSelect.SetActive(false);
+    }
+
     public void ItTrideSlot()
     {
-       
+
         for (int i = 0; i < TrideM.TrideList.Count; i++)
         {
-            
-
-            var TrideData = TrideM.TrideList[i].Clone();
            
+            var TrideData = TrideM.TrideList[i].Clone();
+
             if (TrideData != null)
             {
                 GameObject go = Instantiate(TrideSlot, TrideCanva);
                 TrideSlot slot = go.GetComponent<TrideSlot>();
-               
+
+
                 if (slot != null)
                 {
                     slot.SetTride(TrideData.id, TrideData.icon, TrideData.name, TrideData.character, TrideData.trideDescription);
@@ -48,22 +76,14 @@ public class TrideUi : LobbyUiManager
             }
         }
     }
-
-
-    public override void Start()
-    {
-        ItTrideSlot();
-        TrideSlot.SetActive(false);
-        TrideSelect.SetActive(false);
-    }
     public override void OpenPanel()
     {
         base.OpenPanel();
-        TrideSlot.SetActive(true);
+        TrideSelectSpace.SetActive(true);
     }
     public override void ExitPanel()
     {
-        TrideSlot.SetActive(false);
+        TrideSelectSpace.SetActive(false);
         base.ExitPanel();
     }
 
@@ -101,7 +121,7 @@ public class TrideUi : LobbyUiManager
 
 
         TrideSelect.SetActive(false);
-        TrideSlot.SetActive(false);
+        TrideSelectSpace.SetActive(false);
         Destroy(dim);
     }
 }

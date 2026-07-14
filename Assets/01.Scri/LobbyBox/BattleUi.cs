@@ -9,8 +9,8 @@ public class BattleUi : LobbyUiManager
     [SerializeField] TrideDataManager TrideM;
     [SerializeField] GameObject Battle;
     [SerializeField] Transform BattleCanvas;
-    public GameObject BattleSlot;
-
+    [SerializeField] GameObject BattleSlot;
+    public GameObject SelectEnemy;
 
     private Image SelectIcon;
     private TextMeshProUGUI SelectName;
@@ -21,12 +21,14 @@ public class BattleUi : LobbyUiManager
 
     public List<BattleSlot> battleSlots = new List<BattleSlot>();
 
+    
+
     public override void Start()
     {
-        
-        Battle.SetActive(false);
-        BattleSlot.SetActive(false);
         ItBattleSlot();
+        Battle.SetActive(false);
+       SelectEnemy.SetActive(false);
+       
     }
 
 
@@ -35,15 +37,14 @@ public class BattleUi : LobbyUiManager
 
         for (int i = 0; i < TrideM.TrideList.Count; i++)
         {
-
-
+          
             var TrideData = TrideM.TrideList[i].Clone();
            
             if (TrideData != null)
             {
                 GameObject go = Instantiate(BattleSlot, BattleCanvas);
                 BattleSlot slot = go.GetComponent<BattleSlot>();
-               
+
                 if (slot != null)
                 {
                     slot.SetTride(TrideData.id, TrideData.icon, TrideData.name, TrideData.character, TrideData.trideDescription);
@@ -68,7 +69,7 @@ public class BattleUi : LobbyUiManager
 
     public void ExitSelectBattle()
     {
-        BattleSlot.SetActive(false);
+        SelectEnemy.SetActive(false);
     }
     public void SelectBattle(int id)
     {

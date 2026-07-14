@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 public class TrainingUi : LobbyUiManager
 {
     public static TrainingUi Instance;
@@ -16,7 +17,9 @@ public class TrainingUi : LobbyUiManager
     public TextMeshProUGUI NoMoney;
     public int haveMoney = 0;
 
-   
+    
+  
+
     public List<TrainingSlot> TrainingSlots = new List<TrainingSlot>();
     private void Awake()
     {
@@ -24,6 +27,7 @@ public class TrainingUi : LobbyUiManager
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            ItTrainingSlot();
         }
         else
             Destroy(gameObject);
@@ -32,7 +36,7 @@ public class TrainingUi : LobbyUiManager
 
     public override void Start()
     {
-        ItTrainingSlot();
+        
         TrainingPanel.SetActive(false);
         NoMoney.gameObject.SetActive(false);
         money.text = $" 현재 소유 금액 : {haveMoney}";
@@ -55,6 +59,7 @@ public class TrainingUi : LobbyUiManager
         for (int i = 0; i < TrainingM.TrainingList.Count; i++)
         {
             
+
             var TrainingData = TrainingM.TrainingList[i].Clone();
            
             if (TrainingData != null)
@@ -64,7 +69,7 @@ public class TrainingUi : LobbyUiManager
 
                 if (slot != null)
                 {
-                    slot.SetTraining(TrainingData.id, TrainingData.icon, TrainingData.name, TrainingData.price, TrainingData.upgrad);
+                    slot.SetTraining(TrainingData.id, TrainingData.icon,TrainingData.name,  TrainingData.price, TrainingData.upgrad);
                     TrainingSlots.Add(slot);
                     slot.gameObject.SetActive(true);
                 }

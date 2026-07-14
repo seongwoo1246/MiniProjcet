@@ -5,23 +5,23 @@ using UnityEngine.UI;
 public class TrainingSlot : MonoBehaviour
 {
     [SerializeField] TrainingDataManager TrainingM;
-    private Sprite icon;
-    private TextMeshProUGUI Level;
-    private TextMeshProUGUI name1;
-    private TextMeshProUGUI price;
+    
 
     private int TrainingId = -1;
     private int UpgradeCount = 0;
 
-    
-   
-   
+
+   public Image icon;
+   public TextMeshProUGUI Level;
+   public TextMeshProUGUI name1;
+   public TextMeshProUGUI price;
+
 
     public void UpgradeLevel()
     {
         if (TrainingId == -1)
             return;
-        var Data = TrainingM.TrainingList[TrainingId].Clone();
+        var Data = TrainingM.TrainingList[TrainingId-100].Clone();
         if(Data != null)
         {
             if (TrainingUi.Instance.haveMoney >= Data.price)
@@ -38,10 +38,12 @@ public class TrainingSlot : MonoBehaviour
         }
     }
 
+    
+
     public void SetTraining(int id, Sprite icon, string name, int price, int level)
     {
         TrainingId = id;
-        this.icon = icon;
+         this.icon.sprite= icon;
         name1.text = name;
         this.price.text = price.ToString();
         Level.text = level.ToString(); ;

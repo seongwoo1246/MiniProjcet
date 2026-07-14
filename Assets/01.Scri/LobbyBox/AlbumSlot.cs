@@ -4,18 +4,16 @@ using UnityEngine.UI;
 public class AlbumSlot : MonoBehaviour
 {
     private AlbumUi album;
-    private Sprite memori;
+    public Image memori;
 
     private int Albumid = -1;
 
-    public Sprite GetSprite() => memori;
+    public Sprite GetSprite() => memori.sprite;
 
     private void Start()
     {
-        album = GetComponent<AlbumUi>();
-        Button button = GetComponent<Button>();
-        if(button != null )
-        { button.onClick.AddListener(ViewMemori); }
+        album = FindAnyObjectByType<AlbumUi>();
+       
     }
 
     public void ViewMemori()
@@ -37,7 +35,7 @@ public class AlbumSlot : MonoBehaviour
     public void SetMemori(int id, Sprite sprite)
     {
         Albumid = id;
-        memori = sprite;
+        memori.sprite = sprite;
 
     }
 }

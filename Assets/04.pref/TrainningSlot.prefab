@@ -437,8 +437,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -673,6 +673,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainingSlot
   TrainingM: {fileID: 11400000, guid: fd4076f6af25bec48a588d53d782b7dc, type: 2}
+  icon: {fileID: 8070841951131488020}
+  Level: {fileID: 6043777721163313124}
+  name1: {fileID: 4645814275372545582}
+  price: {fileID: 5490343085118196680}
 --- !u!1 &8207494277833406669
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,8 +769,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55
-  m_fontSizeBase: 55
+  m_fontSize: 45
+  m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

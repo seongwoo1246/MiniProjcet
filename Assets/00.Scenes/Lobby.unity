@@ -177,8 +177,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2341,6 +2341,11 @@ MonoBehaviour:
   TrideSelect: {fileID: 304442462}
   TrideM: {fileID: 11400000, guid: 8f060fa795172cc4396e4dbcc6a21258, type: 2}
   TrideCanva: {fileID: 435410243}
+  TrideSelectSpace: {fileID: 923289124}
+  iconIn: {fileID: 179361911}
+  name1: {fileID: 291584946}
+  character: {fileID: 1164026735}
+  TrideDescription: {fileID: 1997007257}
   TrideUiList: []
 --- !u!1 &379909831
 GameObject:
@@ -13806,6 +13811,7 @@ MonoBehaviour:
   Battle: {fileID: 1509003632}
   BattleCanvas: {fileID: 1429322149}
   BattleSlot: {fileID: 6089493193472773824, guid: df7b2d9f3cee18849bece0e860d2c730, type: 3}
+  SelectEnemy: {fileID: 1729132701}
   battleSlots: []
 --- !u!1 &1966938688
 GameObject:

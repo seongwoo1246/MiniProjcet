@@ -13,10 +13,10 @@ public class AlbumUi : LobbyUiManager
     public Image viewMemoriSprite;
     public GameObject TrideAlbum;
 
-    private Sprite imege;
+   
     public Transform AlbumCanva;
 
-
+    
 
     public List<AlbumSlot> albumSlots = new List<AlbumSlot>();
     public override void Start()
@@ -52,16 +52,16 @@ public class AlbumUi : LobbyUiManager
         }
     }
 
-    public void SelectMemori(int id)
+    public void SelectMemori(int id )
     {
 
-
-        var Data = AlbumM.AlbumList[id].Clone();
-        if (Data == null)
+        //id가 1000이면 리스트 1000번째 없으니 범위를 벗어났다고 나옴
+        var Data = AlbumM.AlbumList[id-1000].Clone();
+       
         
         if (Data != null)
         {
-            imege = Data.image;
+           
             viewMemoriSprite.sprite = Data.image;
         }
     }

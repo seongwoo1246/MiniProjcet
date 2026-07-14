@@ -5,32 +5,26 @@ using UnityEngine.UI;
 
 public class TrideSlot : MonoBehaviour
 {
-    private Sprite icon;
-    private Sprite iconIn;
-    private TextMeshProUGUI name1;
-    private TextMeshProUGUI character;
-    private TextMeshProUGUI TrideDescription;
+    public Image icon;
 
-   protected TrideUi trideUi;
+    protected TrideUi trideUi;
     protected BattleUi battleUi;
  
     private int TrideId = -1;
    
-    private void Start()
+     void Start()
     {
        
         trideUi = GetComponent<TrideUi>();
       battleUi = GetComponent<BattleUi>();
-        Button button = GetComponent<Button>();
-        if (button != null)
-            button.onClick.AddListener(OnSlotTride);
+        
     }
     public void OnSlotTride()
     {
         if (TrideId == -1)
             return;
         trideUi.SelectTride(TrideId);
-        trideUi.TrideSlot.SetActive(true);
+        trideUi.TrideSelectSpace.SetActive(true);
     }
 
    
@@ -38,12 +32,14 @@ public class TrideSlot : MonoBehaviour
 
     public void SetTride(int id ,Sprite icon, string name, string character, string Description)
     {
+
+
        TrideId = id;
-        this.icon = icon;
-        iconIn = icon;
-        name1.text = name;
-        this.character.text = character;
-        TrideDescription.text = Description;
+       this.icon.sprite = icon;
+        TrideUi.instance.iconIn.sprite = icon;
+        TrideUi.instance.name1.text = name;
+        TrideUi.instance.character.text = character;
+        TrideUi.instance.TrideDescription.text = Description;
     }
 
 }
