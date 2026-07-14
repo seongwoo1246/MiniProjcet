@@ -13810,8 +13810,12 @@ MonoBehaviour:
   TrideM: {fileID: 11400000, guid: 8f060fa795172cc4396e4dbcc6a21258, type: 2}
   Battle: {fileID: 1509003632}
   BattleCanvas: {fileID: 1429322149}
-  BattleSlot: {fileID: 6089493193472773824, guid: df7b2d9f3cee18849bece0e860d2c730, type: 3}
+  BattleSlot: {fileID: 4025268344672824490, guid: df7b2d9f3cee18849bece0e860d2c730, type: 3}
   SelectEnemy: {fileID: 1729132701}
+  iconIn: {fileID: 224633780}
+  name1: {fileID: 1688482086}
+  character: {fileID: 1181763931}
+  TrideDescription: {fileID: 2001963964}
   battleSlots: []
 --- !u!1 &1966938688
 GameObject:

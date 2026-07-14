@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class BattleUi : LobbyUiManager
 {
+    public static BattleUi Instance;
+
     [SerializeField] TrideDataManager TrideM;
     [SerializeField] GameObject Battle;
     [SerializeField] Transform BattleCanvas;
@@ -17,15 +19,32 @@ public class BattleUi : LobbyUiManager
     private TextMeshProUGUI SelectDescription;
     private TextMeshProUGUI SelectCharter;
 
+    public Image iconIn;
+    public TextMeshProUGUI name1;
+    public TextMeshProUGUI character;
+    public TextMeshProUGUI TrideDescription;
+
     private int battleId =-1;
 
     public List<BattleSlot> battleSlots = new List<BattleSlot>();
 
-    
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            ItBattleSlot();
+        }
+        else
+            Destroy(gameObject);
+    }
+
+
 
     public override void Start()
     {
-        ItBattleSlot();
+        
         Battle.SetActive(false);
        SelectEnemy.SetActive(false);
        
