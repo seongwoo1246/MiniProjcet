@@ -15,7 +15,7 @@ public class TrainingUi : LobbyUiManager
     public Transform TrainingContent;
     public TextMeshProUGUI TrainingSuccess;
     public TextMeshProUGUI money;
-    private TextMeshProUGUI NoMoney;
+    public TextMeshProUGUI NoMoney;
     public int haveMoney = 0;
 
     
