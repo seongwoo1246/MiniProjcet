@@ -69,14 +69,14 @@ public class AlbumUi : LobbyUiManager
 
     public override void OpenPanel()
     {
-        
+        base.OpenPanel();
         TrideAlbum.SetActive(true);
     }
 
     public override void ExitPanel()
     {
         TrideAlbum.SetActive(false);
-          
+          base.ExitPanel();
     }
 
     public void ViewMemoriExit()

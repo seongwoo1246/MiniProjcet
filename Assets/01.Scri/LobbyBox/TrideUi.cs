@@ -115,6 +115,6 @@ public class TrideUi : LobbyUiManager
 
         TrideSelect.SetActive(false);
         TrideSelectSpace.SetActive(false);
-        Destroy(dim);
+        Destroy(dimClone);
     }
 }

@@ -106,33 +106,33 @@ public class BattleUi : LobbyUiManager
     {
         if (battleId == -1)
             return;
+        Battle.SetActive(false);
+        SelectEnemy.SetActive(false);
+        
+
         switch (battleId)
         {
             case 0: ScenesM.instance.LoadHumenScene();
-                Battle.SetActive(false);
-                SelectEnemy.SetActive(false);
+               
                 break;
 
             case 1: ScenesM.instance.LoadGoblinScene();
-                Battle.SetActive(false);
-                SelectEnemy.SetActive(false);
+               
                 break;
 
             case 2: ScenesM.instance.LoadElfScene();
-                Battle.SetActive(false);
-                SelectEnemy.SetActive(false);
+                
                 break;
 
             case 3: ScenesM.instance.LoadUndeadScene();
-                Battle.SetActive(false);
-                SelectEnemy.SetActive(false);
+               
                 break;
 
             case 4: ScenesM.instance.LoadAngelScene();
-                Battle.SetActive(false);
-                SelectEnemy.SetActive(false);
+                
                 break;
         }
+        Destroy(dimClone);
     }
 
 
