@@ -4,6 +4,8 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager instance;
+   
+
 
     public Tride PlayerData {  get; private set; }
 
@@ -33,7 +35,7 @@ public class PlayerManager : MonoBehaviour
 
     public void Attack()
     {
-
+         
     }
 
 

@@ -112,24 +112,29 @@ public class BattleUi : LobbyUiManager
 
         switch (battleId)
         {
-            case 0: ScenesM.instance.LoadHumenScene();
-               
+            case 0:
+                ScenesM.instance.LoadScenes(scenetpye.humun);
+
                 break;
 
-            case 1: ScenesM.instance.LoadGoblinScene();
-               
+            case 1:
+                ScenesM.instance.LoadScenes(scenetpye.goblin);
+
                 break;
 
-            case 2: ScenesM.instance.LoadElfScene();
-                
+            case 2:
+                ScenesM.instance.LoadScenes(scenetpye.elf);
+
                 break;
 
-            case 3: ScenesM.instance.LoadUndeadScene();
-               
+            case 3:
+                ScenesM.instance.LoadScenes(scenetpye.undead);
+
                 break;
 
-            case 4: ScenesM.instance.LoadAngelScene();
-                
+            case 4:
+                ScenesM.instance.LoadScenes(scenetpye.angel);
+
                 break;
         }
         Destroy(dimClone);

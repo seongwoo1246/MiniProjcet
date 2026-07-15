@@ -2,6 +2,23 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
+
+
+
+
+
+public enum scenetpye
+{
+   Lobby =1, 
+    humun,
+    undead,
+    goblin,
+    elf,
+    angel,
+    Ending
+
+}
+
 public class ScenesM : MonoBehaviour
 {
     public static ScenesM instance;
@@ -20,37 +37,11 @@ public class ScenesM : MonoBehaviour
             Destroy(gameObject); 
     }
 
+    public void LoadScenes(scenetpye type)
+    {
+        SceneManager.LoadScene((int)type);
+    }
 
-
-  // 반복문으로 만들기?
-    public void LoadLobbyScene()
-    {
-        SceneManager.LoadScene(1);
-    }
-    public void LoadHumenScene()
-    {
-        SceneManager.LoadScene(2);
-    }
-    public void LoadUndeadScene()
-    {
-        SceneManager.LoadScene(3);
-    }
-    public void LoadGoblinScene()
-    {
-        SceneManager.LoadScene(4);
-    }
-    public void LoadElfScene()
-    {
-        SceneManager.LoadScene(5);
-    }
-    public void LoadAngelScene()
-    {
-        SceneManager.LoadScene(6);
-    }
-    public void LoadEndingScene()
-    {
-        SceneManager.LoadScene(7);
-    }
 
    
 }
