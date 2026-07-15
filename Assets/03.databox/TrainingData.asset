@@ -24,7 +24,7 @@ MonoBehaviour:
     price: 500
     upgrad: 0
   - id: 102
-    icon: {fileID: -5527729797564131307, guid: 3714ab70b8f9ae9478868d0059a1cd89, type: 3}
+    icon: {fileID: 2815480276518151938, guid: 5fa36eca2136ea84cbd139657a638839, type: 3}
     name: "\uBC29\uC5B4\uB825 \uAC15\uD654"
     price: 500
     upgrad: 0

@@ -9,17 +9,11 @@ public class TrideUi : LobbyUiManager
     public static TrideUi instance;
 
     [SerializeField] GameObject TrideSlot;
-    [SerializeField] GameObject TrideSelect;
     [SerializeField] TrideDataManager TrideM;
     [SerializeField] Transform TrideCanva;
-    public GameObject TrideSelectSpace;
+    [SerializeField] GameObject TrideSelectSpace;
+    public GameObject TrideSelect;
 
-    private Image SelectIcon;
-    private TextMeshProUGUI SelectName;
-    private TextMeshProUGUI SelectDescription;
-    private TextMeshProUGUI SelectCharter;
-
-   
     public Image iconIn;
     public TextMeshProUGUI name1;
     public TextMeshProUGUI character;
@@ -95,10 +89,10 @@ public class TrideUi : LobbyUiManager
         var TrideData = TrideM.TrideList[TrideId].Clone();
         if (TrideData != null)
         {
-            SelectIcon.sprite = TrideData.icon;
-            SelectName.text = TrideData.name;
-            SelectDescription.text = TrideData.trideDescription;
-            SelectCharter.text = TrideData.character;
+           iconIn.sprite = TrideData.icon;
+            name1.text = TrideData.name;
+            TrideDescription.text = TrideData.trideDescription;
+            character.text = TrideData.character;
         }
 
 
@@ -115,8 +109,7 @@ public class TrideUi : LobbyUiManager
         var TrideData = TrideM.TrideList[TrideId].Clone();
         if (TrideData != null)
         {
-            // 플레이어의 캐릭터가 이걸로 바뀔 예정
-            // 선택한 id를 비교해서 이름 특성 종족설명 바뀜
+           PlayerManager.instance.SetTridePlayer(TrideData);  
         }
 
 

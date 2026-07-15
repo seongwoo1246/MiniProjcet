@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TrideSlot : MonoBehaviour
 {
     public Image icon1;
+    public TextMeshProUGUI SelectSlotName;
 
     
  
@@ -17,7 +18,7 @@ public class TrideSlot : MonoBehaviour
         if (TrideId == -1)
             return;
         TrideUi.instance.SelectTride(TrideId);
-        TrideUi.instance.TrideSelectSpace.SetActive(true);
+        TrideUi.instance.TrideSelect.SetActive(true);
     }
 
    
@@ -29,6 +30,8 @@ public class TrideSlot : MonoBehaviour
        TrideId = id;
         if(icon != null)
        icon1.sprite = icon;
+        if(name != null)
+            SelectSlotName.text = name;
 
         if(TrideUi.instance != null)
         {

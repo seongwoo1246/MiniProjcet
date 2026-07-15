@@ -20,13 +20,13 @@ MonoBehaviour:
     hp: 1000
     damage: 100
     depence: 20
-    critical: 5
+    critical: 0.05
     moneyUp: 0
     maxCharacter: 4
     heal: 0
     luck: 0
     block: 0
-    miss: 10
+    miss: 0.1
     length: 0
     infection: 0
     kidnap: 0
@@ -43,16 +43,16 @@ MonoBehaviour:
     hp: 700
     damage: 80
     depence: 10
-    critical: 5
+    critical: 0.05
     moneyUp: 0
     maxCharacter: 6
     heal: 0
     luck: 0
     block: 0
-    miss: 15
+    miss: 0.15
     length: 0
     infection: 0
-    kidnap: 5
+    kidnap: 0.05
     rivival: 0
     character: "\uC0C1\uB300 \uB9D0\uC744 \uAC00\uC838\uC640 \uC6B0\uB9AC\uB9D0\uB85C
       \uB9CC\uB4EC"
@@ -67,13 +67,13 @@ MonoBehaviour:
     hp: 1000
     damage: 200
     depence: 0
-    critical: 10
+    critical: 0.1
     moneyUp: 0
     maxCharacter: 4
     heal: 0
     luck: 0
     block: 0
-    miss: 5
+    miss: 0.05
     length: 1
     infection: 0
     kidnap: 0
@@ -90,15 +90,15 @@ MonoBehaviour:
     hp: 2000
     damage: 60
     depence: -10
-    critical: 5
+    critical: 0.05
     moneyUp: 0
     maxCharacter: 3
     heal: 100
     luck: 0
     block: 0
-    miss: 5
+    miss: 0.1
     length: 0
-    infection: 5
+    infection: 0.05
     kidnap: 0
     rivival: 0
     character: "\uC801\uC744 \uAC10\uC5FC\uD558\uC5EC \uC6B0\uB9AC\uB9D0\uB85C \uB9CC\uB4EC"
@@ -113,17 +113,17 @@ MonoBehaviour:
     hp: 1500
     damage: 40
     depence: 20
-    critical: 5
+    critical: 0.05
     moneyUp: 0
     maxCharacter: 0
     heal: 200
     luck: 0
     block: 0
-    miss: 10
+    miss: 0.1
     length: 0
     infection: 0
     kidnap: 0
-    rivival: 5
+    rivival: 0.05
     character: "\uC8FD\uC5C8\uB358 \uB9D0\uC744 \uC81C\uC790\uB9AC\uC5D0 \uC0B4\uB9B4
       \uC218 \uC788\uC74C"
     trideDescription: "\uCD5C\uC885\uBCF4\uC2A4, \uC2E0\uC758 \uB300\uC5ED\uC73C\uB85C\uC368

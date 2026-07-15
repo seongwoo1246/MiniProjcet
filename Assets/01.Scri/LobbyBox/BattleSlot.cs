@@ -24,11 +24,12 @@ public class BattleSlot : TrideSlot
         TrideId = id;
 
         if(icon1 != null)
-        {
             icon1.sprite = icon;
-        }
         
-        if( BattleUi.Instance != null )
+        if (name != null)
+            SelectSlotName.text = name;
+
+        if ( BattleUi.Instance != null )
         {
             BattleUi.Instance.iconIn.sprite = icon;
             BattleUi.Instance.name1.text = name;

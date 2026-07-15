@@ -13,8 +13,9 @@ public class TrainingUi : LobbyUiManager
     [SerializeField] private TrainingDataManager TrainingM;
     public GameObject Trainingslot;
     public Transform TrainingContent;
+    public TextMeshProUGUI TrainingSuccess;
     public TextMeshProUGUI money;
-    public TextMeshProUGUI NoMoney;
+    private TextMeshProUGUI NoMoney;
     public int haveMoney = 0;
 
     
@@ -36,7 +37,7 @@ public class TrainingUi : LobbyUiManager
 
     public override void Start()
     {
-        
+        TrainingSuccess.gameObject.SetActive(false);
         TrainingPanel.SetActive(false);
         NoMoney.gameObject.SetActive(false);
         money.text = $" 현재 소유 금액 : {haveMoney}";
@@ -81,14 +82,22 @@ public class TrainingUi : LobbyUiManager
     {
         NoMoney.gameObject.SetActive(true);
         StartCoroutine(BuyX(1));
-
-
+    }
+    public void BuyOO()
+    {
+        TrainingSuccess.gameObject.SetActive(true);
+        StartCoroutine(BuyO(1));
     }
 
     IEnumerator BuyX(float time)
     {
         yield return new WaitForSeconds(time);
         NoMoney.gameObject.SetActive(false);
+    }
+    IEnumerator BuyO(float time)
+    {
+        yield return new WaitForSeconds(time);
+        TrainingSuccess.gameObject.SetActive(false);
     }
 
 
