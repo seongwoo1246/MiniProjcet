@@ -38,7 +38,7 @@ public class StateUi : LobbyUiManager
                 t.gameObject.SetActive(false);
             }
         }
-        if (PlayerManager.instance != null || PlayerManager.Instance.PlayerData != null)
+        if (PlayerManager.Instance != null || PlayerManager.Instance.PlayerData != null)
         {
 
 

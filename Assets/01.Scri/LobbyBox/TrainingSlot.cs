@@ -29,7 +29,7 @@ public class TrainingSlot : MonoBehaviour
        
         if(Data != null)
         {
-            if (TrainingUi.Instance.haveMoney >= Data.price&& PlayerManager.instance != null&&PlayerManager.Instance.PlayerData != null)
+            if (TrainingUi.Instance.haveMoney >= Data.price&& PlayerManager.Instance != null&&PlayerManager.Instance.PlayerData != null)
             {
                 TrainingUi.Instance.haveMoney -= Data.price;
                 TrainingUi.Instance.money.text = $" 현재 소유 금액 : {TrainingUi.Instance.haveMoney}";
