@@ -1,6 +1,25 @@
+using TMPro;
 using UnityEngine;
-
-public class EnemyController : MonoBehaviour
+using UnityEngine.UI;
+public class EnemyController : BattleSceneManager
 {
-  
+  public static EnemyController Instance;
+
+
+     [SerializeField] Image Icon;
+    [SerializeField] Image CharacterIcon;
+    [SerializeField] TextMeshProUGUI maxCharacter;
+    [SerializeField] TextMeshProUGUI Hpbar;
+    [SerializeField] Scrollbar HP;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+            Destroy(gameObject);
+    }
 }

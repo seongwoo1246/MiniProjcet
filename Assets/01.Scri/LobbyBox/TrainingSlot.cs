@@ -29,12 +29,12 @@ public class TrainingSlot : MonoBehaviour
        
         if(Data != null)
         {
-            if (TrainingUi.Instance.haveMoney >= Data.price&& PlayerManager.instance != null&&PlayerManager.instance.PlayerData != null)
+            if (TrainingUi.Instance.haveMoney >= Data.price&& PlayerManager.instance != null&&PlayerManager.Instance.PlayerData != null)
             {
                 TrainingUi.Instance.haveMoney -= Data.price;
                 TrainingUi.Instance.money.text = $" 현재 소유 금액 : {TrainingUi.Instance.haveMoney}";
 
-                var playerState = PlayerManager.instance.PlayerData;
+                var playerState = PlayerManager.Instance.PlayerData;
                
                 TrainingUi.Instance.TrainingSuccess.text = Data.GetDesc();
                 //개량의 여지가 있음 밑에도 다 개량 가능

@@ -109,7 +109,7 @@ public class TrideUi : LobbyUiManager
         var TrideData = TrideM.TrideList[TrideId].Clone();
         if (TrideData != null)
         {
-           PlayerManager.instance.SetTridePlayer(TrideData);  
+           PlayerManager.Instance.SetTridePlayer(TrideData);  
         }
 
 

@@ -38,12 +38,12 @@ public class StateUi : LobbyUiManager
                 t.gameObject.SetActive(false);
             }
         }
-        if (PlayerManager.instance != null || PlayerManager.instance.PlayerData != null)
+        if (PlayerManager.instance != null || PlayerManager.Instance.PlayerData != null)
         {
 
 
 
-            var playerState = PlayerManager.instance.PlayerData.TrideDataDictionnary();
+            var playerState = PlayerManager.Instance.PlayerData.TrideDataDictionnary();
 
             foreach (var state in playerState)
             {
