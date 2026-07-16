@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-public class EnemyController : BattleSceneManager
+public class EnemyController : YutPlayer
 {
   public static EnemyController Instance;
 

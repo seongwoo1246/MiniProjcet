@@ -18,6 +18,20 @@ public enum Yut
 }
 
 
+public enum TrideType 
+{
+    angel,
+    elf,
+    goblin,
+    humen,
+    undead
+
+}
+
+
+
+
+
 public class BattleSceneManager : MonoBehaviour
 {
    public static BattleSceneManager instance;
@@ -33,8 +47,8 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] Button elseyut;
     [SerializeField ] Button MyChar;
     [SerializeField ] Button EnemyChar;
-    
 
+    public YutPlayer currentTurnPlayer;
     public bool CanThrow;
     public bool IsMyFirst;
     private int Turn;
@@ -200,41 +214,14 @@ public class BattleSceneManager : MonoBehaviour
 
     }
 
-    [Header("말 스크립트 세팅해주세요!!")]
-    public GameObject MyCharacter;
-    public Transform characterParent;
-
-    public void StartNewChar()
+    public void OnChilckStartNewChar()
     {
-        if (selectMoveSpace <= 0)
-            return;
+        currentTurnPlayer.StartNewChar(selectMoveSpace);
 
-        if (isYutSelected == false)
-            return;
-        if (maxchar <= 0) return;
-
-        //오브젝트 풀링으로 대체?
-        string characterName1 = "angel";
-        string characterName2 = "elf";
-        string characterName3 = "goblin";
-        string characterName4 = "humen";
-        string characterName5 = "undead";
-
-        GameObject newChar =ObjectPooling.instance.GetObject(characterName1 + characterName2+characterName3+characterName4+characterName5);
-
-        if(newChar == null)
-        {
-            return;
-        }
-
-        YutPiace yutPiaceScrips = newChar.GetComponent<YutPiace>();
-
-        yutPiaceScrips.currentPathIndex = 0;
-        Vector3 StartWorldPosition = YutBoardController.instance.GetWorldPosition(YutBoardController.instance.mainPathSpace[0]);
-        newChar.transform.position = StartWorldPosition;
-        yutPiaceScrips.StartMove(selectMoveSpace);
-        UseSelectedYut();
+            UseSelectedYut();
 
     }
+
+    
 
 }

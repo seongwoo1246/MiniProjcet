@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerManager : BattleSceneManager
+public class PlayerManager : YutPlayer
 {
     public static PlayerManager Instance;
 
