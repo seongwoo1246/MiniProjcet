@@ -31,13 +31,17 @@ public class TrainingSlot : MonoBehaviour
         {
             if (TrainingUi.Instance.haveMoney >= Data.price&& PlayerManager.Instance != null&&PlayerManager.Instance.PlayerData != null)
             {
+                
                 TrainingUi.Instance.haveMoney -= Data.price;
                 TrainingUi.Instance.money.text = $" 현재 소유 금액 : {TrainingUi.Instance.haveMoney}";
 
                 var playerState = PlayerManager.Instance.PlayerData;
                
                 TrainingUi.Instance.TrainingSuccess.text = Data.GetDesc();
-                //개량의 여지가 있음 밑에도 다 개량 가능
+                
+                // 멘토링에서 전부 함수로 만들어서 관리 하는 방식을 배웠으나 그러면 함수가 15개가 늘어나고 변수도 30개가 늘어나서 그쪽이 더 애매해져서 이쪽을 그냥 쓰는게 좋을지도 모르겠다.
+
+
                 switch (Data.id)
                 {
                     case 100: playerState.maxHp += 50;
