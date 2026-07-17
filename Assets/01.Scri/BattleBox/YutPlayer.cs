@@ -6,7 +6,7 @@ public class YutPlayer : MonoBehaviour
     public int maxChar = 4;
     public int currentActiveChar = 0;
 
-    //오버라이드 할지는 잠시 보기
+    //오버라이드 할지는 잠시 보기 ( 새 말 출발 코드 내용)
     public virtual void StartNewChar(int SelectMoveSpace)
     {
         if(currentActiveChar>=maxChar)

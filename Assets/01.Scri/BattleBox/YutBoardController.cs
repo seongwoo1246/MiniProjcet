@@ -24,4 +24,22 @@ public class YutBoardController : MonoBehaviour
         return roadmap.GetCellCenterWorld(space);
     }
 
+    private void SetPath()
+    {
+        mainPathSpace.Clear();
+        shortCutSpace.Clear();
+
+        
+     
+          for(int i = -3;i<=5;i+=2)
+            {
+                mainPathSpace.Add(new Vector3Int(4, i));
+                
+            }
+
+        
+        
+    }
+
+
 }

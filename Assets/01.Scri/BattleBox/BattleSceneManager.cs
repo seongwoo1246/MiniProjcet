@@ -54,6 +54,7 @@ public class BattleSceneManager : MonoBehaviour
     private int Turn;
     private int yutC=0;
     private int moC=0;
+    private Yut currentRestYut = Yut.zero;
 
     public Yut selectYut;
     public int selectMoveSpace = 0;
@@ -155,6 +156,7 @@ public class BattleSceneManager : MonoBehaviour
 
         TurnYutResult.Add(currentYut);
 
+        // 윷이 나왔을 때 저장 하는 기능
         if(currentYut == Yut.four)
         {
             yutC++;
@@ -162,6 +164,7 @@ public class BattleSceneManager : MonoBehaviour
             resultYut.text = $" {ChangeYutText(currentYut)}이 나왔군요. 한 번 더 던지세요";
             CanThrow = true;
         }
+        //모가 나왔을 때 저장 하는 기능
         else if(currentYut == Yut.five)
         {
             moC++;
@@ -169,11 +172,13 @@ public class BattleSceneManager : MonoBehaviour
             resultYut.text = $" {ChangeYutText(currentYut)}이 나왔군요. 한 번 더 던지세요";
             CanThrow = true;
         }
+        // 다른 말이 나왔을 때 저장 하는 기능
         else
         {
             resultYut.text = ChangeYutText(currentYut);
             yutname.text = ChangeYutText(currentYut);
             CanThrow = false;
+            currentRestYut= currentYut;
         }
 
      
@@ -195,25 +200,57 @@ public class BattleSceneManager : MonoBehaviour
         }
     }
 
+   
     //윷 결과 버튼 함수
-    public void OnSelectYutResolt(Yut clickedYut)
+
+    public void OnClickYutSlot(int value)
     {
+        Yut targetYut;
 
-        selectYut = clickedYut;
-        selectMoveSpace = (int)clickedYut;
-        isYutSelected = true;
-
+        if(value == -999)
+        {
+            if (currentRestYut == Yut.zero) return;
+            targetYut = currentRestYut;
+        }
+        else
+        {
+            targetYut = (Yut)value;
+        }
+        if(TurnYutResult.Contains(targetYut))
+        {
+            selectYut = targetYut;
+            selectMoveSpace = (int)targetYut;
+            isYutSelected = true;
+        }
     }
+
     // 사용한 윷 결과
     public void UseSelectedYut()
     {
-        TurnYutResult.Remove(selectYut);
-
-        isYutSelected = false;
-        selectMoveSpace = 0;
-
+        if (TurnYutResult.Contains(selectYut))
+        {
+            TurnYutResult.Remove(selectYut);
+            if(selectYut == Yut.five)
+            {
+                moC--;
+                moCount.text = $"{moC}";
+            }
+            else if (selectYut == Yut.four)
+            {
+                yutC--;
+                yutCount.text = $"{yutC}";
+            }
+            else
+            {
+                currentRestYut = Yut.zero;
+                yutname.text = "";
+            }
+            isYutSelected = false;
+            selectMoveSpace = 0;
+        }
     }
 
+    //새로운 말 출발 코드
     public void OnChilckStartNewChar()
     {
         currentTurnPlayer.StartNewChar(selectMoveSpace);
