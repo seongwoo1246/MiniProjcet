@@ -2,11 +2,22 @@ using System.Collections;
 
 using UnityEngine;
 
+public enum PathState
+{
+    main,
+    autumn,
+    spring,
+    summer,
+    magic,
+
+}
+
 public class YutPiace : MonoBehaviour
 {
   public int currentPathIndex = 0;
   private bool isMoveing = false;
-
+    public PathState PathState = PathState.main;
+   
     //움직이는 함수
     public void StartMove(int steps)
     {
@@ -18,6 +29,7 @@ public class YutPiace : MonoBehaviour
     private IEnumerator MoveStepRoutine(int steps)
     {
         isMoveing = true;
+        
 
         for (int i = 0; i < steps; i++)
         {

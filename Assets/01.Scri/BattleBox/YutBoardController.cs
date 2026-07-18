@@ -21,6 +21,7 @@ public class YutBoardController : MonoBehaviour
     {
         if(instance == null)
             instance = this;
+        SetPath();
     }
 
     public Vector3 GetWorldPosition(Vector3Int space)
@@ -57,9 +58,30 @@ public class YutBoardController : MonoBehaviour
         {
             mainPathSpace.Add(new Vector3Int(i, -5));
         }
-        
-         
-        
+
+          // 도 뒷도를 이용한 우주루프
+        shortCutMagic.Add(new Vector3Int(4, -3));
+        shortCutMagic.Add(new Vector3Int(4, -5));
+
+        //가을 후트 첫번째 코너에서 중앙 타고 골인 루트
+        shortCutAutumn.Add(new Vector3Int(2, 3));
+        shortCutAutumn.Add(new Vector3Int(1, 2));
+        shortCutAutumn.Add(new Vector3Int(-1, 0));
+        shortCutAutumn.Add(new Vector3Int(1, -2));
+        shortCutAutumn.Add(new Vector3Int(2, -3));
+        //봄 루트 두번째 코너에서 중앙쪽으로 오는 루트
+        shortCutSpring.Add(new Vector3Int(-4, 3));
+        shortCutSpring.Add(new Vector3Int(-3, 2));
+        shortCutSpring.Add(new Vector3Int(-1, 0));
+        shortCutSpring.Add(new Vector3Int(1, -2));
+        shortCutSpring.Add(new Vector3Int(2, -3));
+        //여름 루트 첫번째 코너에서 중앙 안타고 외곽으로 도는 루트
+        shortCutSummer.Add(new Vector3Int(2, 3));
+        shortCutSummer.Add(new Vector3Int(1, 2));
+        shortCutSummer.Add(new Vector3Int(-1, 0));
+        shortCutSummer.Add(new Vector3Int(-3, -2));
+        shortCutSummer.Add(new Vector3Int(-4, -3));
+
     }
 
 
