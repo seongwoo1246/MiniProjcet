@@ -50,6 +50,8 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField ] Button MyChar;
     [SerializeField ] Button EnemyChar;
 
+
+    public GameObject playData1;
     public EnemyController CuttrentEnemy;
     public YutPlayer currentTurnPlayer;
     public bool CanThrow;
@@ -62,8 +64,7 @@ public class BattleSceneManager : MonoBehaviour
     public Yut selectYut;
     public int selectMoveSpace = 0;
     public bool isYutSelected =false;
-    //임시코드
-    public int maxchar = 4;
+    
 
     private List<Yut> TurnYutResult = new List<Yut>();
 
@@ -83,6 +84,8 @@ public class BattleSceneManager : MonoBehaviour
         Turn = 0;
         TurnCount.text =$"경과 턴 : {Turn}";
         FirstStart();
+        PlayerManager.Instance.playerUiDate = playData1;
+        
     }
 
 
