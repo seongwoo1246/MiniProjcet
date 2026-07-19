@@ -26,13 +26,21 @@ public class PlayerManager : YutPlayer
             Destroy(gameObject);
     }
 
+    private void Start()
+    {
+        Icon.sprite = PlayerData.icon;
+        CharacterIcon.sprite = PlayerData.icon;
+        maxCharacter.text = PlayerData.maxCharacter.ToString();
+        Hpbar.text = $" {PlayerData.hp}/{PlayerData.maxHp}";
+    }
+
 
     public void SetTridePlayer(Tride Data)
     {
         PlayerData = Data.Clone();
     }
 
-  
+   
 
    
 }

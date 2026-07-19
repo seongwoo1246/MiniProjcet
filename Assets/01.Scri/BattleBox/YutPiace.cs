@@ -8,7 +8,7 @@ public enum PathState
     autumn,
     spring,
     summer,
-    magic,
+   
 
 }
 
@@ -16,7 +16,7 @@ public class YutPiace : MonoBehaviour
 {
   public int currentPathIndex = 0;
   private bool isMoveing = false;
-    public PathState PathState = PathState.main;
+    public PathState PathState1 = PathState.main;
    
     //움직이는 함수
     public void StartMove(int steps)
@@ -30,20 +30,115 @@ public class YutPiace : MonoBehaviour
     {
         isMoveing = true;
         
+        if(steps == -1)
+        {
+            if (PathState1 == PathState.main && currentPathIndex == 0)
+            {
+                currentPathIndex = 19;
+
+            }
+            else
+            {
+                currentPathIndex--;
+                if (currentPathIndex < 0)
+                {
+                    if (PathState1 == PathState.summer)
+                    {
+                        PathState1 = PathState.main;
+                        currentPathIndex = 4;
+                    }
+                    else if (PathState1 == PathState.spring)
+                    {
+                        PathState1 = PathState.main;
+                        currentPathIndex = 9;
+                    }
+                    else if (PathState1 == PathState.autumn)
+                    {
+                        PathState1 = PathState.summer;
+                        currentPathIndex = 3;
+                    }
+
+
+
+                }
+            }
+            steps = 1;
+        }
 
         for (int i = 0; i < steps; i++)
         {
            currentPathIndex++;
 
-            if (currentPathIndex >= YutBoardController.instance.mainPathSpace.Count)
+            Vector3Int nextSpace = nextSpace = Vector3Int.zero;
+            int maxCount = 0;
+            var borad = YutBoardController.instance;
+
+            switch(PathState1)
             {
-                //골인 말 비활성화 및 상대 공격 연출
+                case PathState.main:
+                    maxCount = borad.mainPathSpace.Count;
+                    if(currentPathIndex<maxCount)
+                    {
+                        nextSpace = borad.mainPathSpace[currentPathIndex];
+                    }
+                    break;
+
+                    case PathState.autumn:
+                    maxCount = borad.shortCutAutumn.Count;
+                    if (currentPathIndex < maxCount)
+                    {
+                        nextSpace = borad.shortCutAutumn[currentPathIndex];
+                    }
+                    else
+                    {
+                        PathState1 = PathState.main;
+                        currentPathIndex = 19;
+                        nextSpace =borad.mainPathSpace[currentPathIndex];
+                    }
+                        break;
+
+                    case PathState.spring:
+                    maxCount = borad.shortCutSpring.Count;
+                    if(currentPathIndex<maxCount)
+                    {
+                        nextSpace = borad.shortCutSpring[currentPathIndex];
+                    }
+                    else
+                    {
+                        PathState1 = PathState.main;
+                        currentPathIndex = 19;
+                        nextSpace = borad.mainPathSpace[currentPathIndex];
+                    }
+                    break;
+
+                    case PathState.summer:
+                    maxCount = borad.shortCutSummer.Count;
+                    if(currentPathIndex<maxCount)
+                    {
+                        nextSpace = borad.shortCutSummer[currentPathIndex];
+                    }
+                    else
+                    {
+                        PathState1 = PathState.main;
+                        currentPathIndex = 14;
+                        nextSpace = borad.mainPathSpace[currentPathIndex];
+                    }
+                    break;
+
+                  
+            }
+
+
+
+          if(currentPathIndex>=maxCount)
+            {
+                // 골인 말 비활성화 공격연출
                 yield break;
             }
 
-            Vector3Int nextSpace = YutBoardController.instance.mainPathSpace[currentPathIndex];
+         
 
-            Vector3 targetWorldPosition = YutBoardController.instance.GetWorldPosition(nextSpace);
+            Vector3 targetWorldPosition = borad.GetWorldPosition(nextSpace);
 
             while (Vector3.Distance(transform.position, targetWorldPosition) > 0.02)
             {
@@ -54,6 +149,36 @@ public class YutPiace : MonoBehaviour
             transform.position = targetWorldPosition;
             yield return new WaitForSeconds(0.1f);
         }
+
+        if(PathState1 == PathState.main)
+        {
+            if(currentPathIndex ==4)
+            {
+                PathState1 = PathState.summer;
+                currentPathIndex = 0;
+            }
+            else if (currentPathIndex == 9)
+            {
+                PathState1 = PathState.spring;
+                currentPathIndex = 0;
+            }
+           
+        }
+        else if (PathState1 == PathState.summer)
+        {
+            if( currentPathIndex ==2)
+            {
+                PathState1 = PathState.autumn;
+                currentPathIndex = 0;
+            }
+        }
+
+
+
+
+
+
+
         isMoveing =false;
 
      }
@@ -63,7 +188,7 @@ public class YutPiace : MonoBehaviour
     {
         var manger = BattleSceneManager.instance;
 
-        if(manger.isYutSelected==false)
+        if (manger.isYutSelected==false)
         {
             return;
         }

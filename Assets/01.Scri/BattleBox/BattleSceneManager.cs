@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 using TMPro;
 
 
@@ -41,6 +42,7 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI moCount;
     [SerializeField] TextMeshProUGUI yutCount;
     [SerializeField] TextMeshProUGUI yutname;
+    [SerializeField] TextMeshProUGUI First;
     
     [SerializeField] Button mo;
     [SerializeField] Button yut;
@@ -48,6 +50,7 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField ] Button MyChar;
     [SerializeField ] Button EnemyChar;
 
+    public EnemyController CuttrentEnemy;
     public YutPlayer currentTurnPlayer;
     public bool CanThrow;
     public bool IsMyFirst;
@@ -102,6 +105,12 @@ public class BattleSceneManager : MonoBehaviour
         //체력 +=힐량 
     }
 
+    private IEnumerator FalseText (TextMeshProUGUI Text)
+    {
+        yield return new WaitForSeconds(1f);
+       Text.gameObject.SetActive(false);
+
+    }
     // 게임 시작시 선 정하기
     private void FirstStart()
     {
@@ -109,12 +118,16 @@ public class BattleSceneManager : MonoBehaviour
         {
             IsMyFirst = true;
             CanThrow = true;
+            First.text="당신이 선공입니다.";
         }
         else
         {
             IsMyFirst= false;
             CanThrow= false;
+            First.text = "당신이 후공입니다.";
         }
+        First.gameObject.SetActive(true);
+        StartCoroutine(FalseText(First));
     }
 
     //윷 값 구하기
@@ -162,6 +175,7 @@ public class BattleSceneManager : MonoBehaviour
             yutC++;
             yutCount.text = $"{yutC}";
             resultYut.text = $" {ChangeYutText(currentYut)}이 나왔군요. 한 번 더 던지세요";
+       
             CanThrow = true;
         }
         //모가 나왔을 때 저장 하는 기능
@@ -170,6 +184,7 @@ public class BattleSceneManager : MonoBehaviour
             moC++;
             moCount.text = $"{moC}";
             resultYut.text = $" {ChangeYutText(currentYut)}이 나왔군요. 한 번 더 던지세요";
+          
             CanThrow = true;
         }
         // 다른 말이 나왔을 때 저장 하는 기능
@@ -181,7 +196,8 @@ public class BattleSceneManager : MonoBehaviour
             currentRestYut= currentYut;
         }
 
-     
+        resultYut.gameObject.SetActive(true);
+        StartCoroutine(FalseText(resultYut));
     }
 
     // enum 스트링 변환기
