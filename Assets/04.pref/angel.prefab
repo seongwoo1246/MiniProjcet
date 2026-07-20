@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::YutPiace
   currentPathIndex: 0
+  PathState1: 0
 --- !u!95 &3395477909462304239
 Animator:
   serializedVersion: 7

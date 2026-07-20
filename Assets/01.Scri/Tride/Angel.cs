@@ -6,6 +6,7 @@ public class Angel: EnemyController
     {
         CurrentEnemy = 4;
         SetEnemy(CurrentEnemy);
+        BattleSceneManager.instance.ItbattleSet();
     }
     public override void GoalIn()
     {
@@ -13,9 +14,11 @@ public class Angel: EnemyController
         var player = PlayerManager.Instance.PlayerData;
         var BSM = BattleSceneManager.instance;
 
+        int totalcount = 1 + yutcount.carriedChar.Count;
+
         BSM.TakeDamage(player.miss,
-            player.hp, BSM.Attack(mydata.critical,
-            mydata.damage), player.depence);
+            player.hp, BSM.countDamageUp(BSM.Attack(mydata.critical,
+            mydata.damage), totalcount), player.depence);
 
         base.GoalIn();
     }

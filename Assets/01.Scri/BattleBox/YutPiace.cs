@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Collections;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum PathState
 {
@@ -12,14 +14,56 @@ public enum PathState
 
 }
 
+
+
 public class YutPiace : MonoBehaviour
 {
+    public int currentspace = 0;
+    public bool isEnemy = false;
+    public bool isMovingOnBorad = false;
 
   public int currentPathIndex = 0;
   private bool isMoveing = false;
     public PathState PathState1 = PathState.main;
     YutPlayer player;
-   
+   public bool isCarried = false;
+    private Image icon;
+    public List<YutPiace>carriedChar = new List<YutPiace>();
+
+    private void Awake()
+    {
+        icon = GetComponent<Image>();
+    }
+
+    public void UpdateVisuals()
+    {
+        int count = carriedChar.Count;
+        if (count == 0) icon.color = Color.white;
+        else if (count == 1) icon.color = Color.red;
+        else if (count == 2) icon.color = Color.orange;
+        else if (count == 3) icon.color = Color.yellow;
+        else if (count == 4) icon.color = Color.green;
+        else if (count == 5) icon.color = Color.blue;
+        else if (count == 6) icon.color = Color.navyBlue;
+        else if (count == 7) icon.color = Color.purple;
+        
+        
+    }
+    public void CatchChar()
+    {
+        returnReady();
+    }
+
+    public void returnReady()
+    {
+        currentPathIndex = 0;
+        isMovingOnBorad = false;
+        isCarried = false;
+        carriedChar.Clear();
+        UpdateVisuals();
+        this.gameObject.SetActive(false);
+    }
+
     //움직이는 함수
     public void StartMove(int steps)
     {
@@ -183,15 +227,22 @@ public class YutPiace : MonoBehaviour
             }
         }
 
-
-
-
-
-
-
+        EndMove(this, currentPathIndex);
         isMoveing =false;
 
      }
+
+
+    public void EndMove(YutPiace leaderPiece , int finalSpace)
+    {
+        leaderPiece.currentPathIndex = finalSpace;
+        foreach( YutPiace kid in leaderPiece.carriedChar)
+        {
+            kid.currentPathIndex = finalSpace;
+            kid.transform.position = leaderPiece.transform.position;
+        }
+        BattleSceneManager.instance.checkCatchChar(leaderPiece);
+    }
 
     // 말 선택하기
     private void OnMouseDown()

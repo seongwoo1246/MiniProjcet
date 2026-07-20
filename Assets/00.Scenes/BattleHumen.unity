@@ -3864,7 +3864,7 @@ MonoBehaviour:
   GainMoney: {fileID: 4237667492618322167}
   Break: {fileID: 4237667492618322166}
   Tip: {fileID: 4237667492618322165}
-  attacktext: {fileID: 0}
+  attacktext: {fileID: 314758518}
   mo: {fileID: 155819052}
   yut: {fileID: 437783080}
   elseyut: {fileID: 21843348}
@@ -3872,7 +3872,7 @@ MonoBehaviour:
   EnemyChar: {fileID: 1778203748}
   GoLobby: {fileID: 4237667492618322168}
   playData1: {fileID: 183785728}
-  CuttrentEnemy: {fileID: 0}
+  CuttrentEnemy: {fileID: 1573397472}
   currentTurnPlayer: {fileID: 853093756}
   CanThrow: 0
   IsMyFirst: 0

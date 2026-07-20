@@ -19,6 +19,7 @@ public class EnemyController : YutPlayer
 {
     public int CurrentEnemy;
     public TrideDataManager trideDM;
+    public YutPiace yutcount;
 
     [SerializeField] protected Image Icon;
     [SerializeField] protected Image CharacterIcon;

@@ -75,11 +75,15 @@ public class PlayerManager : YutPlayer
     {
         var Enemy =BattleSceneManager.instance.CuttrentEnemy;
         var BSM = BattleSceneManager.instance;
+
+        int totalcount = 1 +yutPiace.carriedChar.Count;
+
+      
         if (Enemy != null)
         {
             int enemyindex = Enemy.CurrentEnemy;
             var EnemyData = Enemy.trideDM.TrideList[enemyindex];
-            BSM.TakeDamage(EnemyData.miss, EnemyData.hp, BSM.Attack(PlayerData.critical, PlayerData.damage), EnemyData.depence);
+            BSM.TakeDamage(EnemyData.miss, EnemyData.hp,BSM.countDamageUp( BSM.Attack(PlayerData.critical, PlayerData.damage),totalcount), EnemyData.depence);
         }
 
         base.GoalIn();

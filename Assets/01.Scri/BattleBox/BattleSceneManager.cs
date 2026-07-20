@@ -23,12 +23,11 @@ public enum Yut
 
 public enum TrideType 
 {
-    angel,
-    elf,
-    goblin,
     humen,
-    undead
-
+    goblin,
+    elf,
+    undead,
+    angel,
 }
 
 
@@ -62,7 +61,8 @@ public class BattleSceneManager : MonoBehaviour
 
     public GameObject playData1;
     public EnemyController CuttrentEnemy;
-    public YutPlayer currentTurnPlayer;
+    public YutPlayer Player;
+    public YutPlayer enemy;
     public bool CanThrow;
     public bool IsMyFirst;
     private int Turn;
@@ -76,6 +76,8 @@ public class BattleSceneManager : MonoBehaviour
     
 
     private List<Yut> TurnYutResult = new List<Yut>();
+
+    public List<YutPiace> allActiveChar = new List<YutPiace>();
 
     private void Awake()
     {
@@ -99,6 +101,90 @@ public class BattleSceneManager : MonoBehaviour
         Button button = GoLobby.GetComponent<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(GoToLobby);
+
+    }
+
+    public int countDamageUp(int basedamage , int count)
+    {
+        if(count >=8)
+        { count = 7; }
+        switch(count)
+        {
+            case 1: return basedamage;
+            case 2: return basedamage * 2; 
+            case 3: return basedamage * 4; 
+            case 4: return basedamage * 6; 
+            case 5: return basedamage * 9; 
+            case 6: return basedamage * 12; 
+            case 7: return basedamage + 9999999;
+            default: return basedamage;
+        }
+        
+    }
+
+    public void checkCatchChar(YutPiace MovePiace)
+    {
+        if(MovePiace.currentPathIndex<=0||MovePiace.isCarried) return;
+
+        bool isCaughtAnything = false;
+
+        foreach( YutPiace targetPiace in allActiveChar )
+        {
+            if (targetPiace.isCarried || targetPiace == MovePiace || !targetPiace.isMovingOnBorad) continue;
+
+            if(targetPiace.currentPathIndex == MovePiace.currentPathIndex)
+            {
+                if(targetPiace.isEnemy == MovePiace.isEnemy)
+                {
+                    targetPiace.carriedChar.Add(MovePiace);
+                    if(  MovePiace.carriedChar.Count>=0)
+                    {
+                        targetPiace.carriedChar.AddRange(MovePiace.carriedChar);
+                        MovePiace.carriedChar.Clear();
+                    }
+
+                    MovePiace.isCarried = true;
+                    MovePiace.gameObject.SetActive(false);
+                    targetPiace.UpdateVisuals();
+                    return;
+                }
+                else if(targetPiace.isEnemy != MovePiace.isEnemy)
+                {
+                    targetPiace.CatchChar();
+                    isCaughtAnything = true;
+                    foreach( YutPiace kid in targetPiace.carriedChar)
+                    {
+                        kid.CatchChar();
+                    }
+                    targetPiace.carriedChar.Clear();
+
+                    // 윷 한번 더 던지기
+                    break;
+                }
+            }
+
+        }
+        if(isCaughtAnything)
+        {
+            CanThrow = true;
+        }
+        else
+        {
+            // 턴 전환 함수 넣을 예정
+        }
+
+    }
+
+
+    public void ItbattleSet()
+    {
+        int myTrideId = PlayerManager.Instance.PlayerData.id;
+        Player.SetTrideId(myTrideId);
+        if (CuttrentEnemy != null)
+        {
+            int enemyTrideId = CuttrentEnemy.CurrentEnemy;
+            enemy.SetTrideId(enemyTrideId);
+        }
     }
 
 
@@ -390,12 +476,16 @@ public class BattleSceneManager : MonoBehaviour
     //새로운 말 출발 코드
     public void OnChilckStartNewChar()
     {
-        currentTurnPlayer.StartNewChar(selectMoveSpace);
+        if (IsMyFirst == true)
+            Player.StartNewChar(selectMoveSpace);
+        else
+            enemy.StartNewChar(selectMoveSpace);
 
             UseSelectedYut();
 
     }
 
+    
     
 
 }

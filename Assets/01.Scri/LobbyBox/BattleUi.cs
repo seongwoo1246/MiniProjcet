@@ -108,8 +108,8 @@ public class BattleUi : LobbyUiManager
             return;
         Battle.SetActive(false);
         SelectEnemy.SetActive(false);
-        
 
+       
         switch (battleId)
         {
             case 0:
