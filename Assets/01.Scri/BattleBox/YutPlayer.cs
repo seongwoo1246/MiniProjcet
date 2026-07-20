@@ -42,4 +42,11 @@ public class YutPlayer : MonoBehaviour
             default:  return "humen"; 
         }
     }
+
+
+    public virtual void GoalIn()
+    {
+        gameObject.SetActive(false);
+    }
+
 }

@@ -14,9 +14,11 @@ public enum PathState
 
 public class YutPiace : MonoBehaviour
 {
+
   public int currentPathIndex = 0;
   private bool isMoveing = false;
     public PathState PathState1 = PathState.main;
+    YutPlayer player;
    
     //움직이는 함수
     public void StartMove(int steps)
@@ -94,6 +96,8 @@ public class YutPiace : MonoBehaviour
                         PathState1 = PathState.main;
                         currentPathIndex = 19;
                         nextSpace =borad.mainPathSpace[currentPathIndex];
+
+                        maxCount = borad.mainPathSpace.Count;
                     }
                         break;
 
@@ -108,6 +112,8 @@ public class YutPiace : MonoBehaviour
                         PathState1 = PathState.main;
                         currentPathIndex = 19;
                         nextSpace = borad.mainPathSpace[currentPathIndex];
+
+                        maxCount = borad.mainPathSpace.Count;
                     }
                     break;
 
@@ -122,6 +128,8 @@ public class YutPiace : MonoBehaviour
                         PathState1 = PathState.main;
                         currentPathIndex = 14;
                         nextSpace = borad.mainPathSpace[currentPathIndex];
+
+                        maxCount = borad.mainPathSpace.Count;
                     }
                     break;
 
@@ -132,7 +140,9 @@ public class YutPiace : MonoBehaviour
 
           if(currentPathIndex>=maxCount)
             {
-                // 골인 말 비활성화 공격연출
+                currentPathIndex = maxCount-1;
+
+                player.GoalIn();
                 yield break;
             }
 
@@ -198,7 +208,7 @@ public class YutPiace : MonoBehaviour
     }
 
 
-
+  
 
 
 

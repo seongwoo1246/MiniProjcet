@@ -50,6 +50,7 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI GainMoney;
     [SerializeField] TextMeshProUGUI Break;
     [SerializeField] TextMeshProUGUI Tip;
+    [SerializeField] TextMeshProUGUI attacktext;
     
     [SerializeField] Button mo;
     [SerializeField] Button yut;
@@ -94,22 +95,25 @@ public class BattleSceneManager : MonoBehaviour
         TurnCount.text =$"경과 턴 : {Turn}";
         FirstStart();
         PlayerManager.Instance.playerUiDate = playData1;
-        
+
+        Button button = GoLobby.GetComponent<Button>();
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(GoToLobby);
     }
 
 
-    public virtual void TakeDamage(float miss, float hp, int damage, int depence)
+    public  void TakeDamage(float miss, float hp, int damage, int depence)
     {
        if(Random.value < miss )
         {
-            //공격 회피 문구
+            attacktext.text = "공격을 회피했다.";
             return;
             
         }
        else
         {
-            //공격회피 실패 문구
-           int Damage = Mathf.Max(0, damage-depence);
+            attacktext.text = "공격을 명중했다.";
+            int Damage = Mathf.Max(0, damage-depence);
 
             hp-=Damage;
 
@@ -145,13 +149,19 @@ public class BattleSceneManager : MonoBehaviour
         
     }
 
-    public  void Heal(float hp , int heal)
+    public  void Heal(float hp ,float maxHP, int heal)
     {
+        if(hp<=maxHP)
+        {
+            hp = maxHP;
+        }
+
         hp += heal;
     }
 
     public void GoToLobby()
     {
+        PlayerManager.Instance.SetHp();
         ScenesM.instance.LoadScenes(scenetpye.Lobby);
     }
 

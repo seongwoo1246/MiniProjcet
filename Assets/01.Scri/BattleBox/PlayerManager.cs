@@ -37,6 +37,11 @@ public class PlayerManager : YutPlayer
             maxCharacter = playerUiDate.transform.Find("count").GetComponent<TextMeshProUGUI>();
             Hpbar = playerUiDate.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
             HP = playerUiDate.transform.Find("myhp").GetComponent<Scrollbar>();
+
+            Button button = CharacterIcon.GetComponent<Button>();
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(BattleSceneManager.instance.OnChilckStartNewChar);
+
         }
     }
 
@@ -60,5 +65,23 @@ public class PlayerManager : YutPlayer
         Hpbar.text = $" {PlayerData.hp}/{PlayerData.maxHp}";
     }
 
-   
+   public void SetHp()
+    {
+        PlayerData.hp = PlayerData.maxHp;
+    }
+
+
+    public override void GoalIn()
+    {
+        var Enemy =BattleSceneManager.instance.CuttrentEnemy;
+        var BSM = BattleSceneManager.instance;
+        if (Enemy != null)
+        {
+            int enemyindex = Enemy.CurrentEnemy;
+            var EnemyData = Enemy.trideDM.TrideList[enemyindex];
+            BSM.TakeDamage(EnemyData.miss, EnemyData.hp, BSM.Attack(PlayerData.critical, PlayerData.damage), EnemyData.depence);
+        }
+
+        base.GoalIn();
+    }
 }
