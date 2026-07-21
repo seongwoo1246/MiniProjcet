@@ -115,7 +115,7 @@ MonoBehaviour:
     depence: 20
     critical: 0.05
     moneyUp: 0
-    maxCharacter: 0
+    maxCharacter: 3
     heal: 200
     luck: 0
     block: 0

@@ -6,7 +6,7 @@ public class YutPlayer : MonoBehaviour
     public int maxChar = 4;
     public int currentActiveChar = 0;
 
-    public YutPiace yutPiace;
+    protected YutPiace yutPiace;
 
     //오버라이드 할지는 잠시 보기 ( 새 말 출발 코드 내용)
     public virtual void StartNewChar(int SelectMoveSpace)
@@ -50,6 +50,8 @@ public class YutPlayer : MonoBehaviour
         this.trideId = id;
     }
 
+
+    //말이 들어갔을 때 할 행동의 모체
     public virtual void GoalIn()
     {
         foreach(YutPiace kid in yutPiace.carriedChar)

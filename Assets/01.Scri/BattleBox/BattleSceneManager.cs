@@ -61,6 +61,7 @@ public class BattleSceneManager : MonoBehaviour
 
     public GameObject playData1;
     public EnemyController CuttrentEnemy;
+    public EnemyController enemyController;
     public YutPlayer Player;
     public YutPlayer enemy;
     public bool CanThrow;
@@ -69,13 +70,15 @@ public class BattleSceneManager : MonoBehaviour
     private int yutC=0;
     private int moC=0;
     private Yut currentRestYut = Yut.zero;
+    private bool canUseYut = false; // 턴 넘길때 폴스로 할 예정
+    private bool IsMyTurn;
 
     public Yut selectYut;
     public int selectMoveSpace = 0;
     public bool isYutSelected =false;
     
 
-    private List<Yut> TurnYutResult = new List<Yut>();
+    public List<Yut> TurnYutResult = new List<Yut>();
 
     public List<YutPiace> allActiveChar = new List<YutPiace>();
 
@@ -88,6 +91,8 @@ public class BattleSceneManager : MonoBehaviour
         }
         else
             Destroy(gameObject);
+
+        
     }
 
     private void Start()
@@ -98,10 +103,33 @@ public class BattleSceneManager : MonoBehaviour
         FirstStart();
         PlayerManager.Instance.playerUiDate = playData1;
 
+        PlayerManager.Instance.ButtonSet();
+
         Button button = GoLobby.GetComponent<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(GoToLobby);
 
+    }
+
+    public void TurnEnd() 
+    {
+        IsMyTurn = !IsMyTurn;
+
+        if(IsMyTurn)
+        {
+            enemyController.IsEnemyTurn = false;
+            CanThrow = true;
+            Turn++;
+            TurnCount.text = $"경과 턴 : {Turn}";
+        }
+        else
+        {
+            enemyController.IsEnemyTurn = true;
+            canUseYut = false;
+            CanThrow = false;
+
+            enemyController.EnemyTurn();
+        }
     }
 
     public int countDamageUp(int basedamage , int count)
@@ -121,9 +149,10 @@ public class BattleSceneManager : MonoBehaviour
         }
         
     }
-
+    //말을 잡을 수 있는 가 검사
     public void checkCatchChar(YutPiace MovePiace)
     {
+        //판에 없거나 업혀 있는 친구는 넘어가는 코드
         if(MovePiace.currentPathIndex<=0||MovePiace.isCarried) return;
 
         bool isCaughtAnything = false;
@@ -158,7 +187,7 @@ public class BattleSceneManager : MonoBehaviour
                     }
                     targetPiace.carriedChar.Clear();
 
-                    // 윷 한번 더 던지기
+                    
                     break;
                 }
             }
@@ -170,7 +199,7 @@ public class BattleSceneManager : MonoBehaviour
         }
         else
         {
-            // 턴 전환 함수 넣을 예정
+            BattleSceneManager.instance.TurnEnd();
         }
 
     }
@@ -178,13 +207,22 @@ public class BattleSceneManager : MonoBehaviour
 
     public void ItbattleSet()
     {
-        int myTrideId = PlayerManager.Instance.PlayerData.id;
-        Player.SetTrideId(myTrideId);
+        if(Player== null&&PlayerManager.Instance != null)
+         Player = PlayerManager.Instance;
+        
+           
+            if (Player != null)
+            {
+            int myTrideId = PlayerManager.Instance.PlayerData.id;
+            Player.SetTrideId(myTrideId);
+            }
+
         if (CuttrentEnemy != null)
         {
             int enemyTrideId = CuttrentEnemy.CurrentEnemy;
             enemy.SetTrideId(enemyTrideId);
         }
+
     }
 
 
@@ -325,12 +363,16 @@ public class BattleSceneManager : MonoBehaviour
         {
             IsMyFirst = true;
             CanThrow = true;
+            IsMyTurn = true;
             First.text="당신이 선공입니다.";
         }
         else
         {
             IsMyFirst= false;
             CanThrow= false;
+            IsMyTurn= false;
+            enemyController.IsEnemyTurn = true;
+            enemyController.EnemyTurn();
             First.text = "당신이 후공입니다.";
         }
         First.gameObject.SetActive(true);
@@ -369,44 +411,73 @@ public class BattleSceneManager : MonoBehaviour
     //윷 던지기
     public void OnClickThrowButton()
     {
-        if(CanThrow == false)
+        if(enemyController.IsEnemyTurn||!CanThrow)
             { return; }
+        ThrowYut();
+    }
 
+    public void ThrowYut()
+    {
+        
+        bool IsEnemy = enemyController.IsEnemyTurn;
+      
         Yut currentYut = GetYut();
-
         TurnYutResult.Add(currentYut);
-
-        // 윷이 나왔을 때 저장 하는 기능
-        if(currentYut == Yut.four)
+        if (currentYut == Yut.zero)
         {
-            yutC++;
-            yutCount.text = $"{yutC}";
-            resultYut.text = $" {ChangeYutText(currentYut)}이 나왔군요. 한 번 더 던지세요";
-       
-            CanThrow = true;
-        }
-        //모가 나왔을 때 저장 하는 기능
-        else if(currentYut == Yut.five)
-        {
-            moC++;
+            TurnYutResult.Clear();
+            moC = 0;
             moCount.text = $"{moC}";
-            resultYut.text = $" {ChangeYutText(currentYut)}이 나왔군요. 한 번 더 던지세요";
-          
-            CanThrow = true;
+            yutC = 0;
+            yutCount.text = $"{yutC}";
+            currentRestYut = Yut.zero;
+            yutname.text = "";
+            CanThrow = false;
+            canUseYut = false;
+            if (IsEnemy)
+            { IsEnemy = false; }
+            return;
         }
-        // 다른 말이 나왔을 때 저장 하는 기능
-        else
+        if(currentYut == Yut.four|| currentYut == Yut.five)
+        {
+            if (currentYut == Yut.four) { yutC++; yutCount.text = $"{yutC}"; }
+            else { moC++; moCount.text = $"{moC}"; }
+
+            resultYut.text = $" {ChangeYutText(currentYut)}이 나왔군요. 한 번 더 던지세요";
+
+            if(!IsEnemy)
+            {
+                CanThrow = true;
+            }
+            else 
+            {
+                StartCoroutine(EnemyAginThrow());
+            }
+        }
+        else 
         {
             resultYut.text = ChangeYutText(currentYut);
             yutname.text = ChangeYutText(currentYut);
             CanThrow = false;
-            currentRestYut= currentYut;
-        }
+            currentRestYut = currentYut;
 
+            if(IsEnemy)
+            {
+                enemyController.EnemyBestMove();
+                StartCoroutine(EnemyAginThrow());
+            }
+        }
         resultYut.gameObject.SetActive(true);
         StartCoroutine(FalseText(resultYut));
+        if (!IsEnemy)
+        { canUseYut = true; }
     }
 
+    public IEnumerator EnemyAginThrow()
+    {
+        yield return new WaitForSeconds(1f);
+        ThrowYut();
+    }
     // enum 스트링 변환기
     private string ChangeYutText(Yut yut)
     {
@@ -428,23 +499,29 @@ public class BattleSceneManager : MonoBehaviour
 
     public void OnClickYutSlot(int value)
     {
-        Yut targetYut;
+       
+        if(canUseYut == true)
+        {
+            Yut targetYut;
 
-        if(value == -999)
-        {
-            if (currentRestYut == Yut.zero) return;
-            targetYut = currentRestYut;
+            if (value == -999)
+            {
+                if (currentRestYut == Yut.zero) return;
+                targetYut = currentRestYut;
+            }
+            else
+            {
+                targetYut = (Yut)value;
+            }
+            if (TurnYutResult.Contains(targetYut))
+            {
+                selectYut = targetYut;
+                selectMoveSpace = (int)targetYut;
+                isYutSelected = true;
+            }
         }
-        else
-        {
-            targetYut = (Yut)value;
-        }
-        if(TurnYutResult.Contains(targetYut))
-        {
-            selectYut = targetYut;
-            selectMoveSpace = (int)targetYut;
-            isYutSelected = true;
-        }
+
+       
     }
 
     // 사용한 윷 결과
@@ -476,6 +553,13 @@ public class BattleSceneManager : MonoBehaviour
     //새로운 말 출발 코드
     public void OnChilckStartNewChar()
     {
+        if(TurnYutResult ==null|| TurnYutResult.Count ==0) return;
+        if (TurnYutResult[0]== Yut.zero)
+        { TurnYutResult.RemoveAt(0); return; }
+
+
+
+
         if (IsMyFirst == true)
             Player.StartNewChar(selectMoveSpace);
         else

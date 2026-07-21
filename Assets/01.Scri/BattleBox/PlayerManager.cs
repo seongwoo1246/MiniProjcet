@@ -15,6 +15,8 @@ public class PlayerManager : YutPlayer
      TextMeshProUGUI Hpbar;
      Scrollbar HP;
 
+    EnemyController enemyController;
+
     public Tride PlayerData { get; private set; }
 
     private void Awake()
@@ -38,13 +40,22 @@ public class PlayerManager : YutPlayer
             Hpbar = playerUiDate.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
             HP = playerUiDate.transform.Find("myhp").GetComponent<Scrollbar>();
 
-            Button button = CharacterIcon.GetComponent<Button>();
-            button.onClick.RemoveAllListeners();
-            button.onClick.AddListener(BattleSceneManager.instance.OnChilckStartNewChar);
-
+          
         }
+
+
+
     }
 
+    public void ButtonSet()
+    {
+        Button button = CharacterIcon.GetComponent<Button>();
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(BattleSceneManager.instance.OnChilckStartNewChar);
+
+       
+
+    }
 
     public void SetTridePlayer(Tride Data)
     {
@@ -84,8 +95,15 @@ public class PlayerManager : YutPlayer
             int enemyindex = Enemy.CurrentEnemy;
             var EnemyData = Enemy.trideDM.TrideList[enemyindex];
             BSM.TakeDamage(EnemyData.miss, EnemyData.hp,BSM.countDamageUp( BSM.Attack(PlayerData.critical, PlayerData.damage),totalcount), EnemyData.depence);
+            enemyController.Hpeffect(enemyController.CurrentEnemy);
         }
 
         base.GoalIn();
+    }
+
+    public void playerHpeffect()
+    {
+        HP.value = PlayerData.hp / PlayerData.maxHp;
+        Hpbar.text = $"{PlayerData.hp}/{PlayerData.maxHp}";
     }
 }

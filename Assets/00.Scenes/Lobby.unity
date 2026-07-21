@@ -631,7 +631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9998e6fa7f8a8424286ba67e97b47593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
-  TrideType: 3
+  trideId: 0
   maxChar: 4
   currentActiveChar: 0
   playerUiDate: {fileID: 3210998589038123252, guid: 496e3c6702d5e1241be61bcb51036de0, type: 3}

@@ -461,6 +461,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 155819050}
   m_CullTransparentMesh: 1
+--- !u!1 &162646561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 162646562}
+  - component: {fileID: 162646563}
+  m_Layer: 0
+  m_Name: ObjectPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &162646562
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162646561}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 772.7437, y: 533.9809, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1722787103}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &162646563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162646561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 778ebecf2ce095843b8ae2626e538bff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPooling
+  Objects:
+  - {fileID: 3956167786068798734, guid: 7779566c2a8c3774992af0eb9a5ba9f1, type: 3}
+  - {fileID: 4355570162567523616, guid: b349e4be8a92fcd47ae4840074756e2b, type: 3}
+  - {fileID: 8348055339200321254, guid: a4b23f888a96ccd458fab3343dbf5c80, type: 3}
+  - {fileID: 8397322203263878383, guid: 42c1afb7d1a6cdc479fa2ec1a55d4ecf, type: 3}
+  - {fileID: 5008944903970836491, guid: 5263c1f6580ca9a46a4493608989a12e, type: 3}
+  - {fileID: 3210998589038123252, guid: 496e3c6702d5e1241be61bcb51036de0, type: 3}
+  - {fileID: 6096615369739337192, guid: 5a4e7341df78ef349a352a82ffe8b773, type: 3}
 --- !u!1001 &183785727
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2603,7 +2655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f41a7d3ea38e89e42a8d6811331eb91b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::YutPlayer
-  TrideType: 0
+  trideId: 0
   maxChar: 4
   currentActiveChar: 0
 --- !u!4 &853093757
@@ -3462,7 +3514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bacf40bf52b14f841801ddca71b6fdec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Humen
-  TrideType: 0
+  trideId: 0
   maxChar: 4
   currentActiveChar: 0
   CurrentEnemy: 0
@@ -3873,12 +3925,14 @@ MonoBehaviour:
   GoLobby: {fileID: 4237667492618322168}
   playData1: {fileID: 183785728}
   CuttrentEnemy: {fileID: 1573397472}
-  currentTurnPlayer: {fileID: 853093756}
+  Player: {fileID: 0}
+  enemy: {fileID: 0}
   CanThrow: 0
   IsMyFirst: 0
   selectYut: 0
   selectMoveSpace: 0
   isYutSelected: 0
+  allActiveChar: []
 --- !u!4 &1722787103
 Transform:
   m_ObjectHideFlags: 0
@@ -3894,6 +3948,7 @@ Transform:
   m_Children:
   - {fileID: 1045713476}
   - {fileID: 853093757}
+  - {fileID: 162646562}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1778203744
@@ -4946,7 +5001,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB3C4 "
+  m_text: '?'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 100ca393377adf141a14f42d8a672666, type: 2}
   m_sharedMaterial: {fileID: -2398424204958481485, guid: 100ca393377adf141a14f42d8a672666, type: 2}

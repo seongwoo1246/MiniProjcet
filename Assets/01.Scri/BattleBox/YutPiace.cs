@@ -34,7 +34,7 @@ public class YutPiace : MonoBehaviour
     {
         icon = GetComponent<Image>();
     }
-
+    //업은 말 상태 표시
     public void UpdateVisuals()
     {
         int count = carriedChar.Count;
@@ -49,11 +49,12 @@ public class YutPiace : MonoBehaviour
         
         
     }
+    //말이 잡혔을 때 하는 코드
     public void CatchChar()
     {
         returnReady();
     }
-
+    //잡히거나 골인 후 말이 돌아가는 내용
     public void returnReady()
     {
         currentPathIndex = 0;
@@ -72,15 +73,22 @@ public class YutPiace : MonoBehaviour
 
     }
     // 말이 움직이는 루틴
-    private IEnumerator MoveStepRoutine(int steps)
+    public IEnumerator MoveStepRoutine(int steps)
     {
+        if (steps == 0)
+        {
+            yield return null;
+        }
+           
+
         isMoveing = true;
         
+
         if(steps == -1)
         {
-            if (PathState1 == PathState.main && currentPathIndex == 0)
+            if (PathState1 == PathState.main && currentPathIndex == 1)
             {
-                currentPathIndex = 19;
+                currentPathIndex = 20;
 
             }
             else
@@ -91,12 +99,12 @@ public class YutPiace : MonoBehaviour
                     if (PathState1 == PathState.summer)
                     {
                         PathState1 = PathState.main;
-                        currentPathIndex = 4;
+                        currentPathIndex = 5;
                     }
                     else if (PathState1 == PathState.spring)
                     {
                         PathState1 = PathState.main;
-                        currentPathIndex = 9;
+                        currentPathIndex = 10;
                     }
                     else if (PathState1 == PathState.autumn)
                     {
@@ -138,7 +146,7 @@ public class YutPiace : MonoBehaviour
                     else
                     {
                         PathState1 = PathState.main;
-                        currentPathIndex = 19;
+                        currentPathIndex = 20;
                         nextSpace =borad.mainPathSpace[currentPathIndex];
 
                         maxCount = borad.mainPathSpace.Count;
@@ -154,7 +162,7 @@ public class YutPiace : MonoBehaviour
                     else
                     {
                         PathState1 = PathState.main;
-                        currentPathIndex = 19;
+                        currentPathIndex = 20;
                         nextSpace = borad.mainPathSpace[currentPathIndex];
 
                         maxCount = borad.mainPathSpace.Count;
@@ -170,7 +178,7 @@ public class YutPiace : MonoBehaviour
                     else
                     {
                         PathState1 = PathState.main;
-                        currentPathIndex = 14;
+                        currentPathIndex = 15;
                         nextSpace = borad.mainPathSpace[currentPathIndex];
 
                         maxCount = borad.mainPathSpace.Count;
@@ -206,12 +214,12 @@ public class YutPiace : MonoBehaviour
 
         if(PathState1 == PathState.main)
         {
-            if(currentPathIndex ==4)
+            if(currentPathIndex ==5)
             {
                 PathState1 = PathState.summer;
                 currentPathIndex = 0;
             }
-            else if (currentPathIndex == 9)
+            else if (currentPathIndex == 10)
             {
                 PathState1 = PathState.spring;
                 currentPathIndex = 0;
@@ -232,7 +240,7 @@ public class YutPiace : MonoBehaviour
 
      }
 
-
+    //업은 말들이 같이 이동하기 위한 코드
     public void EndMove(YutPiace leaderPiece , int finalSpace)
     {
         leaderPiece.currentPathIndex = finalSpace;
@@ -257,15 +265,4 @@ public class YutPiace : MonoBehaviour
         this.StartMove(manger.selectMoveSpace);
         manger.UseSelectedYut();
     }
-
-
-  
-
-
-
-
-
-
-
-
 }

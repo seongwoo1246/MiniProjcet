@@ -20,7 +20,8 @@ public class UnDead : EnemyController
         BSM.TakeDamage(player.miss, 
             player.hp,BSM.countDamageUp( BSM.Attack(mydata.critical,
             mydata.damage),totalcount), player.depence);
-        
+        PlayerManager.Instance.playerHpeffect();
+
         base.GoalIn();
     }
 }
