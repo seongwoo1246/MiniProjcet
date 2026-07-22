@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class Elf : EnemyController
+public class Elf : EnemyController, canSkill
 {
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         CurrentEnemy = 2;
         SetEnemy(CurrentEnemy);
         BattleSceneManager.instance.ItbattleSet();
@@ -20,7 +21,45 @@ public class Elf : EnemyController
             player.hp, BSM.countDamageUp(BSM.Attack(mydata.critical,
             mydata.damage), totalcount), player.depence);
         PlayerManager.Instance.playerHpeffect();
+        BSM.Heal(mydata.hp, mydata.maxHp, mydata.heal);
+        Hpeffect(CurrentEnemy);
         base.GoalIn();
+    }
+    public void UseSkill70(float block, float luck)
+    {
+        if (Random.value + block > luck)
+        {
+            return;
+        }
+        else
+        {
+            //스킬 성공
+        }
+
+    }
+    public void UseSkill50(float block, float luck)
+    {
+        if (Random.value + block > luck)
+        {
+            return;
+        }
+        else
+        {
+            //스킬 성공
+        }
+
+    }
+    public void UseSkill30(float block, float luck)
+    {
+        if (Random.value + block > luck)
+        {
+            return;
+        }
+        else
+        {
+            //스킬 성공
+        }
+
     }
 }
 

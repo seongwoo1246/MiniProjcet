@@ -2,12 +2,27 @@ using UnityEngine;
 
 public class YutPlayer : MonoBehaviour
 {
+    protected bool useedSkill70 = false;
+    protected bool useedSkill50 = false;
+    protected bool useedSkill30 = false;
+
     public int trideId;
     public int maxChar = 4;
     public int currentActiveChar = 0;
 
     protected YutPiace yutPiace;
 
+    public virtual void InItState()
+    {
+        useedSkill70 = false;
+        useedSkill50 = false;
+        useedSkill30 = false;
+    }
+
+    protected virtual void Start()
+    {
+        InItState();
+    }
     //오버라이드 할지는 잠시 보기 ( 새 말 출발 코드 내용)
     public virtual void StartNewChar(int SelectMoveSpace)
     {

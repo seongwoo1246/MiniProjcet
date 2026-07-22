@@ -8,9 +8,9 @@ using UnityEngine.UI;
 public enum monState
 {
     nomal,
-    belowHp70,
-    belowHp50,
-    belowHp30,
+    skill_hp70,
+    skill_hp50,
+    skill_hp30,
 }
 
 
@@ -23,6 +23,10 @@ public class EnemyController : YutPlayer
     public int CurrentEnemy;
     public TrideDataManager trideDM;
     protected YutPiace yutcount;
+   
+    
+    
+    
 
     [SerializeField] protected Image Icon;
     [SerializeField] protected Image CharacterIcon;
@@ -35,8 +39,9 @@ public class EnemyController : YutPlayer
 
     public List<YutPiace> EnemyGroup = new List<YutPiace>();
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         BattleSceneManager.instance.CuttrentEnemy = this;
     }
 
@@ -74,13 +79,21 @@ public class EnemyController : YutPlayer
         BattleSceneManager.instance.TurnEnd();
 
     }
-
+    
 
     public void EnemyBestMove()
     {
         int bestCharIndex;
         int bestYutIndex;
 
+        if(TryUseSkill())// 나중에 연출 필요시 밑에 중괄호 만들어서 연출 넣기 ex) 스킬 대사 혹은 스킬 사용 텍스트
+       
+        if(CanGoalIn(out bestCharIndex, out bestYutIndex) == true)
+        {
+            MoveEnemy(bestCharIndex, bestYutIndex);
+            GoalIn();
+            return;
+        }
         if (CanCatchPlayer(out bestCharIndex, out bestYutIndex) == true)
         {
             MoveEnemy(bestCharIndex, bestYutIndex);
@@ -96,11 +109,7 @@ public class EnemyController : YutPlayer
             MoveEnemy(bestCharIndex, bestYutIndex);
             return;
         }
-        if (CanUseSkill() == true)
-        {
-            BattleSceneManager.instance.UseSkill(PlayerManager.Instance.PlayerData.block, trideDM.TrideList[CurrentEnemy].luck);
-            return;
-        }
+        
 
         DefultMoveEnemy();
     }
@@ -164,10 +173,83 @@ public class EnemyController : YutPlayer
         }
         return false;
     }
-
-    public bool CanUseSkill()
+    public bool CanGoalIn(out int bestCharIndex, out int bestYutIndex)
     {
-        return false; // 나중에 상태 변화에 따라 넣을 예정
+        bestCharIndex = -1;
+        bestYutIndex = -1;
+
+        var BSMYutList = BattleSceneManager.instance.TurnYutResult;
+        var BSMActiveChar = BattleSceneManager.instance.allActiveChar;
+
+        // 윷 나운 순서의 거리
+        for (int y = 0; y < BSMYutList.Count; y++)
+        {
+            int moveAmount = GetYutMoveCount(BSMYutList[y]);
+            // 잡을 수 있는 말이 있나 검사
+            for (int c = 0; c < BSMActiveChar.Count; c++)
+            {
+                var mypiece = BSMActiveChar[c];
+
+                if (mypiece.isCarried || !mypiece.isMovingOnBorad || mypiece.currentPathIndex <= 0 || !mypiece.isEnemy)
+                { continue; }
+                int nextPosion = mypiece.currentPathIndex + moveAmount;
+               
+                if(mypiece.CheckGoalIn(moveAmount))
+                {
+                    bestCharIndex = c;
+                    bestYutIndex = y;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public monState checkUesSkill(float currentHp ,float MaxHp )
+    {
+        float Hpgage = (currentHp / MaxHp) * 100f;
+
+        if(Hpgage<=30f&&!useedSkill30)
+        {
+            return monState.skill_hp30;
+        }
+        if(Hpgage<=50f&&!useedSkill50)
+        {
+            return monState.skill_hp50;
+        }
+        if(Hpgage<=70f&&!useedSkill70)
+        {
+            return monState.skill_hp70;
+        }
+
+        return monState.nomal;
+    }
+
+
+    public bool TryUseSkill()
+    {
+        monState skilltouse = checkUesSkill(trideDM.TrideList[CurrentEnemy].hp, trideDM.TrideList[CurrentEnemy].maxHp);
+
+        if(skilltouse == monState.nomal)
+            { return false; }
+
+        if(trideDM.TrideList[CurrentEnemy] is canSkill enemySkill)
+        switch(skilltouse)
+        {
+            case monState.skill_hp70:
+                useedSkill70 = true;
+                enemySkill.UseSkill70(PlayerManager.Instance.PlayerData.block, trideDM.TrideList[CurrentEnemy].luck);
+                break;
+            case monState.skill_hp50:
+                useedSkill50 = true;
+                    enemySkill.UseSkill50(PlayerManager.Instance.PlayerData.block, trideDM.TrideList[CurrentEnemy].luck);
+                break;
+            case monState.skill_hp30:
+                useedSkill30 = true;
+                    enemySkill.UseSkill30(PlayerManager.Instance.PlayerData.block, trideDM.TrideList[CurrentEnemy].luck);
+                break;
+        }
+        return true;
     }
     public void MoveEnemy(int bestCharIndex, int bestYutIndex)
     {
@@ -214,6 +296,8 @@ public class EnemyController : YutPlayer
         }
 
     }
+
+  
 
     public int GetYutMoveCount(Yut yut)
     {
@@ -268,5 +352,7 @@ public class EnemyController : YutPlayer
         }
         return false;
     }
+
+   
     
 }

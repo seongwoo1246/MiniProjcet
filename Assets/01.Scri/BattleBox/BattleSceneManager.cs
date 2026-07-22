@@ -30,7 +30,12 @@ public enum TrideType
     angel,
 }
 
-
+public interface canSkill
+{
+   void UseSkill70(float block, float luck);
+   void UseSkill50(float block, float luck);
+    void UseSkill30(float block, float luck);
+}
 
 
 
@@ -264,14 +269,7 @@ public class BattleSceneManager : MonoBehaviour
         return finalDamage;   
     }
 
-    public void UseSkill(float block, float luck)
-    {
-        if(Random.value + block < luck)
-        {
-            //스킬 성공
-        }
-        
-    }
+   
 
     public  void Heal(float hp ,float maxHP, int heal)
     {
@@ -299,7 +297,7 @@ public class BattleSceneManager : MonoBehaviour
         GiveTip();
 
             GameOver1.SetActive(true);
-
+       
     }
 
     public int GainMoneys()

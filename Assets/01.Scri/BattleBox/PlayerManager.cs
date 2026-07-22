@@ -30,7 +30,7 @@ public class PlayerManager : YutPlayer
             Destroy(gameObject);
     }
 
-    private void Start()
+    protected override void Start()
     {
         if (playerUiDate != null)
         {
@@ -96,7 +96,10 @@ public class PlayerManager : YutPlayer
             var EnemyData = Enemy.trideDM.TrideList[enemyindex];
             BSM.TakeDamage(EnemyData.miss, EnemyData.hp,BSM.countDamageUp( BSM.Attack(PlayerData.critical, PlayerData.damage),totalcount), EnemyData.depence);
             enemyController.Hpeffect(enemyController.CurrentEnemy);
+            BSM.Heal(PlayerData.hp,PlayerData.maxHp,PlayerData.heal);
+            playerHpeffect();
         }
+
 
         base.GoalIn();
     }

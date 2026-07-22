@@ -265,4 +265,28 @@ public class YutPiace : MonoBehaviour
         this.StartMove(manger.selectMoveSpace);
         manger.UseSelectedYut();
     }
+
+    // 골인하는지 체크
+    public bool CheckGoalIn(int movecount)
+    {
+        int nextPosition =currentPathIndex + movecount;
+        int maxCount = 0;
+        switch (PathState1)
+        {
+            case PathState.main: maxCount = YutBoardController.instance.mainPathSpace.Count; break;
+
+            case PathState.spring: maxCount = YutBoardController.instance.shortCutSpring.Count + 1; break;
+
+            case PathState.autumn: maxCount = YutBoardController.instance.shortCutAutumn.Count + 1; break;
+
+            default: maxCount = YutBoardController.instance.mainPathSpace.Count; break;
+        }
+
+
+        if (nextPosition >= maxCount)
+        {
+            return true;
+        }
+        return false;
+    }
 }

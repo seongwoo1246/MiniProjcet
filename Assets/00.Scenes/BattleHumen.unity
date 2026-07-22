@@ -3524,6 +3524,9 @@ MonoBehaviour:
   maxCharacter: {fileID: 2091673219}
   Hpbar: {fileID: 1678561225}
   HP: {fileID: 2021533679}
+  IsEnemyTurn: 0
+  findenemy: 0
+  EnemyGroup: []
 --- !u!1 &1643907702
 GameObject:
   m_ObjectHideFlags: 0
@@ -3925,6 +3928,7 @@ MonoBehaviour:
   GoLobby: {fileID: 4237667492618322168}
   playData1: {fileID: 183785728}
   CuttrentEnemy: {fileID: 1573397472}
+  enemyController: {fileID: 1573397472}
   Player: {fileID: 0}
   enemy: {fileID: 0}
   CanThrow: 0
@@ -3932,6 +3936,7 @@ MonoBehaviour:
   selectYut: 0
   selectMoveSpace: 0
   isYutSelected: 0
+  TurnYutResult: 
   allActiveChar: []
 --- !u!4 &1722787103
 Transform:
