@@ -493,7 +493,7 @@ public class BattleSceneManager : MonoBehaviour
     {
         if (index >= 0 && index < TurnYutResult.Count)
         {
-            TurnYutResult.RemoveAt(index);
+            
 
 
 

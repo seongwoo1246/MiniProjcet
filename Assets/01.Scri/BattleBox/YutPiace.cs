@@ -266,8 +266,8 @@ public class YutPiace : MonoBehaviour
         BattleSceneManager.instance.checkCatchChar(leaderPiece);
     }
 
-    // 말 선택하기
-    private void OnMouseDown()
+    // 말 선택하기 말들 한태 버튼을 넣어줘서 이걸 넣어주는 느낌으로?
+    public void OnMouseDown()
     {
         var manger = BattleSceneManager.instance;
 

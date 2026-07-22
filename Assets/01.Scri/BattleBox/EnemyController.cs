@@ -264,6 +264,8 @@ public class EnemyController : YutPlayer
 
         YutPiace movechar = BSMActiveChar[bestCharIndex];
         StartCoroutine(movechar.MoveStepRoutine(moveCount));
+
+        BattleSceneManager.instance.RemoveYutUi(bestYutIndex);
     }
     public void DefultMoveEnemy()
     {
@@ -293,10 +295,10 @@ public class EnemyController : YutPlayer
         }
         else
         {
-           
             StartNewChar(moveCount,true);
         }
 
+        BattleSceneManager.instance.RemoveYutUi(0);
     }
 
   
