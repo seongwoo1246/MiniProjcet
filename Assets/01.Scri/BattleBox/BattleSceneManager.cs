@@ -488,6 +488,36 @@ public class BattleSceneManager : MonoBehaviour
         { canUseYut = true; }
     }
 
+
+    public void RemoveYutUi(int index)
+    {
+        if (index >= 0 && index < TurnYutResult.Count)
+        {
+            TurnYutResult.RemoveAt(index);
+
+
+
+
+            if (TurnYutResult[index] == Yut.five)
+            {
+                    moC--;
+                    moCount.text = $"{moC}";
+            }
+                else if (TurnYutResult[index] == Yut.four)
+                {
+                    yutC--;
+                    yutCount.text = $"{yutC}";
+                }
+                else
+                {
+                    currentRestYut = Yut.zero;
+                    yutname.text = "";
+                }
+                
+            
+        }
+    }
+
     public IEnumerator EnemyAginThrow()
     {
         yield return new WaitForSeconds(1f);

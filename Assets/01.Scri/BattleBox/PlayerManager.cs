@@ -54,9 +54,6 @@ public class PlayerManager : YutPlayer
         Button button = CharacterIcon.GetComponent<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(BattleSceneManager.instance.OnChilckStartNewChar);
-
-       
-
     }
 
     public void SetTridePlayer(Tride Data)
