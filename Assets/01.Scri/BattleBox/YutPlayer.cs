@@ -7,7 +7,8 @@ public class YutPlayer : MonoBehaviour
     protected bool useedSkill30 = false;
 
     public int trideId;
-    public int maxChar = 4;
+    public int maxChar = 0;
+    
     public int currentActiveChar = 0;
 
     protected YutPiace yutPiace;
@@ -23,8 +24,11 @@ public class YutPlayer : MonoBehaviour
     {
         InItState();
     }
+
+   
+
     //오버라이드 할지는 잠시 보기 ( 새 말 출발 코드 내용)
-    public virtual void StartNewChar(int SelectMoveSpace)
+    public virtual void StartNewChar(int SelectMoveSpace , bool isEnemy)
     {
         if(currentActiveChar>=maxChar)
         {
@@ -37,8 +41,9 @@ public class YutPlayer : MonoBehaviour
         {
             return;
         }
-        YutPiace yutPiaceScrips = newChar.GetComponent<YutPiace>();
 
+        YutPiace yutPiaceScrips = newChar.GetComponent<YutPiace>();
+        yutPiaceScrips.OnBoardIn(isEnemy);
         yutPiaceScrips.currentPathIndex = 0;
         Vector3 StartWorldPosition = YutBoardController.instance.GetWorldPosition(YutBoardController.instance.mainPathSpace[0]);
         newChar.transform.position = StartWorldPosition;

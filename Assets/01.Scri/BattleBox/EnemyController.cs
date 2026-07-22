@@ -43,6 +43,7 @@ public class EnemyController : YutPlayer
     {
         base.Start();
         BattleSceneManager.instance.CuttrentEnemy = this;
+         maxChar = trideDM.TrideList[CurrentEnemy].maxCharacter;
     }
 
     protected void SetEnemy(int i)
@@ -292,7 +293,8 @@ public class EnemyController : YutPlayer
         }
         else
         {
-            StartNewChar(moveCount);
+           
+            StartNewChar(moveCount,true);
         }
 
     }
@@ -334,6 +336,7 @@ public class EnemyController : YutPlayer
                 if (mypiece.isCarried || !mypiece.isMovingOnBorad || mypiece.currentPathIndex <= 0 || !mypiece.isEnemy)
                 { continue; }
                 int nextPosion = mypiece.currentPathIndex + moveAmount;
+                PathState nextpathState = mypiece.PathState1;
                 foreach (YutPiace TargetPiace in BSMActiveChar)
                 {
                     if (TargetPiace == mypiece|| TargetPiace.isCarried || !TargetPiace.isMovingOnBorad) continue;
@@ -341,7 +344,7 @@ public class EnemyController : YutPlayer
                     bool isTargetvalid = findenemy ? (!TargetPiace.isEnemy) : (TargetPiace.isEnemy);
 
 
-                    if (isTargetvalid && TargetPiace.currentPathIndex == nextPosion)
+                    if (isTargetvalid && TargetPiace.currentPathIndex == nextPosion&&TargetPiace.PathState1 == nextpathState)
                     {
                         bestCharIndex = c;
                         bestYutIndex = y;

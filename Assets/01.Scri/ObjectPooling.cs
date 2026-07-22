@@ -28,7 +28,7 @@ public class ObjectPooling : MonoBehaviour
 
     private void Start()
     {
-        poolSize = 4;
+        poolSize = 15;
 
         foreach(GameObject obj in Objects)
         {

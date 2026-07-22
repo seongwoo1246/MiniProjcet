@@ -34,6 +34,18 @@ public class YutPiace : MonoBehaviour
     {
         icon = GetComponent<Image>();
     }
+
+    public void OnBoardIn(bool isEnemyPiece)
+    {
+        isMovingOnBorad = true;
+        isEnemy = isEnemyPiece;
+        currentspace = 1;
+        currentPathIndex = 0;
+        PathState1 = PathState.main;
+        isCarried = false;
+    }
+
+
     //업은 말 상태 표시
     public void UpdateVisuals()
     {
@@ -77,7 +89,9 @@ public class YutPiace : MonoBehaviour
     {
         if (steps == 0)
         {
-            yield return null;
+            BattleSceneManager.instance.TurnEnd();
+            yield return new WaitForSeconds(0.5f);
+            yield break;
         }
            
 

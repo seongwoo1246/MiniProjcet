@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
+
 public class TrainingUi : LobbyUiManager
 {
     public static TrainingUi Instance;

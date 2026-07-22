@@ -105,7 +105,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085b98028caaed3468a63b9883b2b066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::YutPiace
+  currentspace: 0
+  isEnemy: 0
+  isMovingOnBorad: 0
   currentPathIndex: 0
+  PathState1: 0
+  isCarried: 0
+  carriedChar: []
 --- !u!95 &4906169464031530305
 Animator:
   serializedVersion: 7

@@ -19,6 +19,8 @@ public class PlayerManager : YutPlayer
 
     public Tride PlayerData { get; private set; }
 
+    
+
     private void Awake()
     {
         if (Instance == null)
@@ -40,12 +42,12 @@ public class PlayerManager : YutPlayer
             Hpbar = playerUiDate.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
             HP = playerUiDate.transform.Find("myhp").GetComponent<Scrollbar>();
 
-          
+             maxChar = PlayerData.maxCharacter;
+             
         }
-
-
-
     }
+
+   
 
     public void ButtonSet()
     {

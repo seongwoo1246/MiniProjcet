@@ -62,8 +62,9 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField ] Button MyChar;
     [SerializeField ] Button EnemyChar;
     [SerializeField ] Button GoLobby;
+    [SerializeField ] Button TurnEND;
 
-
+    private YutPiace yutPiace;
     public GameObject playData1;
     public EnemyController CuttrentEnemy;
     public EnemyController enemyController;
@@ -75,7 +76,7 @@ public class BattleSceneManager : MonoBehaviour
     private int yutC=0;
     private int moC=0;
     private Yut currentRestYut = Yut.zero;
-    private bool canUseYut = false; // 턴 넘길때 폴스로 할 예정
+    private bool canUseYut = false; 
     private bool IsMyTurn;
 
     public Yut selectYut;
@@ -115,25 +116,37 @@ public class BattleSceneManager : MonoBehaviour
         button.onClick.AddListener(GoToLobby);
 
     }
+    //윷을 안 던지고 턴을 넘기는 것도 전략이다.
+    public void TurnEndButton()
+    {
+        if(IsMyTurn==true)
+        {
+            TurnEnd();
+        }
+    }
 
     public void TurnEnd() 
-    {
-        IsMyTurn = !IsMyTurn;
+    {       
 
         if(IsMyTurn)
         {
-            enemyController.IsEnemyTurn = false;
-            CanThrow = true;
-            Turn++;
-            TurnCount.text = $"경과 턴 : {Turn}";
-        }
-        else
-        {
+            
+            IsMyTurn = false;
             enemyController.IsEnemyTurn = true;
             canUseYut = false;
             CanThrow = false;
-
             enemyController.EnemyTurn();
+        }
+        else
+        {
+            IsMyTurn = true;
+            enemyController.IsEnemyTurn = false;
+           
+            CanThrow = true;
+            Turn++;
+            TurnCount.text = $"경과 턴 : {Turn}";
+
+           
         }
     }
 
@@ -202,11 +215,6 @@ public class BattleSceneManager : MonoBehaviour
         {
             CanThrow = true;
         }
-        else
-        {
-            BattleSceneManager.instance.TurnEnd();
-        }
-
     }
 
 
@@ -416,11 +424,18 @@ public class BattleSceneManager : MonoBehaviour
 
     public void ThrowYut()
     {
-        
         bool IsEnemy = enemyController.IsEnemyTurn;
-      
+
+        if (!IsEnemy)
+        {
+            if (!CanThrow) return;
+            CanThrow = false;
+        }
+           
+
         Yut currentYut = GetYut();
         TurnYutResult.Add(currentYut);
+        Debug.Log("윷이 리스트로 들어갑니다.");
         if (currentYut == Yut.zero)
         {
             TurnYutResult.Clear();
@@ -430,16 +445,15 @@ public class BattleSceneManager : MonoBehaviour
             yutCount.text = $"{yutC}";
             currentRestYut = Yut.zero;
             yutname.text = "";
-            CanThrow = false;
-            canUseYut = false;
-            if (IsEnemy)
-            { IsEnemy = false; }
+            TurnEnd();
             return;
         }
         if(currentYut == Yut.four|| currentYut == Yut.five)
         {
-            if (currentYut == Yut.four) { yutC++; yutCount.text = $"{yutC}"; }
-            else { moC++; moCount.text = $"{moC}"; }
+            if (currentYut == Yut.four) 
+            { yutC++; yutCount.text = $"{yutC}"; }
+            else 
+            { moC++; moCount.text = $"{moC}"; }
 
             resultYut.text = $" {ChangeYutText(currentYut)}이 나왔군요. 한 번 더 던지세요";
 
@@ -450,6 +464,9 @@ public class BattleSceneManager : MonoBehaviour
             else 
             {
                 StartCoroutine(EnemyAginThrow());
+                resultYut.gameObject.SetActive(true);
+                StartCoroutine(FalseText(resultYut));
+                return;
             }
         }
         else 
@@ -462,7 +479,7 @@ public class BattleSceneManager : MonoBehaviour
             if(IsEnemy)
             {
                 enemyController.EnemyBestMove();
-                StartCoroutine(EnemyAginThrow());
+               
             }
         }
         resultYut.gameObject.SetActive(true);
@@ -554,14 +571,9 @@ public class BattleSceneManager : MonoBehaviour
         if(TurnYutResult ==null|| TurnYutResult.Count ==0) return;
         if (TurnYutResult[0]== Yut.zero)
         { TurnYutResult.RemoveAt(0); return; }
-
-
-
-
         if (IsMyFirst == true)
-            Player.StartNewChar(selectMoveSpace);
-        else
-            enemy.StartNewChar(selectMoveSpace);
+           
+            Player.StartNewChar(selectMoveSpace,false);
 
             UseSelectedYut();
 
