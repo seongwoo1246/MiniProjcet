@@ -55,6 +55,8 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI Break;
     [SerializeField] TextMeshProUGUI Tip;
     [SerializeField] TextMeshProUGUI attacktext;
+    [SerializeField] TextMeshProUGUI MaxCharCaption;
+
     
     [SerializeField] Button mo;
     [SerializeField] Button yut;
@@ -64,20 +66,22 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField ] Button GoLobby;
     [SerializeField ] Button TurnEND;
 
-    private YutPiace yutPiace;
+    [SerializeField]private YutPlayer yutPlayer;
+    
     public GameObject playData1;
     public EnemyController CuttrentEnemy;
     public EnemyController enemyController;
     public YutPlayer Player;
     public YutPlayer enemy;
     public bool CanThrow;
+    public bool CanThrowEnemy;
     public bool IsMyFirst;
     private int Turn;
     private int yutC=0;
     private int moC=0;
     private Yut currentRestYut = Yut.zero;
     private bool canUseYut = false; 
-    private bool IsMyTurn;
+    public bool IsMyTurn;
 
     public Yut selectYut;
     public int selectMoveSpace = 0;
@@ -103,6 +107,9 @@ public class BattleSceneManager : MonoBehaviour
 
     private void Start()
     {
+        attacktext.gameObject.SetActive(false);
+        First.gameObject.SetActive(false);
+        MaxCharCaption.gameObject.SetActive(false);
         GameOver1.SetActive(false);
         Turn = 0;
         TurnCount.text =$"경과 턴 : {Turn}";
@@ -125,6 +132,7 @@ public class BattleSceneManager : MonoBehaviour
         }
     }
 
+    // 턴 끝났을 때 행동
     public void TurnEnd() 
     {       
 
@@ -135,6 +143,7 @@ public class BattleSceneManager : MonoBehaviour
             enemyController.IsEnemyTurn = true;
             canUseYut = false;
             CanThrow = false;
+            CanThrowEnemy = true;
             enemyController.EnemyTurn();
         }
         else
@@ -150,6 +159,8 @@ public class BattleSceneManager : MonoBehaviour
         }
     }
 
+
+    // 말들 업었을 때 데미지 계산
     public int countDamageUp(int basedamage , int count)
     {
         if(count >=8)
@@ -179,16 +190,20 @@ public class BattleSceneManager : MonoBehaviour
         {
             if (targetPiace.isCarried || targetPiace == MovePiace || !targetPiace.isMovingOnBorad) continue;
 
+            //좌표가 같다면
             if(targetPiace.currentPathIndex == MovePiace.currentPathIndex)
             {
+                // 적이라면 잡고 아군이면 업히는 코드
                 if(targetPiace.isEnemy == MovePiace.isEnemy)
                 {
-                    targetPiace.carriedChar.Add(MovePiace);
-                    if(  MovePiace.carriedChar.Count>=0)
+                   
+                    
+                    if(  MovePiace.carriedChar.Count>0)
                     {
                         targetPiace.carriedChar.AddRange(MovePiace.carriedChar);
                         MovePiace.carriedChar.Clear();
                     }
+                    targetPiace.carriedChar.Add(MovePiace);
 
                     MovePiace.isCarried = true;
                     MovePiace.gameObject.SetActive(false);
@@ -197,27 +212,44 @@ public class BattleSceneManager : MonoBehaviour
                 }
                 else if(targetPiace.isEnemy != MovePiace.isEnemy)
                 {
-                    targetPiace.CatchChar();
+                    
+
                     isCaughtAnything = true;
                     foreach( YutPiace kid in targetPiace.carriedChar)
                     {
-                        kid.CatchChar();
+                        if(kid !=null)
+                        {
+                            kid.CatchChar();
+                        }
+                        
                     }
                     targetPiace.carriedChar.Clear();
 
-                    
+                    targetPiace.CatchChar();
+
                     break;
                 }
             }
 
         }
-        if(isCaughtAnything)
+        if(IsMyTurn==true)
         {
-            CanThrow = true;
+            if (isCaughtAnything)
+            {
+                CanThrow = true;
+            }
         }
+        else
+        {
+            if (isCaughtAnything)
+            {
+                CanThrowEnemy = true;
+            }
+        }
+       
     }
 
-
+    //전투 시작할 때 셋팅
     public void ItbattleSet()
     {
         if(Player== null&&PlayerManager.Instance != null)
@@ -264,7 +296,8 @@ public class BattleSceneManager : MonoBehaviour
             
         }
 
-
+       attacktext.gameObject.SetActive(true);
+        StartCoroutine(FalseText(attacktext));
     }
 
     public int Attack( float critical ,int damage)
@@ -356,6 +389,7 @@ public class BattleSceneManager : MonoBehaviour
        
     }
 
+    // 문구가 사라지는 코루틴
     private IEnumerator FalseText (TextMeshProUGUI Text)
     {
         yield return new WaitForSeconds(1f);
@@ -371,6 +405,7 @@ public class BattleSceneManager : MonoBehaviour
             CanThrow = true;
             IsMyTurn = true;
             First.text="당신이 선공입니다.";
+           
         }
         else
         {
@@ -431,11 +466,16 @@ public class BattleSceneManager : MonoBehaviour
             if (!CanThrow) return;
             CanThrow = false;
         }
-           
+        else
+        {
+            if(!CanThrowEnemy) return;
+            CanThrowEnemy = false;
+        }
 
-        Yut currentYut = GetYut();
+
+            Yut currentYut = GetYut();
         TurnYutResult.Add(currentYut);
-        Debug.Log("윷이 리스트로 들어갑니다.");
+     
         if (currentYut == Yut.zero)
         {
             TurnYutResult.Clear();
@@ -463,9 +503,8 @@ public class BattleSceneManager : MonoBehaviour
             }
             else 
             {
-                StartCoroutine(EnemyAginThrow());
-                resultYut.gameObject.SetActive(true);
-                StartCoroutine(FalseText(resultYut));
+                CanThrowEnemy = true;
+               
                 return;
             }
         }
@@ -478,8 +517,8 @@ public class BattleSceneManager : MonoBehaviour
 
             if(IsEnemy)
             {
-                enemyController.EnemyBestMove();
-               
+                
+               CanThrowEnemy = false;
             }
         }
         resultYut.gameObject.SetActive(true);
@@ -491,13 +530,9 @@ public class BattleSceneManager : MonoBehaviour
 
     public void RemoveYutUi(int index)
     {
+
         if (index >= 0 && index < TurnYutResult.Count)
         {
-            
-
-
-
-
             if (TurnYutResult[index] == Yut.five)
             {
                     moC--;
@@ -518,11 +553,7 @@ public class BattleSceneManager : MonoBehaviour
         }
     }
 
-    public IEnumerator EnemyAginThrow()
-    {
-        yield return new WaitForSeconds(1f);
-        ThrowYut();
-    }
+    
     // enum 스트링 변환기
     private string ChangeYutText(Yut yut)
     {
@@ -545,6 +576,8 @@ public class BattleSceneManager : MonoBehaviour
     public void OnClickYutSlot(int value)
     {
        
+
+
         if(canUseYut == true)
         {
             Yut targetYut;
@@ -572,6 +605,16 @@ public class BattleSceneManager : MonoBehaviour
     // 사용한 윷 결과
     public void UseSelectedYut()
     {
+        if (enemyController.IsEnemyTurn == false)
+        {
+            if (yutPlayer.isMaxChar == true)
+            {
+                MaxCharCaption.gameObject.SetActive(true);
+                StartCoroutine(FalseText(MaxCharCaption));
+                return;
+            }
+        }
+
         if (TurnYutResult.Contains(selectYut))
         {
             TurnYutResult.Remove(selectYut);

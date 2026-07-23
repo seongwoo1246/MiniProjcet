@@ -9,7 +9,7 @@ public class Angel: EnemyController, canSkill
         SetEnemy(CurrentEnemy);
         BattleSceneManager.instance.ItbattleSet();
     }
-    public override void GoalIn()
+    public override void GoalIn(YutPiace targetPiace)
     {
         var mydata = trideDM.TrideList[CurrentEnemy];
         var player = PlayerManager.Instance.PlayerData;
@@ -23,7 +23,7 @@ public class Angel: EnemyController, canSkill
         PlayerManager.Instance.playerHpeffect();
         BSM.Heal(mydata.hp, mydata.maxHp, mydata.heal);
         Hpeffect(CurrentEnemy);
-        base.GoalIn();
+        base.GoalIn(targetPiace);
     }
 
     public void UseSkill70(float block, float luck)

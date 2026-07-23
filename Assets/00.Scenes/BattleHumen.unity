@@ -2654,6 +2654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f41a7d3ea38e89e42a8d6811331eb91b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::YutPlayer
+  isMaxChar: 0
   trideId: 0
   maxChar: 4
   currentActiveChar: 0
@@ -2960,6 +2961,7 @@ RectTransform:
   - {fileID: 2135578032}
   - {fileID: 1278219298}
   - {fileID: 314758517}
+  - {fileID: 1718253879}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3003,7 +3005,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -122.52814, y: -42.063416}
+  m_AnchoredPosition: {x: -122.528076, y: -42.063477}
   m_SizeDelta: {x: 245.05627, y: 84.12683}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1229169460
@@ -3783,6 +3785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bacf40bf52b14f841801ddca71b6fdec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Humen
+  isMaxChar: 0
   trideId: 0
   maxChar: 4
   currentActiveChar: 0
@@ -3795,6 +3798,7 @@ MonoBehaviour:
   HP: {fileID: 2021533679}
   IsEnemyTurn: 0
   findenemy: 0
+  CharMoveEnd: 0
   EnemyGroup: []
 --- !u!1 &1643907702
 GameObject:
@@ -4149,6 +4153,143 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1678561223}
   m_CullTransparentMesh: 1
+--- !u!1 &1718253878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1718253879}
+  - component: {fileID: 1718253881}
+  - component: {fileID: 1718253880}
+  m_Layer: 5
+  m_Name: maxChar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1718253879
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718253878}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1059047397}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 109.0932, y: 30.71}
+  m_SizeDelta: {x: 1455.5464, y: 398.06}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1718253880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718253878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: "\uCD5C\uB300 \uB9D0\uC758 \uAC2F\uC218\uB97C \uB118\uC5B4\uAC14\uC2B5\uB2C8\uB2E4."
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 100ca393377adf141a14f42d8a672666, type: 2}
+  m_sharedMaterial: {fileID: -2398424204958481485, guid: 100ca393377adf141a14f42d8a672666, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 100
+  m_fontSizeBase: 100
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1718253881
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718253878}
+  m_CullTransparentMesh: 1
 --- !u!1 &1722787101
 GameObject:
   m_ObjectHideFlags: 0
@@ -4189,6 +4330,7 @@ MonoBehaviour:
   Break: {fileID: 4237667492618322166}
   Tip: {fileID: 4237667492618322165}
   attacktext: {fileID: 314758518}
+  MaxCharCaption: {fileID: 1718253880}
   mo: {fileID: 155819052}
   yut: {fileID: 437783080}
   elseyut: {fileID: 21843348}
@@ -4196,13 +4338,16 @@ MonoBehaviour:
   EnemyChar: {fileID: 1778203748}
   GoLobby: {fileID: 4237667492618322168}
   TurnEND: {fileID: 1229169462}
+  yutPlayer: {fileID: 853093756}
   playData1: {fileID: 183785728}
   CuttrentEnemy: {fileID: 1573397472}
   enemyController: {fileID: 1573397472}
   Player: {fileID: 0}
   enemy: {fileID: 0}
   CanThrow: 0
+  CanThrowEnemy: 0
   IsMyFirst: 0
+  IsMyTurn: 0
   selectYut: 0
   selectMoveSpace: 0
   isYutSelected: 0

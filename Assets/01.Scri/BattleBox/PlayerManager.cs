@@ -1,5 +1,6 @@
 
 using TMPro;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,8 +33,9 @@ public class PlayerManager : YutPlayer
             Destroy(gameObject);
     }
 
-    protected override void Start()
+    protected override void Start() // ui가 안바뀌는거는 여기 문제일지도?
     {
+        enemyController = GetComponent<EnemyController>();
         if (playerUiDate != null)
         {
             Icon = playerUiDate.transform.Find("my").GetComponent<Image>();
@@ -42,7 +44,7 @@ public class PlayerManager : YutPlayer
             Hpbar = playerUiDate.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
             HP = playerUiDate.transform.Find("myhp").GetComponent<Scrollbar>();
 
-             maxChar = PlayerData.maxCharacter;
+            
              
         }
     }
@@ -60,6 +62,7 @@ public class PlayerManager : YutPlayer
     {
         PlayerData = Data.Clone();
         SetPlayer();
+        maxChar = PlayerData.maxCharacter;
     }
 
     public void SetPlayer()
@@ -81,12 +84,17 @@ public class PlayerManager : YutPlayer
     }
 
 
-    public override void GoalIn()
+    public override void GoalIn(YutPiace targetPiace)
     {
         var Enemy =BattleSceneManager.instance.CuttrentEnemy;
         var BSM = BattleSceneManager.instance;
 
-        int totalcount = 1 +yutPiace.carriedChar.Count;
+        int totalcount = 1;
+        if(yutPiace!=null&&yutPiace.carriedChar!=null)
+        {
+            totalcount += yutPiace.carriedChar.Count;
+        }
+           
 
       
         if (Enemy != null)
@@ -100,7 +108,7 @@ public class PlayerManager : YutPlayer
         }
 
 
-        base.GoalIn();
+        base.GoalIn(targetPiace);
     }
 
     public void playerHpeffect()

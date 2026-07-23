@@ -18,6 +18,9 @@ public enum PathState
 
 public class YutPiace : MonoBehaviour
 {
+    private EnemyController enemyController;
+
+
     public int currentspace = 0;
     public bool isEnemy = false;
     public bool isMovingOnBorad = false;
@@ -27,14 +30,17 @@ public class YutPiace : MonoBehaviour
     public PathState PathState1 = PathState.main;
     YutPlayer player;
    public bool isCarried = false;
-    private Image icon;
+    private SpriteRenderer icon;
     public List<YutPiace>carriedChar = new List<YutPiace>();
 
     private void Awake()
     {
-        icon = GetComponent<Image>();
+        player = FindAnyObjectByType<YutPlayer>();
+        icon = GetComponent<SpriteRenderer>();
+        enemyController = FindAnyObjectByType<EnemyController>();
     }
 
+    //말들이 판 위로 올라올 때  세팅하는 함수
     public void OnBoardIn(bool isEnemyPiece)
     {
         isMovingOnBorad = true;
@@ -69,6 +75,7 @@ public class YutPiace : MonoBehaviour
     //잡히거나 골인 후 말이 돌아가는 내용
     public void returnReady()
     {
+        BattleSceneManager.instance.allActiveChar.Remove(this);
         currentPathIndex = 0;
         isMovingOnBorad = false;
         isCarried = false;
@@ -87,6 +94,8 @@ public class YutPiace : MonoBehaviour
     // 말이 움직이는 루틴
     public IEnumerator MoveStepRoutine(int steps)
     {
+
+        //낙이 나왔을 때
         if (steps == 0)
         {
             BattleSceneManager.instance.TurnEnd();
@@ -97,7 +106,7 @@ public class YutPiace : MonoBehaviour
 
         isMoveing = true;
         
-
+        //뒷도가 나왔을 경우
         if(steps == -1)
         {
             if (PathState1 == PathState.main && currentPathIndex == 1)
@@ -113,17 +122,17 @@ public class YutPiace : MonoBehaviour
                     if (PathState1 == PathState.summer)
                     {
                         PathState1 = PathState.main;
-                        currentPathIndex = 5;
+                        currentPathIndex = 4;
                     }
                     else if (PathState1 == PathState.spring)
                     {
                         PathState1 = PathState.main;
-                        currentPathIndex = 10;
+                        currentPathIndex = 9;
                     }
                     else if (PathState1 == PathState.autumn)
                     {
                         PathState1 = PathState.summer;
-                        currentPathIndex = 3;
+                        currentPathIndex = 2;
                     }
 
 
@@ -131,8 +140,10 @@ public class YutPiace : MonoBehaviour
                 }
             }
             steps = 1;
+
         }
 
+        //매칸 나아갈때 길 확인
         for (int i = 0; i < steps; i++)
         {
            currentPathIndex++;
@@ -203,17 +214,17 @@ public class YutPiace : MonoBehaviour
             }
 
 
-
+            // 골인했을 경우
           if(currentPathIndex>=maxCount)
             {
                 currentPathIndex = maxCount-1;
 
-                player.GoalIn();
+                player.GoalIn(this);
                 yield break;
             }
 
          
-
+          // 타일맵 좌표를 월드 좌표로 바꾸는 작업
             Vector3 targetWorldPosition = borad.GetWorldPosition(nextSpace);
 
             while (Vector3.Distance(transform.position, targetWorldPosition) > 0.02)
@@ -225,7 +236,7 @@ public class YutPiace : MonoBehaviour
             transform.position = targetWorldPosition;
             yield return new WaitForSeconds(0.1f);
         }
-
+        //지름길로 들어가는 작업
         if(PathState1 == PathState.main)
         {
             if(currentPathIndex ==5)
@@ -251,8 +262,13 @@ public class YutPiace : MonoBehaviour
 
         EndMove(this, currentPathIndex);
         isMoveing =false;
+        if(BattleSceneManager.instance.IsMyTurn == false)
+        {
+            enemyController.CharMoveEnd = true;
+        }
+      
 
-     }
+    }
 
     //업은 말들이 같이 이동하기 위한 코드
     public void EndMove(YutPiace leaderPiece , int finalSpace)
@@ -266,15 +282,21 @@ public class YutPiace : MonoBehaviour
         BattleSceneManager.instance.checkCatchChar(leaderPiece);
     }
 
-    // 말 선택하기 말들 한태 버튼을 넣어줘서 이걸 넣어주는 느낌으로?
+    // 말 선택하기 (이거 문제 심각)
     public void OnMouseDown()
     {
+
+        Debug.Log("말 잡기 실행은 되는중");
         var manger = BattleSceneManager.instance;
 
-        if (manger.isYutSelected==false)
-        {
-            return;
-        }
+        if (manger.isYutSelected == false)
+        { return; }
+        if (manger.IsMyTurn == false)
+        { return; }
+        if (this.isEnemy == true)
+        { return; }
+        if(this.isMoveing ==true)
+            { return; }
 
         this.StartMove(manger.selectMoveSpace);
         manger.UseSelectedYut();
@@ -303,4 +325,6 @@ public class YutPiace : MonoBehaviour
         }
         return false;
     }
+
+
 }

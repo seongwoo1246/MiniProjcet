@@ -36,6 +36,7 @@ public class EnemyController : YutPlayer
 
     public bool IsEnemyTurn = false;
     public bool findenemy;
+    public bool CharMoveEnd=false;
 
     public List<YutPiace> EnemyGroup = new List<YutPiace>();
 
@@ -63,6 +64,7 @@ public class EnemyController : YutPlayer
 
   public virtual void EnemyTurn()
     {
+
         if (IsEnemyTurn == true)
         {
             StartCoroutine(EnemyTurnRoutine());
@@ -70,14 +72,38 @@ public class EnemyController : YutPlayer
     }
     public IEnumerator EnemyTurnRoutine()
     {
-        yield return new WaitForSeconds(1.5f);
-        BattleSceneManager.instance.ThrowYut();
+        
+        var BSM = BattleSceneManager.instance;
+        if(BSM == null)
+        {
+            BSM =FindAnyObjectByType<BattleSceneManager>();
+        }
+       while(BSM.CanThrowEnemy)
+        {
+            yield return new WaitForSeconds(1.5f);
+            BSM.ThrowYut();
+            yield return new WaitForSeconds(1.5f);
+        }
+        
+
+        while(BSM.TurnYutResult.Count > 0)
+        {
+            CharMoveEnd = false;
+            yield return new WaitForSeconds(1.5f);
+            EnemyBestMove();
+            yield return new WaitForSeconds(1f);
+            float timeOut = 2.0f;
+
+            while (!CharMoveEnd && timeOut > 0)
+            {
+                timeOut -= Time.deltaTime;
+                yield return null;
+            }  
+        }
+       
 
         yield return new WaitForSeconds(1.5f);
-        EnemyBestMove();
-
-        yield return new WaitForSeconds(1.5f);
-        BattleSceneManager.instance.TurnEnd();
+        BSM.TurnEnd();
 
     }
     
@@ -92,17 +118,22 @@ public class EnemyController : YutPlayer
         if(CanGoalIn(out bestCharIndex, out bestYutIndex) == true)
         {
             MoveEnemy(bestCharIndex, bestYutIndex);
-            GoalIn();
+                YutPiace targetPiace = BattleSceneManager.instance.allActiveChar[bestCharIndex];
+            GoalIn(targetPiace);
             return;
         }
         if (CanCatchPlayer(out bestCharIndex, out bestYutIndex) == true)
         {
             MoveEnemy(bestCharIndex, bestYutIndex);
+            YutPiace target = BattleSceneManager.instance.allActiveChar[bestCharIndex];
+            BattleSceneManager.instance.checkCatchChar(target);
             return;
         }
         if (CanCarrieAlly(out bestCharIndex, out bestYutIndex) == true)
         {
             MoveEnemy(bestCharIndex, bestYutIndex);
+            YutPiace target = BattleSceneManager.instance.allActiveChar[bestCharIndex];
+            BattleSceneManager.instance.checkCatchChar(target);
             return;
         }
         if (CanShotCut(out bestCharIndex, out bestYutIndex) == true)
@@ -118,11 +149,13 @@ public class EnemyController : YutPlayer
     public bool CanCatchPlayer(out int bestCharIndex, out int bestYutIndex)
     {
        return CanTargetPicce(findenemy: true, out bestCharIndex, out bestYutIndex);
+       
     }
 
     public bool CanCarrieAlly(out int bestCharIndex, out int bestYutIndex)
     {
        return CanTargetPicce(findenemy: false, out bestCharIndex, out bestYutIndex);
+       
     }
 
     public bool CanShotCut(out int bestCharIndex, out int bestYutIndex)
@@ -266,6 +299,7 @@ public class EnemyController : YutPlayer
         StartCoroutine(movechar.MoveStepRoutine(moveCount));
 
         BattleSceneManager.instance.RemoveYutUi(bestYutIndex);
+        
     }
     public void DefultMoveEnemy()
     {
@@ -299,8 +333,11 @@ public class EnemyController : YutPlayer
         }
 
         BattleSceneManager.instance.RemoveYutUi(0);
+        CharMoveEnd = true;
     }
 
+
+   
   
 
     public int GetYutMoveCount(Yut yut)
