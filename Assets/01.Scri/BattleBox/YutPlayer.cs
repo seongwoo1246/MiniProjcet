@@ -49,9 +49,10 @@ public class YutPlayer : MonoBehaviour
         }
         
         YutPiace yutPiaceScrips = newChar.GetComponent<YutPiace>();
+        yutPiaceScrips.currentPathIndex = -1;
         yutPiaceScrips.OnBoardIn(isEnemy);
         BattleSceneManager.instance.allActiveChar.Add(yutPiaceScrips);
-        yutPiaceScrips.currentPathIndex = 0;
+        
         Vector3 StartWorldPosition = YutBoardController.instance.GetWorldPosition(YutBoardController.instance.mainPathSpace[0]);
         newChar.transform.position = StartWorldPosition;
 
@@ -96,8 +97,10 @@ public class YutPlayer : MonoBehaviour
             }
             targetPiace.carriedChar.Clear();
         }
-        targetPiace.gameObject.SetActive(false);
-       targetPiace.returnReady();
+        targetPiace.returnReady();
+        currentActiveChar--;
+        isMaxChar = false;
+       
     }
 
 

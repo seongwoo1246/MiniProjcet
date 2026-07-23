@@ -286,7 +286,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -962.6, y: -538.27}
+  m_AnchoredPosition: {x: -1003, y: -539.4}
   m_SizeDelta: {x: 21.8891, y: 13.4868}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &128580109
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -519,6 +519,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 73246429363898948, guid: 496e3c6702d5e1241be61bcb51036de0, type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 240016085130482559, guid: 496e3c6702d5e1241be61bcb51036de0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1431,7 +1435,7 @@ Transform:
   m_GameObject: {fileID: 633755517}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.900013, y: 4.329993, z: 0}
+  m_LocalPosition: {x: -38.5, y: 3.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4010,7 +4014,7 @@ Transform:
   m_GameObject: {fileID: 1656367792}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.3956833, y: 1.9189928, z: 0}
+  m_LocalPosition: {x: -44.795696, y: 0.7889998, z: 0}
   m_LocalScale: {x: 0.7179, y: 0.8273, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4715,6 +4719,7 @@ GameObject:
   - component: {fileID: 1954246522}
   - component: {fileID: 1954246521}
   - component: {fileID: 1954246524}
+  - component: {fileID: 1954246525}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4790,7 +4795,7 @@ Transform:
   m_GameObject: {fileID: 1954246520}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.3999863, y: 2.0299926, z: -10}
+  m_LocalPosition: {x: -43.8, y: 0.8999996, z: -10}
   m_LocalScale: {x: 0.7179, y: 0.8273, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4840,6 +4845,22 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &1954246525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954246520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.Physics2DRaycaster
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &1970301416
 GameObject:
   m_ObjectHideFlags: 0
@@ -4942,7 +4963,7 @@ Transform:
   m_GameObject: {fileID: 1997648872}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.8399901, y: 1.9699707, z: 0}
+  m_LocalPosition: {x: -43.24, y: 0.83997774, z: 0}
   m_LocalScale: {x: 0.7179, y: 0.8273, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

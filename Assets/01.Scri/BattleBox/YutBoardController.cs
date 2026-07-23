@@ -37,8 +37,7 @@ public class YutBoardController : MonoBehaviour
         shortCutAutumn.Clear();
 
 
-        //0번 리스트로 첫칸부터 제대로 가기위함
-        mainPathSpace.Add(new Vector3Int(5, -3));
+       
         
         for (int i = -3;i<=5;i+=2)
             {

@@ -15,13 +15,17 @@ public class Goblin : EnemyController, canSkill
         var player = PlayerManager.Instance.PlayerData;
         var BSM = BattleSceneManager.instance;
 
-        int totalcount = 1 + yutcount.carriedChar.Count;
+        int totalcount = 1;
+        if (targetPiace != null && targetPiace.carriedChar != null)
+        {
+            totalcount += targetPiace.carriedChar.Count;
+        }
 
         BSM.TakeDamage(player.miss,
-            player.hp, BSM.countDamageUp(BSM.Attack(mydata.critical,
+           ref player.hp, BSM.countDamageUp(BSM.Attack(mydata.critical,
             mydata.damage), totalcount), player.depence);
         PlayerManager.Instance.playerHpeffect();
-        BSM.Heal(mydata.hp, mydata.maxHp, mydata.heal);
+        BSM.Heal(ref mydata.hp, mydata.maxHp, mydata.heal);
         Hpeffect(CurrentEnemy);
         base.GoalIn(targetPiace);
     }

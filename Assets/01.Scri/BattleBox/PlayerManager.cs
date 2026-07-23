@@ -90,9 +90,9 @@ public class PlayerManager : YutPlayer
         var BSM = BattleSceneManager.instance;
 
         int totalcount = 1;
-        if(yutPiace!=null&&yutPiace.carriedChar!=null)
+        if(targetPiace != null&& targetPiace.carriedChar!=null)
         {
-            totalcount += yutPiace.carriedChar.Count;
+            totalcount += targetPiace.carriedChar.Count;
         }
            
 
@@ -101,9 +101,12 @@ public class PlayerManager : YutPlayer
         {
             int enemyindex = Enemy.CurrentEnemy;
             var EnemyData = Enemy.trideDM.TrideList[enemyindex];
-            BSM.TakeDamage(EnemyData.miss, EnemyData.hp,BSM.countDamageUp( BSM.Attack(PlayerData.critical, PlayerData.damage),totalcount), EnemyData.depence);
-            enemyController.Hpeffect(enemyController.CurrentEnemy);
-            BSM.Heal(PlayerData.hp,PlayerData.maxHp,PlayerData.heal);
+            BSM.TakeDamage(EnemyData.miss,ref EnemyData.hp,BSM.countDamageUp( BSM.Attack(PlayerData.critical, PlayerData.damage),totalcount), EnemyData.depence);
+            if (enemyController != null)
+            {
+                enemyController.Hpeffect(enemyController.CurrentEnemy);
+            }
+            BSM.Heal(ref PlayerData.hp,PlayerData.maxHp,PlayerData.heal);
             playerHpeffect();
         }
 

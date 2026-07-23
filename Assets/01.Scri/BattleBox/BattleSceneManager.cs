@@ -219,7 +219,12 @@ public class BattleSceneManager : MonoBehaviour
                     {
                         if(kid !=null)
                         {
-                            kid.CatchChar();
+                            
+                            
+                                kid.CatchChar();
+                                
+                            
+                            
                         }
                         
                     }
@@ -271,11 +276,13 @@ public class BattleSceneManager : MonoBehaviour
     }
 
 
-    public  void TakeDamage(float miss, float hp, int damage, int depence)
+    public  void TakeDamage(float miss,ref float hp, int damage, int depence)
     {
        if(Random.value < miss )
         {
             attacktext.text = "공격을 회피했다.";
+            attacktext.gameObject.SetActive(true);
+            StartCoroutine(FalseText(attacktext));
             return;
             
         }
@@ -312,7 +319,7 @@ public class BattleSceneManager : MonoBehaviour
 
    
 
-    public  void Heal(float hp ,float maxHP, int heal)
+    public  void Heal(ref float hp ,float maxHP, int heal)
     {
         if(hp<=maxHP)
         {
@@ -478,6 +485,9 @@ public class BattleSceneManager : MonoBehaviour
      
         if (currentYut == Yut.zero)
         {
+            resultYut.text = "저런 낙이 나와서 턴이 넘어 갑니다.";
+            resultYut.gameObject.SetActive(true);
+            StartCoroutine(FalseText(resultYut));
             TurnYutResult.Clear();
             moC = 0;
             moCount.text = $"{moC}";
@@ -486,6 +496,7 @@ public class BattleSceneManager : MonoBehaviour
             currentRestYut = Yut.zero;
             yutname.text = "";
             TurnEnd();
+            
             return;
         }
         if(currentYut == Yut.four|| currentYut == Yut.five)
@@ -528,28 +539,22 @@ public class BattleSceneManager : MonoBehaviour
     }
 
 
-    public void RemoveYutUi(int index)
+    public void RemoveYutUi(Yut yut)
     {
-
-        if (index >= 0 && index < TurnYutResult.Count)
+        switch(yut)
         {
-            if (TurnYutResult[index] == Yut.five)
-            {
-                    moC--;
-                    moCount.text = $"{moC}";
-            }
-                else if (TurnYutResult[index] == Yut.four)
-                {
-                    yutC--;
-                    yutCount.text = $"{yutC}";
-                }
-                else
-                {
-                    currentRestYut = Yut.zero;
-                    yutname.text = "";
-                }
-                
-            
+            case Yut.five:
+                moC--;
+                moCount.text = $"{moC}";
+                break;
+           case Yut.four:
+                yutC--;
+                yutCount.text = $"{yutC}";
+                break;
+            default:
+                currentRestYut = Yut.zero;
+                yutname.text = "";
+                break;
         }
     }
 
@@ -605,15 +610,15 @@ public class BattleSceneManager : MonoBehaviour
     // 사용한 윷 결과
     public void UseSelectedYut()
     {
-        if (enemyController.IsEnemyTurn == false)
-        {
-            if (yutPlayer.isMaxChar == true)
+       
+        
+            if (PlayerManager.Instance.isMaxChar == true)
             {
                 MaxCharCaption.gameObject.SetActive(true);
                 StartCoroutine(FalseText(MaxCharCaption));
                 return;
             }
-        }
+        
 
         if (TurnYutResult.Contains(selectYut))
         {
@@ -644,7 +649,7 @@ public class BattleSceneManager : MonoBehaviour
         if(TurnYutResult ==null|| TurnYutResult.Count ==0) return;
         if (TurnYutResult[0]== Yut.zero)
         { TurnYutResult.RemoveAt(0); return; }
-        if (IsMyFirst == true)
+       
            
             Player.StartNewChar(selectMoveSpace,false);
 

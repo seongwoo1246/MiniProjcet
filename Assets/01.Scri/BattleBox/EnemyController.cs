@@ -78,29 +78,34 @@ public class EnemyController : YutPlayer
         {
             BSM =FindAnyObjectByType<BattleSceneManager>();
         }
-       while(BSM.CanThrowEnemy)
-        {
-            yield return new WaitForSeconds(1.5f);
-            BSM.ThrowYut();
-            yield return new WaitForSeconds(1.5f);
-        }
-        
 
-        while(BSM.TurnYutResult.Count > 0)
+        while (BSM.CanThrowEnemy)
         {
-            CharMoveEnd = false;
-            yield return new WaitForSeconds(1.5f);
-            EnemyBestMove();
-            yield return new WaitForSeconds(1f);
-            float timeOut = 2.0f;
 
-            while (!CharMoveEnd && timeOut > 0)
+            while (BSM.CanThrowEnemy)
             {
-                timeOut -= Time.deltaTime;
-                yield return null;
-            }  
+                yield return new WaitForSeconds(1.5f);
+                BSM.ThrowYut();
+                yield return new WaitForSeconds(1.5f);
+            }
+
+
+            while (BSM.TurnYutResult.Count > 0)
+            {
+                CharMoveEnd = false;
+                yield return new WaitForSeconds(1.5f);
+                EnemyBestMove();
+                yield return new WaitForSeconds(1f);
+                float timeOut = 2.0f;
+
+                while (!CharMoveEnd && timeOut > 0)
+                {
+                    timeOut -= Time.deltaTime;
+                    yield return null;
+                }
+            }
+
         }
-       
 
         yield return new WaitForSeconds(1.5f);
         BSM.TurnEnd();
@@ -298,7 +303,7 @@ public class EnemyController : YutPlayer
         YutPiace movechar = BSMActiveChar[bestCharIndex];
         StartCoroutine(movechar.MoveStepRoutine(moveCount));
 
-        BattleSceneManager.instance.RemoveYutUi(bestYutIndex);
+        BattleSceneManager.instance.RemoveYutUi(selectYut);
         
     }
     public void DefultMoveEnemy()
@@ -332,7 +337,7 @@ public class EnemyController : YutPlayer
             StartNewChar(moveCount,true);
         }
 
-        BattleSceneManager.instance.RemoveYutUi(0);
+        BattleSceneManager.instance.RemoveYutUi(selectYut);
         CharMoveEnd = true;
     }
 

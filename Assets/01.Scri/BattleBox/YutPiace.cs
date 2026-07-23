@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
-
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public enum PathState
 {
@@ -19,18 +18,22 @@ public enum PathState
 public class YutPiace : MonoBehaviour
 {
     private EnemyController enemyController;
+    private SpriteRenderer icon;
+    YutPlayer player;
 
-
+    public PathState PathState1 = PathState.main;
     public int currentspace = 0;
+    public int currentPathIndex = 0;
+   
+
+
+    private bool isMoveing = false;
     public bool isEnemy = false;
     public bool isMovingOnBorad = false;
+    public bool isCarried = false;
+    
 
-  public int currentPathIndex = 0;
-  private bool isMoveing = false;
-    public PathState PathState1 = PathState.main;
-    YutPlayer player;
-   public bool isCarried = false;
-    private SpriteRenderer icon;
+
     public List<YutPiace>carriedChar = new List<YutPiace>();
 
     private void Awake()
@@ -43,10 +46,19 @@ public class YutPiace : MonoBehaviour
     //말들이 판 위로 올라올 때  세팅하는 함수
     public void OnBoardIn(bool isEnemyPiece)
     {
+        if(carriedChar!=null)
+        {
+            carriedChar.Clear();
+        }
+        else
+        {
+            carriedChar = new List<YutPiace>();
+        }
+
         isMovingOnBorad = true;
         isEnemy = isEnemyPiece;
-        currentspace = 1;
-        currentPathIndex = 0;
+        currentspace = -1;
+        currentPathIndex = -1;
         PathState1 = PathState.main;
         isCarried = false;
     }
@@ -70,13 +82,28 @@ public class YutPiace : MonoBehaviour
     //말이 잡혔을 때 하는 코드
     public void CatchChar()
     {
-        returnReady();
+        if (this.isEnemy==true)
+        {
+            enemyController.currentActiveChar--;
+            enemyController.isMaxChar = false;
+        }
+        else
+        {
+            PlayerManager.Instance.currentActiveChar--;
+            PlayerManager.Instance.isMaxChar = false;
+        }
+            returnReady();
     }
     //잡히거나 골인 후 말이 돌아가는 내용
     public void returnReady()
     {
-        BattleSceneManager.instance.allActiveChar.Remove(this);
-        currentPathIndex = 0;
+        if( BattleSceneManager.instance!=null||BattleSceneManager.instance.allActiveChar.Contains(this))
+        {
+            BattleSceneManager.instance.allActiveChar.Remove(this);
+        }
+        
+        
+        currentPathIndex = -1;
         isMovingOnBorad = false;
         isCarried = false;
         carriedChar.Clear();
@@ -95,13 +122,7 @@ public class YutPiace : MonoBehaviour
     public IEnumerator MoveStepRoutine(int steps)
     {
 
-        //낙이 나왔을 때
-        if (steps == 0)
-        {
-            BattleSceneManager.instance.TurnEnd();
-            yield return new WaitForSeconds(0.5f);
-            yield break;
-        }
+       
            
 
         isMoveing = true;
@@ -109,9 +130,9 @@ public class YutPiace : MonoBehaviour
         //뒷도가 나왔을 경우
         if(steps == -1)
         {
-            if (PathState1 == PathState.main && currentPathIndex == 1)
+            if (PathState1 == PathState.main && currentPathIndex == 0)
             {
-                currentPathIndex = 20;
+                currentPathIndex = 19;
 
             }
             else
@@ -122,12 +143,12 @@ public class YutPiace : MonoBehaviour
                     if (PathState1 == PathState.summer)
                     {
                         PathState1 = PathState.main;
-                        currentPathIndex = 4;
+                        currentPathIndex = 3;
                     }
                     else if (PathState1 == PathState.spring)
                     {
                         PathState1 = PathState.main;
-                        currentPathIndex = 9;
+                        currentPathIndex = 8;
                     }
                     else if (PathState1 == PathState.autumn)
                     {
@@ -148,7 +169,7 @@ public class YutPiace : MonoBehaviour
         {
            currentPathIndex++;
 
-            Vector3Int nextSpace = nextSpace = Vector3Int.zero;
+            Vector3Int nextSpace  = Vector3Int.zero;
             int maxCount = 0;
             var borad = YutBoardController.instance;
 
@@ -160,6 +181,10 @@ public class YutPiace : MonoBehaviour
                     {
                         nextSpace = borad.mainPathSpace[currentPathIndex];
                     }
+                    else
+                    {
+                        player.GoalIn(this);
+                    }
                     break;
 
                     case PathState.autumn:
@@ -168,13 +193,22 @@ public class YutPiace : MonoBehaviour
                     {
                         nextSpace = borad.shortCutAutumn[currentPathIndex];
                     }
-                    else
+                    else 
                     {
-                        PathState1 = PathState.main;
-                        currentPathIndex = 20;
-                        nextSpace =borad.mainPathSpace[currentPathIndex];
+                        maxCount = borad.shortCutAutumn.Count;
+                        int overCount = currentPathIndex - maxCount;
 
-                        maxCount = borad.mainPathSpace.Count;
+                        PathState1 = PathState.main;
+                        currentPathIndex = 19 + overCount;
+                        if(currentPathIndex>=maxCount)
+                        {
+                            player.GoalIn(this);
+                        }
+                        else
+                        {
+                            maxCount = borad.mainPathSpace.Count;
+                            nextSpace = borad.mainPathSpace[currentPathIndex];
+                        }
                     }
                         break;
 
@@ -186,11 +220,20 @@ public class YutPiace : MonoBehaviour
                     }
                     else
                     {
-                        PathState1 = PathState.main;
-                        currentPathIndex = 20;
-                        nextSpace = borad.mainPathSpace[currentPathIndex];
+                        maxCount = borad.shortCutSpring.Count;
+                        int overCount = currentPathIndex - maxCount;
 
-                        maxCount = borad.mainPathSpace.Count;
+                        PathState1 = PathState.main;
+                        currentPathIndex = 19 + overCount;
+                        if (currentPathIndex >= maxCount)
+                        {
+                            player.GoalIn(this);
+                        }
+                        else
+                        {
+                            maxCount = borad.mainPathSpace.Count;
+                            nextSpace = borad.mainPathSpace[currentPathIndex];
+                        }
                     }
                     break;
 
@@ -202,11 +245,15 @@ public class YutPiace : MonoBehaviour
                     }
                     else
                     {
+                         maxCount = borad.shortCutSummer.Count;
+                        int overCount = currentPathIndex - maxCount;
+
                         PathState1 = PathState.main;
-                        currentPathIndex = 15;
-                        nextSpace = borad.mainPathSpace[currentPathIndex];
+                        currentPathIndex = 14 + overCount;
 
                         maxCount = borad.mainPathSpace.Count;
+                        nextSpace = borad.mainPathSpace[currentPathIndex];
+                        
                     }
                     break;
 
@@ -239,12 +286,12 @@ public class YutPiace : MonoBehaviour
         //지름길로 들어가는 작업
         if(PathState1 == PathState.main)
         {
-            if(currentPathIndex ==5)
+            if(currentPathIndex ==4)
             {
                 PathState1 = PathState.summer;
                 currentPathIndex = 0;
             }
-            else if (currentPathIndex == 10)
+            else if (currentPathIndex == 9)
             {
                 PathState1 = PathState.spring;
                 currentPathIndex = 0;
@@ -253,7 +300,7 @@ public class YutPiace : MonoBehaviour
         }
         else if (PathState1 == PathState.summer)
         {
-            if( currentPathIndex ==2)
+            if( currentPathIndex ==3)
             {
                 PathState1 = PathState.autumn;
                 currentPathIndex = 0;
