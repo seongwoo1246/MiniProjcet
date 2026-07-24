@@ -9,6 +9,7 @@ public class Humen : EnemyController, canSkill
         SetEnemy(CurrentEnemy);
         BattleSceneManager.instance.ItbattleSet();
     }
+    
     public override void GoalIn(YutPiace targetPiace)
     {
         var mydata = trideDM.TrideList[CurrentEnemy];

@@ -22,7 +22,7 @@ public class YutPiace : MonoBehaviour
     YutPlayer player;
 
     public PathState PathState1 = PathState.main;
-    public int currentspace = 0;
+    
     public int currentPathIndex = 0;
    
 
@@ -56,8 +56,8 @@ public class YutPiace : MonoBehaviour
         }
 
         isMovingOnBorad = true;
-        isEnemy = isEnemyPiece;
-        currentspace = -1;
+       this.isEnemy = isEnemyPiece;
+       
         currentPathIndex = -1;
         PathState1 = PathState.main;
         isCarried = false;
@@ -121,10 +121,6 @@ public class YutPiace : MonoBehaviour
     // 말이 움직이는 루틴
     public IEnumerator MoveStepRoutine(int steps)
     {
-
-       
-           
-
         isMoveing = true;
         
         //뒷도가 나왔을 경우

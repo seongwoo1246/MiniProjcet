@@ -150,7 +150,7 @@ public class BattleSceneManager : MonoBehaviour
         {
             IsMyTurn = true;
             enemyController.IsEnemyTurn = false;
-           
+            CanThrowEnemy = false;
             CanThrow = true;
             Turn++;
             TurnCount.text = $"경과 턴 : {Turn}";
@@ -182,7 +182,7 @@ public class BattleSceneManager : MonoBehaviour
     public void checkCatchChar(YutPiace MovePiace)
     {
         //판에 없거나 업혀 있는 친구는 넘어가는 코드
-        if(MovePiace.currentPathIndex<=0||MovePiace.isCarried) return;
+        if(MovePiace.currentPathIndex<0||MovePiace.isCarried) return;
 
         bool isCaughtAnything = false;
 
@@ -419,6 +419,7 @@ public class BattleSceneManager : MonoBehaviour
             IsMyFirst= false;
             CanThrow= false;
             IsMyTurn= false;
+            CanThrowEnemy = true;
             enemyController.IsEnemyTurn = true;
             enemyController.EnemyTurn();
             First.text = "당신이 후공입니다.";
@@ -471,12 +472,12 @@ public class BattleSceneManager : MonoBehaviour
         if (!IsEnemy)
         {
             if (!CanThrow) return;
-            CanThrow = false;
+            
         }
         else
         {
             if(!CanThrowEnemy) return;
-            CanThrowEnemy = false;
+            
         }
 
 

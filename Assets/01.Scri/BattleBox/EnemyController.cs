@@ -62,12 +62,20 @@ public class EnemyController : YutPlayer
         Hpbar.text = $"{trideDM.TrideList[i].hp}/{trideDM.TrideList[i].maxHp}";
     }
 
+   
+    
   public virtual void EnemyTurn()
     {
+
 
         if (IsEnemyTurn == true)
         {
             StartCoroutine(EnemyTurnRoutine());
+        }
+        else
+        {
+            Debug.Log("잘 못 왔어요!! 몬스터 차례가 아닌데 왔어요 돌아갈게요!!");
+            BattleSceneManager.instance.TurnEnd(); 
         }
     }
     public IEnumerator EnemyTurnRoutine()
@@ -109,6 +117,7 @@ public class EnemyController : YutPlayer
 
         yield return new WaitForSeconds(1.5f);
         BSM.TurnEnd();
+        yield break;
 
     }
     
@@ -117,38 +126,62 @@ public class EnemyController : YutPlayer
     {
         int bestCharIndex;
         int bestYutIndex;
-
-        if(TryUseSkill())// 나중에 연출 필요시 밑에 중괄호 만들어서 연출 넣기 ex) 스킬 대사 혹은 스킬 사용 텍스트
+     
        
-        if(CanGoalIn(out bestCharIndex, out bestYutIndex) == true)
+
+        if (TryUseSkill())
+        { }
+
+        if (CanGoalIn(out bestCharIndex, out bestYutIndex) == true)
         {
-            MoveEnemy(bestCharIndex, bestYutIndex);
-                YutPiace targetPiace = BattleSceneManager.instance.allActiveChar[bestCharIndex];
+            
+                ifNewStart(bestCharIndex, bestYutIndex);
+            YutPiace targetPiace = BattleSceneManager.instance.allActiveChar[bestCharIndex];
             GoalIn(targetPiace);
             return;
         }
-        if (CanCatchPlayer(out bestCharIndex, out bestYutIndex) == true)
+         if (CanCatchPlayer(out bestCharIndex, out bestYutIndex) == true)
         {
-            MoveEnemy(bestCharIndex, bestYutIndex);
-            YutPiace target = BattleSceneManager.instance.allActiveChar[bestCharIndex];
-            BattleSceneManager.instance.checkCatchChar(target);
-            return;
+            if(bestCharIndex == -1)
+            { ifNewStart(bestCharIndex, bestYutIndex); return; }
+            else
+            {
+                MoveEnemy(bestCharIndex, bestYutIndex);
+                YutPiace target = BattleSceneManager.instance.allActiveChar[bestCharIndex];
+                BattleSceneManager.instance.checkCatchChar(target);
+                return;
+            }
+                
         }
-        if (CanCarrieAlly(out bestCharIndex, out bestYutIndex) == true)
+         if (CanCarrieAlly(out bestCharIndex, out bestYutIndex) == true)
         {
-            MoveEnemy(bestCharIndex, bestYutIndex);
-            YutPiace target = BattleSceneManager.instance.allActiveChar[bestCharIndex];
-            BattleSceneManager.instance.checkCatchChar(target);
-            return;
+            if (bestCharIndex == -1)
+            { ifNewStart(bestCharIndex, bestYutIndex); return; }
+            else
+            {
+                MoveEnemy(bestCharIndex, bestYutIndex);
+                YutPiace target = BattleSceneManager.instance.allActiveChar[bestCharIndex];
+                BattleSceneManager.instance.checkCatchChar(target);
+                return;
+            }
         }
-        if (CanShotCut(out bestCharIndex, out bestYutIndex) == true)
+         if (CanShotCut(out bestCharIndex, out bestYutIndex) == true)
         {
-            MoveEnemy(bestCharIndex, bestYutIndex);
-            return;
+            if (bestCharIndex == -1)
+            { ifNewStart(bestCharIndex, bestYutIndex); return; }
+            else
+            {
+                MoveEnemy(bestCharIndex, bestYutIndex);
+                return;
+            }
         }
         
+        
+            
+            DefultMoveEnemy();
 
-        DefultMoveEnemy();
+        
+
     }
 
     public bool CanCatchPlayer(out int bestCharIndex, out int bestYutIndex)
@@ -165,15 +198,15 @@ public class EnemyController : YutPlayer
 
     public bool CanShotCut(out int bestCharIndex, out int bestYutIndex)
     {
-        bestCharIndex = -1;
+        bestCharIndex = -2;
         bestYutIndex = -1;
 
         var BSMYutList = BattleSceneManager.instance.TurnYutResult;
         var BSMActiveChar = BattleSceneManager.instance.allActiveChar;
         //외곽 코너들 순서
-        int[] shouCutTile = new int[] { 5, 10 };
+        int[] shouCutTile = new int[] { 4, 9 };
         // 내곽 코너 위치
-        int shoutcutpoint = 2;
+        int shoutcutpoint = 3;
 
         // 윷 나운 순서의 거리
         for (int y = 0; y < BSMYutList.Count; y++)
@@ -184,7 +217,7 @@ public class EnemyController : YutPlayer
             {
                 var mypiece = BSMActiveChar[c];
 
-                if (mypiece.isCarried || !mypiece.isMovingOnBorad || mypiece.currentPathIndex <= 0 || !mypiece.isEnemy)
+                if (mypiece.isCarried ==true ||  mypiece.isEnemy ==false)
                 { continue; }
                 int nextPosion = mypiece.currentPathIndex + moveAmount;
                 if (mypiece.PathState1 == PathState.main)
@@ -208,6 +241,25 @@ public class EnemyController : YutPlayer
                         return true;
                     }
                 }
+
+               
+            }
+
+            if (currentActiveChar < maxChar)
+            {
+                for (int j = 0; j < BSMActiveChar.Count; j++)
+                {
+                    int moveCount = GetYutMoveCount(BSMYutList[j]);
+                    foreach (int cornerTile in shouCutTile)
+                    {
+                        if (moveCount == cornerTile)
+                        {
+                            bestCharIndex = -1;
+                            bestYutIndex = y;
+                            return true;
+                        }
+                    }
+                }
             }
         }
         return false;
@@ -229,7 +281,7 @@ public class EnemyController : YutPlayer
             {
                 var mypiece = BSMActiveChar[c];
 
-                if (mypiece.isCarried || !mypiece.isMovingOnBorad || mypiece.currentPathIndex <= 0 || !mypiece.isEnemy)
+                if (mypiece.isCarried == true ||   mypiece.isEnemy == false)
                 { continue; }
                 int nextPosion = mypiece.currentPathIndex + moveAmount;
                
@@ -320,24 +372,25 @@ public class EnemyController : YutPlayer
         BSMYutList.RemoveAt(0);
 
         List<YutPiace>activeEnemys = new List<YutPiace>();
+      
         foreach(var enemy in BSMActiveChar)
         {
-            if( enemy.isEnemy&&enemy.isMovingOnBorad&&!enemy.isCarried)
+            if (enemy.isEnemy == true&&enemy.isMovingOnBorad == true&&enemy.isCarried == false)
             {
                 activeEnemys.Add(enemy);
             }
         }
-
-        if(activeEnemys.Count > 0)
+        if (activeEnemys.Count == 0)
         {
-            StartCoroutine(activeEnemys[0].MoveStepRoutine(moveCount));
+            StartNewChar(moveCount, true);
         }
         else
         {
-            StartNewChar(moveCount,true);
+            StartCoroutine(activeEnemys[0].MoveStepRoutine(moveCount));
         }
 
-        BattleSceneManager.instance.RemoveYutUi(selectYut);
+
+            BattleSceneManager.instance.RemoveYutUi(selectYut);
         CharMoveEnd = true;
     }
 
@@ -362,7 +415,7 @@ public class EnemyController : YutPlayer
 
     private bool CanTargetPicce(bool findenemy, out int bestCharIndex, out int bestYutIndex)
     {
-        bestCharIndex = -1;
+        bestCharIndex = -2;
         bestYutIndex = -1;
 
         var BSMYutList = BattleSceneManager.instance.TurnYutResult;
@@ -377,13 +430,14 @@ public class EnemyController : YutPlayer
             {
                 var mypiece = BSMActiveChar[c];
 
-                if (mypiece.isCarried || !mypiece.isMovingOnBorad || mypiece.currentPathIndex <= 0 || !mypiece.isEnemy)
+                if (mypiece.isCarried == true|| mypiece.isEnemy == false)
                 { continue; }
                 int nextPosion = mypiece.currentPathIndex + moveAmount;
                 PathState nextpathState = mypiece.PathState1;
                 foreach (YutPiace TargetPiace in BSMActiveChar)
                 {
-                    if (TargetPiace == mypiece|| TargetPiace.isCarried || !TargetPiace.isMovingOnBorad) continue;
+                    if (TargetPiace == mypiece || TargetPiace.isCarried )
+                    { continue; }
 
                     bool isTargetvalid = findenemy ? (!TargetPiace.isEnemy) : (TargetPiace.isEnemy);
 
@@ -394,12 +448,54 @@ public class EnemyController : YutPlayer
                         bestYutIndex = y;
                         return true;
                     }
+
+                   
+                }
+            }
+            if (currentActiveChar < maxChar)
+            {
+                for (int j = 0; j < BSMYutList.Count; j++)
+                {
+                    if (canCatchOrAllyForStart(BSMYutList[j]))
+                    {
+                        bestCharIndex = -1;
+                        bestYutIndex = j;
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
 
-  
+  public bool canCatchOrAllyForStart(Yut yut)
+    {
+        int moveCount = GetYutMoveCount(yut);
+        int nextposition = moveCount;
+        foreach(YutPiace target in BattleSceneManager.instance.allActiveChar)
+        {
+            if(target.isCarried) continue;
+            if (target.currentPathIndex ==nextposition)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void ifNewStart(int character , int yut)
+    {
+        int moveCount = GetYutMoveCount(BattleSceneManager.instance.TurnYutResult[yut]);
+        
+        if(character == -1)
+        {
+            StartNewChar(moveCount,true);
+        }
+        else
+        {
+            MoveEnemy(character,yut);
+        }
+    }
+
     
 }
