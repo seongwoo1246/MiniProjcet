@@ -15,6 +15,7 @@ public class YutPlayer : MonoBehaviour
 
     protected YutPiace yutPiace;
 
+    
     public virtual void InItState()
     {
         useedSkill70 = false;

@@ -12,7 +12,7 @@ public class Humen : EnemyController, canSkill
     
     public override void GoalIn(YutPiace targetPiace)
     {
-        var mydata = trideDM.TrideList[CurrentEnemy];
+        var mydata = enemyData;
         var player = PlayerManager.Instance.PlayerData;
         var BSM = BattleSceneManager.instance;
 
@@ -22,12 +22,14 @@ public class Humen : EnemyController, canSkill
             totalcount += targetPiace.carriedChar.Count;
         }
 
-        BSM.TakeDamage(player.miss,
-           ref player.hp, BSM.countDamageUp(BSM.Attack(mydata.critical,
+
+        BSM.TakeDamage(player, player.miss
+          , BSM.countDamageUp(BSM.Attack(mydata.critical,
             mydata.damage), totalcount), player.depence);
         PlayerManager.Instance.playerHpeffect();
-        BSM.Heal(ref mydata.hp, mydata.maxHp, mydata.heal);
+        BSM.Heal(mydata, mydata.heal);
         Hpeffect(CurrentEnemy);
+        PlayerManager.Instance.playerHpeffect();
         base.GoalIn(targetPiace);
     }
     public void UseSkill70(float block, float luck)

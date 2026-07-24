@@ -37,6 +37,7 @@ public class EnemyController : YutPlayer
     public bool IsEnemyTurn = false;
     public bool findenemy;
     public bool CharMoveEnd=false;
+    public Tride enemyData { get; protected set; }
 
     public List<YutPiace> EnemyGroup = new List<YutPiace>();
 
@@ -49,17 +50,18 @@ public class EnemyController : YutPlayer
 
     protected void SetEnemy(int i)
     {
-        Icon.sprite = trideDM.TrideList[i].icon;
-        CharacterIcon.sprite = trideDM.TrideList[i].icon;
-        maxCharacter.text = trideDM.TrideList[i].maxCharacter.ToString();
-        Hpbar.text = $"{trideDM.TrideList[i].hp}/{trideDM.TrideList[i].maxHp}";
+        enemyData = trideDM.TrideList[i].Clone();
+        Icon.sprite = enemyData.icon;
+        CharacterIcon.sprite = enemyData.icon;
+        maxCharacter.text = enemyData.maxCharacter.ToString();
+        Hpbar.text = $"{enemyData.hp}/{enemyData.maxHp}";
         BattleSceneManager.instance.enemy = this;
     }
 
     public void Hpeffect(int i)
     {
-        HP.value = trideDM.TrideList[i].hp / trideDM.TrideList[i].maxHp;
-        Hpbar.text = $"{trideDM.TrideList[i].hp}/{trideDM.TrideList[i].maxHp}";
+        HP.value = enemyData.hp / enemyData.maxHp;
+        Hpbar.text = $"{enemyData.hp}/{enemyData.maxHp}";
     }
 
    
@@ -245,19 +247,20 @@ public class EnemyController : YutPlayer
                
             }
 
-            if (currentActiveChar < maxChar)
+           
+        }
+        if (currentActiveChar < maxChar)
+        {
+            for (int j = 0; j < BSMYutList.Count; j++)
             {
-                for (int j = 0; j < BSMActiveChar.Count; j++)
+                int moveCount = GetYutMoveCount(BSMYutList[j]);
+                foreach (int cornerTile in shouCutTile)
                 {
-                    int moveCount = GetYutMoveCount(BSMYutList[j]);
-                    foreach (int cornerTile in shouCutTile)
+                    if (moveCount == cornerTile)
                     {
-                        if (moveCount == cornerTile)
-                        {
-                            bestCharIndex = -1;
-                            bestYutIndex = y;
-                            return true;
-                        }
+                        bestCharIndex = -1;
+                        bestYutIndex = j;
+                        return true;
                     }
                 }
             }
@@ -319,25 +322,25 @@ public class EnemyController : YutPlayer
 
     public bool TryUseSkill()
     {
-        monState skilltouse = checkUesSkill(trideDM.TrideList[CurrentEnemy].hp, trideDM.TrideList[CurrentEnemy].maxHp);
+        monState skilltouse = checkUesSkill(enemyData.hp, enemyData.maxHp);
 
         if(skilltouse == monState.nomal)
             { return false; }
 
-        if(trideDM.TrideList[CurrentEnemy] is canSkill enemySkill)
+        if(enemyData is canSkill enemySkill)
         switch(skilltouse)
         {
             case monState.skill_hp70:
                 useedSkill70 = true;
-                enemySkill.UseSkill70(PlayerManager.Instance.PlayerData.block, trideDM.TrideList[CurrentEnemy].luck);
+                enemySkill.UseSkill70(PlayerManager.Instance.PlayerData.block, enemyData.luck);
                 break;
             case monState.skill_hp50:
                 useedSkill50 = true;
-                    enemySkill.UseSkill50(PlayerManager.Instance.PlayerData.block, trideDM.TrideList[CurrentEnemy].luck);
+                    enemySkill.UseSkill50(PlayerManager.Instance.PlayerData.block, enemyData.luck);
                 break;
             case monState.skill_hp30:
                 useedSkill30 = true;
-                    enemySkill.UseSkill30(PlayerManager.Instance.PlayerData.block, trideDM.TrideList[CurrentEnemy].luck);
+                    enemySkill.UseSkill30(PlayerManager.Instance.PlayerData.block, enemyData.luck);
                 break;
         }
         return true;
@@ -452,16 +455,17 @@ public class EnemyController : YutPlayer
                    
                 }
             }
-            if (currentActiveChar < maxChar)
+          
+        }
+        if (currentActiveChar < maxChar)
+        {
+            for (int j = 0; j < BSMYutList.Count; j++)
             {
-                for (int j = 0; j < BSMYutList.Count; j++)
+                if (canCatchOrAllyForStart(BSMYutList[j]))
                 {
-                    if (canCatchOrAllyForStart(BSMYutList[j]))
-                    {
-                        bestCharIndex = -1;
-                        bestYutIndex = j;
-                        return true;
-                    }
+                    bestCharIndex = -1;
+                    bestYutIndex = j;
+                    return true;
                 }
             }
         }
@@ -485,11 +489,17 @@ public class EnemyController : YutPlayer
 
     private void ifNewStart(int character , int yut)
     {
+      
         int moveCount = GetYutMoveCount(BattleSceneManager.instance.TurnYutResult[yut]);
         
         if(character == -1)
         {
             StartNewChar(moveCount,true);
+            var targetYut = BattleSceneManager.instance.TurnYutResult[yut];
+            BattleSceneManager.instance.TurnYutResult.RemoveAt(yut);
+            BattleSceneManager.instance.RemoveYutUi(targetYut);
+            
+           
         }
         else
         {

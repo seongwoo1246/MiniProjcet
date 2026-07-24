@@ -2,11 +2,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-
-
-
-
-
 public enum scenetpye
 {
    Lobby =1, 
@@ -42,6 +37,6 @@ public class ScenesM : MonoBehaviour
         SceneManager.LoadScene((int)type);
     }
 
-
+   
    
 }

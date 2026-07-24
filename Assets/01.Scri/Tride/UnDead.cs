@@ -11,7 +11,7 @@ public class UnDead : EnemyController ,canSkill
     }
          public override void GoalIn(YutPiace targetPiace)
     {
-        var mydata = trideDM.TrideList[CurrentEnemy];
+        var mydata = enemyData;
         var player = PlayerManager.Instance.PlayerData;
         var BSM = BattleSceneManager.instance;
 
@@ -21,13 +21,15 @@ public class UnDead : EnemyController ,canSkill
             totalcount += targetPiace.carriedChar.Count;
         }
 
-        BSM.TakeDamage(player.miss, 
-            ref player.hp,BSM.countDamageUp( BSM.Attack(mydata.critical,
-            mydata.damage),totalcount), player.depence);
-        PlayerManager.Instance.playerHpeffect();
-        BSM.Heal(ref mydata.hp, mydata.maxHp, mydata.heal);
-        Hpeffect(CurrentEnemy);
 
+        BSM.TakeDamage(player, player.miss
+          , BSM.countDamageUp(BSM.Attack(mydata.critical,
+            mydata.damage), totalcount), player.depence);
+        PlayerManager.Instance.playerHpeffect();
+        BSM.Heal(mydata, mydata.heal);
+        Hpeffect(CurrentEnemy);
+        PlayerManager.Instance.playerHpeffect();
+        base.GoalIn(targetPiace);
 
         base.GoalIn(targetPiace);
     }

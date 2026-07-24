@@ -1,6 +1,5 @@
 
 using TMPro;
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,20 +35,28 @@ public class PlayerManager : YutPlayer
     protected override void Start() // ui가 안바뀌는거는 여기 문제일지도?
     {
         enemyController = GetComponent<EnemyController>();
-        if (playerUiDate != null)
-        {
-            Icon = playerUiDate.transform.Find("my").GetComponent<Image>();
-            CharacterIcon = playerUiDate.transform.Find("icon").GetComponent<Image>();
-            maxCharacter = playerUiDate.transform.Find("count").GetComponent<TextMeshProUGUI>();
-            Hpbar = playerUiDate.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
-            HP = playerUiDate.transform.Find("myhp").GetComponent<Scrollbar>();
-
-            
-             
-        }
+     
     }
 
-   
+        public void UpdataUI(GameObject gameObject)
+         {
+
+        if (gameObject == null)
+        {
+            Debug.Log("아직 플레이어 정보가 없어!! 조금만 기다려!!");
+            return;
+        }
+        playerUiDate = gameObject;
+                if (playerUiDate != null)
+                 {
+                     Icon = playerUiDate.transform.Find("my").GetComponent<Image>();
+                     CharacterIcon = playerUiDate.transform.Find("icon").GetComponent<Image>();
+                     maxCharacter = playerUiDate.transform.Find("count").GetComponent<TextMeshProUGUI>();
+                     Hpbar = playerUiDate.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
+                     HP = playerUiDate.transform.Find("myhp").GetComponent<Scrollbar>();
+                        SetPlayer();
+                 }
+         }
 
     public void ButtonSet()
     {
@@ -60,18 +67,25 @@ public class PlayerManager : YutPlayer
 
     public void SetTridePlayer(Tride Data)
     {
-        PlayerData = Data.Clone();
+       this.PlayerData = Data.Clone();
         SetPlayer();
         maxChar = PlayerData.maxCharacter;
     }
 
     public void SetPlayer()
     {
+        
         if (PlayerData == null) return;
-
         playerUiDate.SetActive(true);
-    
-            
+        if (playerUiDate == null||Icon ==null||CharacterIcon ==null||HP==null||Hpbar == null)
+            {
+           
+            Debug.Log("아직 플레이어 정보가 없어!!");
+            return; 
+        }
+       
+
+
         Icon.sprite = PlayerData.icon;
         CharacterIcon.sprite = PlayerData.icon;
         maxCharacter.text = PlayerData.maxCharacter.ToString();
@@ -101,13 +115,14 @@ public class PlayerManager : YutPlayer
         {
             int enemyindex = Enemy.CurrentEnemy;
             var EnemyData = Enemy.trideDM.TrideList[enemyindex];
-            BSM.TakeDamage(EnemyData.miss,ref EnemyData.hp,BSM.countDamageUp( BSM.Attack(PlayerData.critical, PlayerData.damage),totalcount), EnemyData.depence);
+            BSM.TakeDamage(PlayerData ,EnemyData.miss, BSM.countDamageUp( BSM.Attack(PlayerData.critical, PlayerData.damage),totalcount), EnemyData.depence);
             if (enemyController != null)
             {
                 enemyController.Hpeffect(enemyController.CurrentEnemy);
             }
-            BSM.Heal(ref PlayerData.hp,PlayerData.maxHp,PlayerData.heal);
+            BSM.Heal( PlayerData,PlayerData.heal);
             playerHpeffect();
+           
         }
 
 

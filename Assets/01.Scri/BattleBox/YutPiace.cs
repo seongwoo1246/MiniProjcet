@@ -329,7 +329,7 @@ public class YutPiace : MonoBehaviour
     public void OnMouseDown()
     {
 
-        Debug.Log("말 잡기 실행은 되는중");
+        
         var manger = BattleSceneManager.instance;
 
         if (manger.isYutSelected == false)

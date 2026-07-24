@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -276,7 +274,7 @@ public class BattleSceneManager : MonoBehaviour
     }
 
 
-    public  void TakeDamage(float miss,ref float hp, int damage, int depence)
+    public  void TakeDamage(Tride tride, float miss,  int damage, int depence)
     {
        if(Random.value < miss )
         {
@@ -291,12 +289,12 @@ public class BattleSceneManager : MonoBehaviour
             attacktext.text = "공격을 명중했다.";
             int Damage = Mathf.Max(0, damage-depence);
 
-            hp-=Damage;
+            tride.hp-=Damage;
 
             //게임 오버처리
-            if(hp<=0)
+            if(tride.hp <=0)
             {
-                hp = 0;
+                tride.hp = 0;
                 GameOver();
             }
 
@@ -319,14 +317,15 @@ public class BattleSceneManager : MonoBehaviour
 
    
 
-    public  void Heal(ref float hp ,float maxHP, int heal)
+    public  void Heal( Tride tride, int heal)
     {
-        if(hp<=maxHP)
+        tride.hp += heal;
+        if (tride.hp>=tride.maxHp)
         {
-            hp = maxHP;
+            tride.hp = tride.maxHp;
         }
 
-        hp += heal;
+       
     }
 
     public void GoToLobby()
