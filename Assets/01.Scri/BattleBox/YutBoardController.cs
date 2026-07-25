@@ -8,7 +8,7 @@ public class YutBoardController : MonoBehaviour
     public Tilemap roadmap;
     public Grid gridSystem;
     //인스펙터 창에서 보이게 하는 기능
-    [Header("윷판 메인 경로(0번 : 출발지 마지막 : 골인)")]
+    [Header("윷판 메인 경로(0번 : 출발지 19번 : 골인위치, 골인은 20부터)")]
     public List<Vector3Int> mainPathSpace = new List<Vector3Int>();
 
     public List<Vector3Int> shortCutSpring = new List<Vector3Int>();

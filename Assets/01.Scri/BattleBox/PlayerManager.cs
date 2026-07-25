@@ -32,7 +32,7 @@ public class PlayerManager : YutPlayer
             Destroy(gameObject);
     }
 
-    protected override void Start() // ui가 안바뀌는거는 여기 문제일지도?
+    protected override void Start() 
     {
         enemyController = GetComponent<EnemyController>();
      
@@ -77,15 +77,6 @@ public class PlayerManager : YutPlayer
         
         if (PlayerData == null) return;
         playerUiDate.SetActive(true);
-        if (playerUiDate == null||Icon ==null||CharacterIcon ==null||HP==null||Hpbar == null)
-            {
-           
-            Debug.Log("아직 플레이어 정보가 없어!!");
-            return; 
-        }
-       
-
-
         Icon.sprite = PlayerData.icon;
         CharacterIcon.sprite = PlayerData.icon;
         maxCharacter.text = PlayerData.maxCharacter.ToString();
@@ -100,7 +91,7 @@ public class PlayerManager : YutPlayer
 
     public override void GoalIn(YutPiace targetPiace)
     {
-        var Enemy =BattleSceneManager.instance.CuttrentEnemy;
+       
         var BSM = BattleSceneManager.instance;
 
         int totalcount = 1;
@@ -110,28 +101,25 @@ public class PlayerManager : YutPlayer
         }
            
 
-      
-        if (Enemy != null)
+      if(enemyController.enemyData != null)
         {
-            int enemyindex = Enemy.CurrentEnemy;
-            var EnemyData = Enemy.trideDM.TrideList[enemyindex];
-            BSM.TakeDamage(PlayerData ,EnemyData.miss, BSM.countDamageUp( BSM.Attack(PlayerData.critical, PlayerData.damage),totalcount), EnemyData.depence);
+            var EnemyData = enemyController.enemyData;
+            BSM.TakeDamage(EnemyData, EnemyData.miss, BSM.countDamageUp(BSM.Attack(PlayerData.critical, PlayerData.damage), totalcount), EnemyData.depence);
             if (enemyController != null)
             {
                 enemyController.Hpeffect(enemyController.CurrentEnemy);
             }
-            BSM.Heal( PlayerData,PlayerData.heal);
+            BSM.Heal(PlayerData, PlayerData.heal);
             playerHpeffect();
-           
+
         }
-
-
         base.GoalIn(targetPiace);
     }
 
     public void playerHpeffect()
     {
-        HP.value = PlayerData.hp / PlayerData.maxHp;
+        
+        HP.size = PlayerData.hp / PlayerData.maxHp;
         Hpbar.text = $"{PlayerData.hp}/{PlayerData.maxHp}";
     }
 }

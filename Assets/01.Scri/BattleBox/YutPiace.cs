@@ -108,7 +108,8 @@ public class YutPiace : MonoBehaviour
         isCarried = false;
         carriedChar.Clear();
         UpdateVisuals();
-        this.gameObject.SetActive(false);
+        string selectCharName =player.GetCharPoolName();
+        ObjectPooling.instance.ReturnObject(selectCharName, this.gameObject);
     }
 
     //움직이는 함수
@@ -160,7 +161,7 @@ public class YutPiace : MonoBehaviour
 
         }
 
-        //매칸 나아갈때 길 확인
+        //매칸 나아갈때 길 확인 도자리가 0임
         for (int i = 0; i < steps; i++)
         {
            currentPathIndex++;
@@ -173,63 +174,45 @@ public class YutPiace : MonoBehaviour
             {
                 case PathState.main:
                     maxCount = borad.mainPathSpace.Count;
-                    if(currentPathIndex<maxCount)
+                    if(currentPathIndex+1<=maxCount)
                     {
                         nextSpace = borad.mainPathSpace[currentPathIndex];
-                    }
-                    else
-                    {
-                        player.GoalIn(this);
                     }
                     break;
 
                     case PathState.autumn:
                     maxCount = borad.shortCutAutumn.Count;
-                    if (currentPathIndex < maxCount)
+                    if (currentPathIndex+1 <= maxCount)
                     {
                         nextSpace = borad.shortCutAutumn[currentPathIndex];
                     }
                     else 
                     {
-                        maxCount = borad.shortCutAutumn.Count;
+                        
                         int overCount = currentPathIndex - maxCount;
 
                         PathState1 = PathState.main;
                         currentPathIndex = 19 + overCount;
-                        if(currentPathIndex>=maxCount)
-                        {
-                            player.GoalIn(this);
-                        }
-                        else
-                        {
-                            maxCount = borad.mainPathSpace.Count;
-                            nextSpace = borad.mainPathSpace[currentPathIndex];
-                        }
+                        maxCount = borad.mainPathSpace.Count;
+                        nextSpace = borad.mainPathSpace[currentPathIndex];
                     }
                         break;
 
                     case PathState.spring:
                     maxCount = borad.shortCutSpring.Count;
-                    if(currentPathIndex<maxCount)
+                    if(currentPathIndex + 1 <=maxCount)
                     {
                         nextSpace = borad.shortCutSpring[currentPathIndex];
                     }
                     else
                     {
-                        maxCount = borad.shortCutSpring.Count;
+                       
                         int overCount = currentPathIndex - maxCount;
 
                         PathState1 = PathState.main;
                         currentPathIndex = 19 + overCount;
-                        if (currentPathIndex >= maxCount)
-                        {
-                            player.GoalIn(this);
-                        }
-                        else
-                        {
-                            maxCount = borad.mainPathSpace.Count;
-                            nextSpace = borad.mainPathSpace[currentPathIndex];
-                        }
+                        maxCount = borad.mainPathSpace.Count;
+                        nextSpace = borad.mainPathSpace[currentPathIndex];
                     }
                     break;
 
@@ -241,7 +224,7 @@ public class YutPiace : MonoBehaviour
                     }
                     else
                     {
-                         maxCount = borad.shortCutSummer.Count;
+                         
                         int overCount = currentPathIndex - maxCount;
 
                         PathState1 = PathState.main;
@@ -258,7 +241,7 @@ public class YutPiace : MonoBehaviour
 
 
             // 골인했을 경우
-          if(currentPathIndex>=maxCount)
+          if(currentPathIndex+1>maxCount)
             {
                 currentPathIndex = maxCount-1;
 
@@ -325,7 +308,7 @@ public class YutPiace : MonoBehaviour
         BattleSceneManager.instance.checkCatchChar(leaderPiece);
     }
 
-    // 말 선택하기 (이거 문제 심각)
+    // 말 선택하기 
     public void OnMouseDown()
     {
 
@@ -354,15 +337,15 @@ public class YutPiace : MonoBehaviour
         {
             case PathState.main: maxCount = YutBoardController.instance.mainPathSpace.Count; break;
 
-            case PathState.spring: maxCount = YutBoardController.instance.shortCutSpring.Count + 1; break;
+            case PathState.spring: maxCount = YutBoardController.instance.shortCutSpring.Count; break;
 
-            case PathState.autumn: maxCount = YutBoardController.instance.shortCutAutumn.Count + 1; break;
+            case PathState.autumn: maxCount = YutBoardController.instance.shortCutAutumn.Count; break;
 
             default: maxCount = YutBoardController.instance.mainPathSpace.Count; break;
         }
 
 
-        if (nextPosition >= maxCount)
+        if (nextPosition+1 > maxCount)
         {
             return true;
         }

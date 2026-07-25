@@ -33,9 +33,11 @@ public class YutPlayer : MonoBehaviour
     //오버라이드 할지는 잠시 보기 ( 새 말 출발 코드 내용)
     public virtual void StartNewChar(int SelectMoveSpace , bool isEnemy)
     {
-
-        if(currentActiveChar>=maxChar)
+        var BSM = BattleSceneManager.instance;
+        if (currentActiveChar>=maxChar)
         {
+            BSM.MaxCharCaption.gameObject.SetActive(true);
+            StartCoroutine(BSM.FalseText(BSM.MaxCharCaption));
             isMaxChar = true;
             return;
         }
@@ -52,7 +54,7 @@ public class YutPlayer : MonoBehaviour
         YutPiace yutPiaceScrips = newChar.GetComponent<YutPiace>();
         yutPiaceScrips.currentPathIndex = -1;
         yutPiaceScrips.OnBoardIn(isEnemy);
-        BattleSceneManager.instance.allActiveChar.Add(yutPiaceScrips);
+       BSM.allActiveChar.Add(yutPiaceScrips);
         
         Vector3 StartWorldPosition = YutBoardController.instance.GetWorldPosition(YutBoardController.instance.mainPathSpace[0]);
         newChar.transform.position = StartWorldPosition;
@@ -61,7 +63,7 @@ public class YutPlayer : MonoBehaviour
         currentActiveChar++;
     }
 
-    protected string GetCharPoolName()
+    public string GetCharPoolName()
     {
         
         switch (trideId)
@@ -91,15 +93,18 @@ public class YutPlayer : MonoBehaviour
             {
                 if(kid != null)
                 {
-                    kid.gameObject.SetActive(false);
+                    currentActiveChar--;
+                    string selectCharName =GetCharPoolName();
+                    ObjectPooling.instance.ReturnObject(selectCharName, kid.gameObject);
                     kid.returnReady();
+                   
                 }
                
             }
             targetPiace.carriedChar.Clear();
         }
-        targetPiace.returnReady();
         currentActiveChar--;
+        targetPiace.returnReady();
         isMaxChar = false;
        
     }

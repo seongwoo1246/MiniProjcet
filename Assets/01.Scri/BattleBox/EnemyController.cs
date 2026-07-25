@@ -60,7 +60,7 @@ public class EnemyController : YutPlayer
 
     public void Hpeffect(int i)
     {
-        HP.value = enemyData.hp / enemyData.maxHp;
+        HP.size = enemyData.hp / enemyData.maxHp;
         Hpbar.text = $"{enemyData.hp}/{enemyData.maxHp}";
     }
 
@@ -74,11 +74,7 @@ public class EnemyController : YutPlayer
         {
             StartCoroutine(EnemyTurnRoutine());
         }
-        else
-        {
-            Debug.Log("잘 못 왔어요!! 몬스터 차례가 아닌데 왔어요 돌아갈게요!!");
-            BattleSceneManager.instance.TurnEnd(); 
-        }
+       
     }
     public IEnumerator EnemyTurnRoutine()
     {
@@ -138,8 +134,6 @@ public class EnemyController : YutPlayer
         {
             
                 ifNewStart(bestCharIndex, bestYutIndex);
-            YutPiace targetPiace = BattleSceneManager.instance.allActiveChar[bestCharIndex];
-            GoalIn(targetPiace);
             return;
         }
          if (CanCatchPlayer(out bestCharIndex, out bestYutIndex) == true)
@@ -431,6 +425,7 @@ public class EnemyController : YutPlayer
             // 잡을 수 있는 말이 있나 검사
             for (int c = 0; c < BSMActiveChar.Count; c++)
             {
+                //잡을 상대 말 검사
                 var mypiece = BSMActiveChar[c];
 
                 if (mypiece.isCarried == true|| mypiece.isEnemy == false)

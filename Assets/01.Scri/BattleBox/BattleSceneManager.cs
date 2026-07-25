@@ -53,7 +53,7 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI Break;
     [SerializeField] TextMeshProUGUI Tip;
     [SerializeField] TextMeshProUGUI attacktext;
-    [SerializeField] TextMeshProUGUI MaxCharCaption;
+    [SerializeField] public TextMeshProUGUI MaxCharCaption;
 
     
     [SerializeField] Button mo;
@@ -111,7 +111,7 @@ public class BattleSceneManager : MonoBehaviour
         GameOver1.SetActive(false);
         Turn = 0;
         TurnCount.text =$"경과 턴 : {Turn}";
-        FirstStart();
+       
         PlayerManager.Instance.playerUiDate = playData1;
 
         PlayerManager.Instance.ButtonSet();
@@ -204,7 +204,9 @@ public class BattleSceneManager : MonoBehaviour
                     targetPiace.carriedChar.Add(MovePiace);
 
                     MovePiace.isCarried = true;
-                    MovePiace.gameObject.SetActive(false);
+                    string selectCharName = yutPlayer.GetCharPoolName();
+                    ObjectPooling.instance.ReturnObject(selectCharName, MovePiace.gameObject);
+                    
                     targetPiace.UpdateVisuals();
                     return;
                 }
@@ -255,7 +257,8 @@ public class BattleSceneManager : MonoBehaviour
     //전투 시작할 때 셋팅
     public void ItbattleSet()
     {
-        if(Player== null&&PlayerManager.Instance != null)
+        FirstStart();
+        if (Player== null&&PlayerManager.Instance != null)
          Player = PlayerManager.Instance;
         
            
@@ -330,13 +333,41 @@ public class BattleSceneManager : MonoBehaviour
 
     public void GoToLobby()
     {
+        ResetScene();
         PlayerManager.Instance.SetHp();
         ScenesM.instance.LoadScenes(scenetpye.Lobby);
     }
 
+    public void ResetScene()
+    {
+        foreach( YutPiace yutPiace in allActiveChar)
+        {
+            string selectCharName = yutPlayer.GetCharPoolName();
+            ObjectPooling.instance.ReturnObject(selectCharName, yutPiace.gameObject);
+
+        }
+        PlayerManager.Instance.currentActiveChar = 0;
+       TurnYutResult.Clear();
+        Turn = 0;
+        TurnCount.text = $"경과 턴 : {Turn}";
+        attacktext.gameObject.SetActive(false);
+        First.gameObject.SetActive(false);
+        MaxCharCaption.gameObject.SetActive(false);
+        GameOver1.SetActive(false);
+        moC = 0;
+        moCount.text = $"{moC}";
+        yutC = 0;
+        yutCount.text = $"{yutC}";
+        currentRestYut = Yut.zero;
+        yutname.text = "";
+
+    }
+
+
     public void GameOver()
     {
-        GainMoney.text = TrainingUi.Instance.haveMoney + GainMoneys().ToString();
+        GainMoney.text = $"{GainMoneys()}";
+        TrainingUi.Instance.haveMoney += GainMoneys();
         if (PlayerManager.Instance.PlayerData.hp == 0)
             Break.text = "패배하셨군요 다음에 도전해 보세요.";
         else
@@ -396,7 +427,7 @@ public class BattleSceneManager : MonoBehaviour
     }
 
     // 문구가 사라지는 코루틴
-    private IEnumerator FalseText (TextMeshProUGUI Text)
+    public IEnumerator FalseText (TextMeshProUGUI Text)
     {
         yield return new WaitForSeconds(1f);
        Text.gameObject.SetActive(false);
@@ -485,7 +516,7 @@ public class BattleSceneManager : MonoBehaviour
      
         if (currentYut == Yut.zero)
         {
-            resultYut.text = "저런 낙이 나와서 턴이 넘어 갑니다.";
+            resultYut.text = "저런 낙이 나왔습니다 턴을 넘기세요.\n 적은 알아서 턴이 넘어갑니다.";
             resultYut.gameObject.SetActive(true);
             StartCoroutine(FalseText(resultYut));
             TurnYutResult.Clear();
@@ -495,8 +526,6 @@ public class BattleSceneManager : MonoBehaviour
             yutCount.text = $"{yutC}";
             currentRestYut = Yut.zero;
             yutname.text = "";
-            TurnEnd();
-            
             return;
         }
         if(currentYut == Yut.four|| currentYut == Yut.five)
@@ -612,12 +641,7 @@ public class BattleSceneManager : MonoBehaviour
     {
        
         
-            if (PlayerManager.Instance.isMaxChar == true)
-            {
-                MaxCharCaption.gameObject.SetActive(true);
-                StartCoroutine(FalseText(MaxCharCaption));
-                return;
-            }
+           
         
 
         if (TurnYutResult.Contains(selectYut))
