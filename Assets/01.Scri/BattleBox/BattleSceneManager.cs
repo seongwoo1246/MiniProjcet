@@ -188,8 +188,8 @@ public class BattleSceneManager : MonoBehaviour
         {
             if (targetPiace.isCarried || targetPiace == MovePiace || !targetPiace.isMovingOnBorad) continue;
 
-            //좌표가 같다면
-            if(targetPiace.currentPathIndex == MovePiace.currentPathIndex)
+            //좌표와 루트가 같다면
+            if(targetPiace.currentPathIndex == MovePiace.currentPathIndex && targetPiace.PathState1 ==MovePiace.PathState1)
             {
                 // 적이라면 잡고 아군이면 업히는 코드
                 if(targetPiace.isEnemy == MovePiace.isEnemy)

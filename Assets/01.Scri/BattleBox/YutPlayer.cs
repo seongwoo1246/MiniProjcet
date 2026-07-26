@@ -13,7 +13,7 @@ public class YutPlayer : MonoBehaviour
     
     public int currentActiveChar = 0;
 
-    protected YutPiace yutPiace;
+    
 
     
     public virtual void InItState()
@@ -25,6 +25,7 @@ public class YutPlayer : MonoBehaviour
 
     protected virtual void Start()
     {
+
         InItState();
     }
 
@@ -53,6 +54,7 @@ public class YutPlayer : MonoBehaviour
         }
         
         YutPiace yutPiaceScrips = newChar.GetComponent<YutPiace>();
+        yutPiaceScrips.Init(this);
         yutPiaceScrips.currentPathIndex = -1;
         yutPiaceScrips.OnBoardIn(isEnemy);
        
@@ -88,6 +90,7 @@ public class YutPlayer : MonoBehaviour
     //말이 들어갔을 때 할 행동의 모체
     public virtual void GoalIn(YutPiace targetPiace)
     {
+        Debug.Log("플레이어부모");
         if (targetPiace == null) return;
         if (targetPiace.carriedChar != null)
         {

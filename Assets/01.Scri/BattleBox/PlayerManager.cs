@@ -34,7 +34,7 @@ public class PlayerManager : YutPlayer
 
     protected override void Start() 
     {
-        enemyController = GetComponent<EnemyController>();
+        enemyController = FindAnyObjectByType<EnemyController>();
      
     }
 
@@ -93,7 +93,8 @@ public class PlayerManager : YutPlayer
 
     public override void GoalIn(YutPiace targetPiace)
     {
-       
+
+        Debug.Log("플레이어");
         var BSM = BattleSceneManager.instance;
 
         int totalcount = 1;

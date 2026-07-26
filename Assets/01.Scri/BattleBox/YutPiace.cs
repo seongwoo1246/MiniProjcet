@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using UnityEditor.Experimental.GraphView;
 
 
 public enum PathState
@@ -21,6 +22,7 @@ public class YutPiace : MonoBehaviour
     private SpriteRenderer icon;
     YutPlayer player;
 
+
     public PathState PathState1 = PathState.main;
     
     public int currentPathIndex = 0;
@@ -38,9 +40,14 @@ public class YutPiace : MonoBehaviour
 
     private void Awake()
     {
-        player = FindAnyObjectByType<YutPlayer>();
+        
         icon = GetComponent<SpriteRenderer>();
         enemyController = FindAnyObjectByType<EnemyController>();
+    }
+
+    public void Init(YutPlayer ownerPlayer)
+    {
+        this.player = ownerPlayer;
     }
 
     //말들이 판 위로 올라올 때  세팅하는 함수
@@ -54,6 +61,7 @@ public class YutPiace : MonoBehaviour
         {
             carriedChar = new List<YutPiace>();
         }
+        
 
         isMovingOnBorad = true;
        this.isEnemy = isEnemyPiece;
@@ -123,16 +131,16 @@ public class YutPiace : MonoBehaviour
     public IEnumerator MoveStepRoutine(int steps)
     {
         isMoveing = true;
-        
-        //뒷도가 나왔을 경우
-        if(steps == -1)
-        {
-            
 
-            if(PathState1 == PathState.main && currentPathIndex > 0)
+        //뒷도가 나왔을 경우
+        if (steps == -1)
+        {
+
+
+            if (PathState1 == PathState.main && currentPathIndex > 0)
             {
-                currentPathIndex = currentPathIndex-2;
-               
+                currentPathIndex = currentPathIndex - 2;
+
 
             }
             else if (PathState1 == PathState.main && currentPathIndex == 0)
@@ -142,7 +150,7 @@ public class YutPiace : MonoBehaviour
             }
             else
             {
-                
+
                 if (currentPathIndex == 0)
                 {
                     if (PathState1 == PathState.summer)
@@ -180,112 +188,140 @@ public class YutPiace : MonoBehaviour
                     }
                 }
             }
-            
+
             steps = 1;
 
         }
 
-        //매칸 나아갈때 길 확인 도자리가 0임
-        for (int i = 0; i < steps; i++)
+        // 이동
+
+        int targetIndex = currentPathIndex + steps;
+        Vector3Int nextSpace = Vector3Int.zero;
+        var borad = YutBoardController.instance;
+        int maxCount = 0;
+        switch (PathState1)
         {
-           currentPathIndex++;
+            case PathState.main:
+                maxCount = borad.mainPathSpace.Count;
+                if (targetIndex < maxCount - 1)
+                {
+                    currentPathIndex = targetIndex;
+                    nextSpace = borad.mainPathSpace[currentPathIndex];
+                }
 
-            Vector3Int nextSpace  = Vector3Int.zero;
-            int maxCount = 0;
-            var borad = YutBoardController.instance;
-
-            switch(PathState1)
-            {
-                case PathState.main:
-                    maxCount = borad.mainPathSpace.Count;
-                    if(currentPathIndex+1<=maxCount)
+                else if (targetIndex == maxCount - 1)
+                {
+                    currentPathIndex = 19;
+                    nextSpace = borad.mainPathSpace[currentPathIndex];
+                }
+                else
+                {
+                    if (CheckGoalIn(steps) == true)
                     {
-                        nextSpace = borad.mainPathSpace[currentPathIndex];
+                        player.GoalIn(this);
+                        yield break;
                     }
-                    break;
 
-                    case PathState.autumn:
-                    maxCount = borad.shortCutAutumn.Count;
-                    if (currentPathIndex+1 <= maxCount)
+                }
+                break;
+
+
+            case PathState.autumn:
+                maxCount = borad.shortCutAutumn.Count;
+                if (targetIndex < maxCount)
+                {
+                    currentPathIndex = targetIndex;
+                    nextSpace = borad.shortCutAutumn[currentPathIndex];
+                }
+                else if (targetIndex == maxCount)
+                {
+
+
+
+                    PathState1 = PathState.main;
+                    currentPathIndex = 19;
+
+                    nextSpace = borad.mainPathSpace[currentPathIndex];
+                }
+                else
+                {
+                    if (CheckGoalIn(steps) == true)
                     {
-                        nextSpace = borad.shortCutAutumn[currentPathIndex];
+                        player.GoalIn(this);
+                        yield break;
                     }
-                    else 
+                }
+                break;
+
+            case PathState.spring:
+                maxCount = borad.shortCutSpring.Count;
+                if (targetIndex < maxCount)
+                {
+                    currentPathIndex = targetIndex;
+                    nextSpace = borad.shortCutSpring[currentPathIndex];
+                }
+                else if (targetIndex == maxCount)
+                {
+
+
+
+                    PathState1 = PathState.main;
+                    currentPathIndex = 19;
+
+                    nextSpace = borad.mainPathSpace[currentPathIndex];
+                }
+                else
+                {
+
+                    if (CheckGoalIn(steps) == true)
                     {
-                        
-                        int overCount = currentPathIndex - maxCount;
-
-                        PathState1 = PathState.main;
-                        currentPathIndex = 19 + overCount;
-                        maxCount = borad.mainPathSpace.Count;
-                        nextSpace = borad.mainPathSpace[currentPathIndex];
+                        player.GoalIn(this);
+                        yield break;
                     }
-                        break;
+                }
+                break;
 
-                    case PathState.spring:
-                    maxCount = borad.shortCutSpring.Count;
-                    if(currentPathIndex + 1 <=maxCount)
-                    {
-                        nextSpace = borad.shortCutSpring[currentPathIndex];
-                    }
-                    else
-                    {
-                       
-                        int overCount = currentPathIndex - maxCount;
+            case PathState.summer:
+                maxCount = borad.shortCutSummer.Count;
+                if (targetIndex < maxCount)
+                {
+                    currentPathIndex = targetIndex;
+                    nextSpace = borad.shortCutSummer[currentPathIndex];
+                }
+                else if (targetIndex >= maxCount)
+                {
 
-                        PathState1 = PathState.main;
-                        currentPathIndex = 19 + overCount;
-                        maxCount = borad.mainPathSpace.Count;
-                        nextSpace = borad.mainPathSpace[currentPathIndex];
-                    }
-                    break;
+                    int overCount = targetIndex - maxCount;
 
-                    case PathState.summer:
-                    maxCount = borad.shortCutSummer.Count;
-                    if(currentPathIndex<maxCount)
-                    {
-                        nextSpace = borad.shortCutSummer[currentPathIndex];
-                    }
-                    else
-                    {
-                         
-                        int overCount = currentPathIndex - maxCount;
-
-                        PathState1 = PathState.main;
-                        currentPathIndex = 14 + overCount;
-
-                        maxCount = borad.mainPathSpace.Count;
-                        nextSpace = borad.mainPathSpace[currentPathIndex];
-                        
-                    }
-                    break;
-
-                  
-            }
+                    PathState1 = PathState.main;
+                    currentPathIndex = 14 + overCount;
 
 
-            // 골인했을 경우
-          if(currentPathIndex+1>maxCount)
-            {
-                currentPathIndex = maxCount-1;
+                    nextSpace = borad.mainPathSpace[currentPathIndex];
 
-                player.GoalIn(this);
-                yield break;
-            }
+                }
+                break;
 
-         
-          // 타일맵 좌표를 월드 좌표로 바꾸는 작업
-            Vector3 targetWorldPosition = borad.GetWorldPosition(nextSpace);
-
-            while (Vector3.Distance(transform.position, targetWorldPosition) > 0.02)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, targetWorldPosition, Time.deltaTime * 6f);
-                yield return null;
-            }
-
-            transform.position = targetWorldPosition;
-            yield return new WaitForSeconds(0.1f);
         }
+
+        // 타일맵 좌표를 월드 좌표로 바꾸는 작업
+        Vector3 targetWorldPosition = borad.GetWorldPosition(nextSpace);
+
+        while (Vector3.Distance(transform.position, targetWorldPosition) > 0.02)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetWorldPosition, Time.deltaTime * 6f);
+            yield return null;
+        }
+
+        transform.position = targetWorldPosition;
+        yield return new WaitForSeconds(0.1f);
+
+        
+       
+         
+          
+           
+        
         //지름길로 들어가는 작업
         if(PathState1 == PathState.main)
         {
@@ -319,6 +355,7 @@ public class YutPiace : MonoBehaviour
       
 
     }
+  
 
     //업은 말들이 같이 이동하기 위한 코드
     public void EndMove(YutPiace leaderPiece , int finalSpace)
@@ -359,17 +396,17 @@ public class YutPiace : MonoBehaviour
         int maxCount = 0;
         switch (PathState1)
         {
-            case PathState.main: maxCount = YutBoardController.instance.mainPathSpace.Count; break;
+            case PathState.main: maxCount = YutBoardController.instance.mainPathSpace.Count-1; break;
 
             case PathState.spring: maxCount = YutBoardController.instance.shortCutSpring.Count; break;
 
             case PathState.autumn: maxCount = YutBoardController.instance.shortCutAutumn.Count; break;
 
-            default: maxCount = YutBoardController.instance.mainPathSpace.Count; break;
+            default: maxCount = YutBoardController.instance.mainPathSpace.Count-1; break;
         }
 
 
-        if (nextPosition+1 > maxCount)
+        if (nextPosition > maxCount)
         {
             return true;
         }

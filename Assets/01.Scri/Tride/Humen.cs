@@ -12,6 +12,7 @@ public class Humen : EnemyController, canSkill
     
     public override void GoalIn(YutPiace targetPiace)
     {
+        Debug.Log("ศÞธี");
         var mydata = enemyData;
         var player = PlayerManager.Instance.PlayerData;
         var BSM = BattleSceneManager.instance;
