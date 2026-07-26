@@ -28,7 +28,7 @@ public class BattleUi : LobbyUiManager
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+           // DontDestroyOnLoad(gameObject);
             ItBattleSlot();
         }
         else

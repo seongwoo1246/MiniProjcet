@@ -95,7 +95,7 @@ public class BattleSceneManager : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
             Destroy(gameObject);
@@ -111,7 +111,7 @@ public class BattleSceneManager : MonoBehaviour
         GameOver1.SetActive(false);
         Turn = 0;
         TurnCount.text =$"경과 턴 : {Turn}";
-       
+        FirstStart();
         PlayerManager.Instance.playerUiDate = playData1;
 
         PlayerManager.Instance.ButtonSet();
@@ -257,7 +257,7 @@ public class BattleSceneManager : MonoBehaviour
     //전투 시작할 때 셋팅
     public void ItbattleSet()
     {
-        FirstStart();
+        
         if (Player== null&&PlayerManager.Instance != null)
          Player = PlayerManager.Instance;
         
@@ -516,7 +516,7 @@ public class BattleSceneManager : MonoBehaviour
      
         if (currentYut == Yut.zero)
         {
-            resultYut.text = "저런 낙이 나왔습니다 턴을 넘기세요.\n 적은 알아서 턴이 넘어갑니다.";
+            resultYut.text = "저런 낙이 나왔습니다 턴을 넘기세요.";
             resultYut.gameObject.SetActive(true);
             StartCoroutine(FalseText(resultYut));
             TurnYutResult.Clear();
@@ -526,6 +526,7 @@ public class BattleSceneManager : MonoBehaviour
             yutCount.text = $"{yutC}";
             currentRestYut = Yut.zero;
             yutname.text = "";
+            CanThrowEnemy=false;
             return;
         }
         if(currentYut == Yut.four|| currentYut == Yut.five)
@@ -544,7 +545,8 @@ public class BattleSceneManager : MonoBehaviour
             else 
             {
                 CanThrowEnemy = true;
-               
+                resultYut.gameObject.SetActive(true);
+                StartCoroutine(FalseText(resultYut));
                 return;
             }
         }
@@ -670,6 +672,7 @@ public class BattleSceneManager : MonoBehaviour
     //새로운 말 출발 코드
     public void OnChilckStartNewChar()
     {
+        Debug.Log("OnChilckStartNewChar 호출됨" + System.Environment.StackTrace);
         if(TurnYutResult ==null|| TurnYutResult.Count ==0) return;
         if (TurnYutResult[0]== Yut.zero)
         { TurnYutResult.RemoveAt(0); return; }

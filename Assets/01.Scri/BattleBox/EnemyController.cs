@@ -68,7 +68,7 @@ public class EnemyController : YutPlayer
     
   public virtual void EnemyTurn()
     {
-
+      
 
         if (IsEnemyTurn == true)
         {
@@ -134,6 +134,8 @@ public class EnemyController : YutPlayer
         {
             
                 ifNewStart(bestCharIndex, bestYutIndex);
+            YutPiace target = BattleSceneManager.instance.allActiveChar[bestCharIndex];
+            GoalIn(target);
             return;
         }
          if (CanCatchPlayer(out bestCharIndex, out bestYutIndex) == true)
@@ -213,7 +215,7 @@ public class EnemyController : YutPlayer
             {
                 var mypiece = BSMActiveChar[c];
 
-                if (mypiece.isCarried ==true ||  mypiece.isEnemy ==false)
+                if (mypiece.isCarried ==true ||  mypiece.isEnemy ==false )
                 { continue; }
                 int nextPosion = mypiece.currentPathIndex + moveAmount;
                 if (mypiece.PathState1 == PathState.main)
@@ -278,7 +280,7 @@ public class EnemyController : YutPlayer
             {
                 var mypiece = BSMActiveChar[c];
 
-                if (mypiece.isCarried == true ||   mypiece.isEnemy == false)
+                if (mypiece.isCarried == true ||   mypiece.isEnemy == false )
                 { continue; }
                 int nextPosion = mypiece.currentPathIndex + moveAmount;
                
@@ -348,11 +350,12 @@ public class EnemyController : YutPlayer
         int moveCount = GetYutMoveCount(selectYut);
 
         BSMYutList.RemoveAt(bestYutIndex);
+        BattleSceneManager.instance.RemoveYutUi(selectYut);
 
         YutPiace movechar = BSMActiveChar[bestCharIndex];
         StartCoroutine(movechar.MoveStepRoutine(moveCount));
 
-        BattleSceneManager.instance.RemoveYutUi(selectYut);
+       
         
     }
     public void DefultMoveEnemy()
@@ -428,7 +431,7 @@ public class EnemyController : YutPlayer
                 //잡을 상대 말 검사
                 var mypiece = BSMActiveChar[c];
 
-                if (mypiece.isCarried == true|| mypiece.isEnemy == false)
+                if (mypiece.isCarried == true || mypiece.isEnemy == false )
                 { continue; }
                 int nextPosion = mypiece.currentPathIndex + moveAmount;
                 PathState nextpathState = mypiece.PathState1;
@@ -473,8 +476,8 @@ public class EnemyController : YutPlayer
         int nextposition = moveCount;
         foreach(YutPiace target in BattleSceneManager.instance.allActiveChar)
         {
-            if(target.isCarried) continue;
-            if (target.currentPathIndex ==nextposition)
+            if(target.isCarried||target.currentPathIndex<=0) continue;
+            if (target.currentPathIndex ==nextposition&&target.PathState1==PathState.main)
             {
                 return true;
             }

@@ -27,7 +27,7 @@ public class TrainingUi : LobbyUiManager
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
             ItTrainingSlot();
         }
         else

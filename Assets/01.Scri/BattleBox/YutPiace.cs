@@ -27,7 +27,7 @@ public class YutPiace : MonoBehaviour
    
 
 
-    private bool isMoveing = false;
+    public bool isMoveing = false;
     public bool isEnemy = false;
     public bool isMovingOnBorad = false;
     public bool isCarried = false;
@@ -127,36 +127,60 @@ public class YutPiace : MonoBehaviour
         //뒷도가 나왔을 경우
         if(steps == -1)
         {
-            if (PathState1 == PathState.main && currentPathIndex == 0)
+            
+
+            if(PathState1 == PathState.main && currentPathIndex > 0)
             {
-                currentPathIndex = 19;
+                currentPathIndex = currentPathIndex-2;
+               
+
+            }
+            else if (PathState1 == PathState.main && currentPathIndex == 0)
+            {
+                currentPathIndex = 18;
 
             }
             else
             {
-                currentPathIndex--;
-                if (currentPathIndex < 0)
+                
+                if (currentPathIndex == 0)
                 {
                     if (PathState1 == PathState.summer)
                     {
                         PathState1 = PathState.main;
-                        currentPathIndex = 3;
+                        currentPathIndex = 2;
                     }
                     else if (PathState1 == PathState.spring)
                     {
                         PathState1 = PathState.main;
-                        currentPathIndex = 8;
+                        currentPathIndex = 7;
                     }
                     else if (PathState1 == PathState.autumn)
                     {
                         PathState1 = PathState.summer;
-                        currentPathIndex = 2;
+                        currentPathIndex = 1;
                     }
-
-
-
+                }
+                else
+                {
+                    if (PathState1 == PathState.summer)
+                    {
+                        PathState1 = PathState.summer;
+                        currentPathIndex = currentPathIndex - 2;
+                    }
+                    else if (PathState1 == PathState.spring)
+                    {
+                        PathState1 = PathState.spring;
+                        currentPathIndex = currentPathIndex - 2;
+                    }
+                    else if (PathState1 == PathState.autumn)
+                    {
+                        PathState1 = PathState.autumn;
+                        currentPathIndex = currentPathIndex - 2;
+                    }
                 }
             }
+            
             steps = 1;
 
         }

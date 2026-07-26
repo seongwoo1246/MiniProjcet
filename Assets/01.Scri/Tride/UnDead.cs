@@ -31,7 +31,6 @@ public class UnDead : EnemyController ,canSkill
         PlayerManager.Instance.playerHpeffect();
         base.GoalIn(targetPiace);
 
-        base.GoalIn(targetPiace);
     }
 
     public void UseSkill70(float block, float luck)

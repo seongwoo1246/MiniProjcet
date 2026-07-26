@@ -63,6 +63,8 @@ public class PlayerManager : YutPlayer
         Button button = CharacterIcon.GetComponent<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(BattleSceneManager.instance.OnChilckStartNewChar);
+
+
     }
 
     public void SetTridePlayer(Tride Data)
@@ -75,7 +77,7 @@ public class PlayerManager : YutPlayer
     public void SetPlayer()
     {
         
-        if (PlayerData == null) return;
+        if (PlayerData == null||Icon ==null || playerUiDate == null) return;
         playerUiDate.SetActive(true);
         Icon.sprite = PlayerData.icon;
         CharacterIcon.sprite = PlayerData.icon;

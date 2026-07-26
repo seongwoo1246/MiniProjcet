@@ -44,7 +44,7 @@ public class TrainingSlot : MonoBehaviour
 
                 switch (Data.id)
                 {
-                    case 100: playerState.maxHp += 50;
+                    case 100: playerState.maxHp += 50;playerState.hp += 50;
                         Data.price += 500;
                         
                         break;

@@ -40,7 +40,7 @@ MonoBehaviour:
     name: "\uD06C\uB9AC\uD2B8\uCEEC \uD655\uB960 \uAC15\uD654"
     price: 1000
     upgrad: 0
-    des: "{0} \uD6C8\uB828 \uC644\uB8CC \uB098\uC758 \uCE58\uBA85\uC728\uC774 {1}\uC99D\uAC00"
+    des: "{0} \uD6C8\uB828 \uC644\uB8CC \uB098\uC758 \uCE58\uBA85\uC728\uC774 {1:P0}\uC99D\uAC00"
     value: 0.05
   - id: 104
     icon: {fileID: -5527729797564131307, guid: 3714ab70b8f9ae9478868d0059a1cd89, type: 3}
@@ -69,7 +69,7 @@ MonoBehaviour:
     name: "\uD589\uC6B4 \uAC15\uD654"
     price: 5000
     upgrad: 0
-    des: "{0} \uD6C8\uB828 \uC644\uB8CC \uB098\uC758 \uD589\uC6B4\uC774 {1}\uC99D\uAC00"
+    des: "{0} \uD6C8\uB828 \uC644\uB8CC \uB098\uC758 \uD589\uC6B4\uC774 {1:P0}\uC99D\uAC00"
     value: 0.05
   - id: 108
     icon: {fileID: -7428494780262393083, guid: 3714ab70b8f9ae9478868d0059a1cd89, type: 3}
@@ -77,14 +77,14 @@ MonoBehaviour:
     price: 5000
     upgrad: 0
     des: "{0} \uD6C8\uB828 \uC644\uB8CC \uB098\uC758 \uBC29\uD574\uD655\uC728\uC774
-      {1}\uC99D\uAC00"
+      {1:P0}\uC99D\uAC00"
     value: 0.05
   - id: 109
     icon: {fileID: -4180652406558521486, guid: 3714ab70b8f9ae9478868d0059a1cd89, type: 3}
     name: "\uD68C\uD53C\uC728 \uAC15\uD654"
     price: 3000
     upgrad: 0
-    des: "{0} \uD6C8\uB828 \uC644\uB8CC \uB098\uC758 \uD68C\uD53C\uC728\uC774 {1}\uC99D\uAC00"
+    des: "{0} \uD6C8\uB828 \uC644\uB8CC \uB098\uC758 \uD68C\uD53C\uC728\uC774 {1:P0}\uC99D\uAC00"
     value: 0.05
   - id: 110
     icon: {fileID: -7193019919153137336, guid: 3714ab70b8f9ae9478868d0059a1cd89, type: 3}
@@ -99,7 +99,7 @@ MonoBehaviour:
     price: 5000
     upgrad: 0
     des: "{0} \uD6C8\uB828 \uC644\uB8CC \uB098\uC758 \uAC10\uC5FC\uD655\uB960\uC774
-      {1}\uC99D\uAC00"
+      {1:P0}\uC99D\uAC00"
     value: 0.05
   - id: 112
     icon: {fileID: -6879924384270472929, guid: 3714ab70b8f9ae9478868d0059a1cd89, type: 3}
@@ -107,7 +107,7 @@ MonoBehaviour:
     price: 5000
     upgrad: 0
     des: "{0} \uD6C8\uB828 \uC644\uB8CC \uB098\uC758 \uB0A9\uCE58\uD655\uB960\uC774
-      {1}\uC99D\uAC00"
+      {1:P0}\uC99D\uAC00"
     value: 0.05
   - id: 113
     icon: {fileID: -3402376114357586730, guid: 997cf3e0106418b468266727ac281499, type: 3}
@@ -115,7 +115,7 @@ MonoBehaviour:
     price: 5000
     upgrad: 0
     des: "{0} \uD6C8\uB828 \uC644\uB8CC \uB098\uC758 \uBD80\uD65C\uD655\uB960\uC774
-      {1}\uC99D\uAC00"
+      {1:P0}\uC99D\uAC00"
     value: 0.05
   - id: 114
     icon: {fileID: 6088844549917994531, guid: 4be68065f671a164b81ada40a79b1ced, type: 3}
