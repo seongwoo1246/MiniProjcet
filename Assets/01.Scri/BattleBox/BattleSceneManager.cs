@@ -159,6 +159,7 @@ public class BattleSceneManager : MonoBehaviour
             CanThrow = true;
             Turn++;
             TurnCount.text = $"╟Ф╟З ео : {Turn}";
+            yutPlayer.TurnDisCount();
 
            
         }

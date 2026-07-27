@@ -121,8 +121,34 @@ public class YutPlayer : MonoBehaviour
        
     }
 
+    //----------------------------------------------------------------- 여기부터는 스킬 관련 함수들
 
-   
+    public virtual float GetHpVaule()
+    {
+        return 1.0f;
+    }
+
+    public int currentDenfence = 0;
+    public int buttTurn = 0;
+
+    public void ApplyDefence(int defence, int turn)
+    {
+        currentDenfence = defence;
+        buttTurn = turn;
 
 
+    }
+
+    public void TurnDisCount()
+    {
+        if(buttTurn>0)
+        {
+            buttTurn--;
+            if(buttTurn <= 0)
+            {
+                buttTurn = 0;
+                currentDenfence = 0;
+            }
+        }
+    }
 }

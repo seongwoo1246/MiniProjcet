@@ -16,8 +16,8 @@ MonoBehaviour:
   - id: 0
     icon: {fileID: 2815480276518151938, guid: 5fa36eca2136ea84cbd139657a638839, type: 3}
     name: "\uCCA0\uC218"
-    maxHp: 1
-    hp: 1
+    maxHp: 500
+    hp: 500
     damage: 100
     depence: 20
     critical: 0.05
@@ -65,9 +65,9 @@ MonoBehaviour:
     name: "\uBE44\uC2A4\uB098 \uD3F0 \uC5D8\uB85C\uD504"
     maxHp: 1000
     hp: 1000
-    damage: 200
+    damage: 150
     depence: 0
-    critical: 0.1
+    critical: 0.05
     moneyUp: 0
     maxCharacter: 4
     heal: 0

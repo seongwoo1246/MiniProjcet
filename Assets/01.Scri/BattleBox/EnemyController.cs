@@ -565,5 +565,23 @@ public class EnemyController : YutPlayer
         }
     }
 
-    
+    //----------------------------------------------------------------- 여기부터는 스킬 관련 함수들
+
+    public override float GetHpVaule()
+    {
+        if (enemyData == null) return 1.0f;
+        return enemyData.hp / enemyData.maxHp;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }

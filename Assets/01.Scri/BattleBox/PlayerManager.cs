@@ -122,4 +122,13 @@ public class PlayerManager : YutPlayer
         HP.size = PlayerData.hp / PlayerData.maxHp;
         Hpbar.text = $"{PlayerData.hp}/{PlayerData.maxHp}";
     }
+    //----------------------------------------------------------------- 여기부터는 스킬 관련 함수들
+    public override float GetHpVaule()
+    {
+        if (PlayerData == null) return 1.0f;
+        return PlayerData.hp / PlayerData.maxHp;
+        
+    }
+
+    
 }
