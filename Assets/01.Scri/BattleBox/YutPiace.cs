@@ -20,7 +20,7 @@ public class YutPiace : MonoBehaviour
 {
     private EnemyController enemyController;
     private SpriteRenderer icon;
-    YutPlayer player;
+    public YutPlayer player;
 
 
     public PathState PathState1 = PathState.main;

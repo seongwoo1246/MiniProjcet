@@ -41,7 +41,7 @@ public class Humen : EnemyController, canSkill
         }
         else
         {
-            //스킬 성공
+            SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
         }
 
     }
@@ -53,7 +53,7 @@ public class Humen : EnemyController, canSkill
         }
         else
         {
-            //스킬 성공
+            SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
         }
 
     }
@@ -65,7 +65,7 @@ public class Humen : EnemyController, canSkill
         }
         else
         {
-            //스킬 성공
+            SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
         }
 
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerData : MonoBehaviour
+public class Playerdata : MonoBehaviour
 {
     private void Awake()
     { if(PlayerManager.Instance != null)

@@ -3,10 +3,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class PlayerManager : YutPlayer
 {
     public static PlayerManager Instance;
 
+    
     public GameObject playerUiDate;
 
      Image Icon;
@@ -61,7 +63,9 @@ public class PlayerManager : YutPlayer
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(BattleSceneManager.instance.OnChilckStartNewChar);
 
-
+        Button button2 = SkillManager.instance.SkillB.GetComponent<Button>();
+        button2.onClick.RemoveAllListeners();
+        button2.onClick.AddListener(UseSkill);
     }
 
     public void SetTridePlayer(Tride Data)
@@ -130,5 +134,56 @@ public class PlayerManager : YutPlayer
         
     }
 
-    
+    public void UseSkill()
+    {
+        var skill = SkillManager.instance;
+        if (skill.skillCount <= 0|| (Random.value+ enemyController.enemyData.block) > PlayerData.luck)
+        {
+
+            return;
+        }
+        else
+        {
+            switch(PlayerData.id)
+            {
+                case 0:
+                    skill.HumenSkill(this, PlayerData.depence, 1);
+                    break;
+
+                case 1:
+                    skill.GoblinSkill(this);
+                        break;
+
+                case 2:
+                    skill.ElfSkill();
+                    break;
+
+                case 3:
+                    skill.UndeadSkill(); 
+                    break;
+
+                case 4:
+                    skill.AngelSkill(); 
+                    break;
+            }
+
+            skill.skillCount--;
+            skill.count.text = $"{skill.skillCount}";
+        }
+
+        
+        
+    }
+
+    public override float GoblinSkillPercent()
+    {
+        return PlayerData.kidnap;
+    }
+
+
+    public override void UpdateText()
+    {
+        maxCharacter.text = $" {maxChar}";
+
+    }
 }

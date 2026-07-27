@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class YutPlayer : MonoBehaviour
 {
@@ -151,4 +152,31 @@ public class YutPlayer : MonoBehaviour
             }
         }
     }
+
+    public bool isGoblinSkillUsed = false;
+    
+    public void onCatchEnemyPiace(YutPlayer attacker,YutPlayer target)
+    {
+        float percent = attacker.GoblinSkillPercent();
+        if (!attacker.isGoblinSkillUsed) return;
+        attacker.isGoblinSkillUsed = false ;
+        if(target.maxChar<=1)  return;
+        float randomValue = Random.Range(0f, 100f);
+        if(randomValue <= percent)
+        {
+            attacker.maxChar++;
+            target.maxChar--;
+            attacker.UpdateText();
+            target.UpdateText();
+        }
+    }
+
+    public virtual float GoblinSkillPercent()
+    {
+        return 5f;
+    }
+    public virtual void UpdateText()
+    { }
+
+
 }

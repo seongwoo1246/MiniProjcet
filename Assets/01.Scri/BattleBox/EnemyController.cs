@@ -574,9 +574,16 @@ public class EnemyController : YutPlayer
     }
 
 
+    public override float GoblinSkillPercent()
+    {
+        return enemyData.kidnap;
+    }
 
+    public override void UpdateText()
+    {
+        maxCharacter.text = $" {maxChar}";
 
-
+    }
 
 
 

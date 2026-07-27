@@ -797,6 +797,53 @@ RectTransform:
   m_AnchoredPosition: {x: 1600.3, y: -402.12}
   m_SizeDelta: {x: 192.36, y: 117.85}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &267039488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 267039489}
+  - component: {fileID: 267039490}
+  m_Layer: 0
+  m_Name: SkillManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &267039489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267039488}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 329.2317, y: 517.43805, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1722787103}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &267039490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267039488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271fdbfe233ac8144b0466d28ec427f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillManager
+  count: {fileID: 1015609812}
+  SkillB: {fileID: 1861927860}
+  skillCount: 3
 --- !u!1 &279604853
 GameObject:
   m_ObjectHideFlags: 0
@@ -2808,6 +2855,8 @@ MonoBehaviour:
   trideId: 0
   maxChar: 4
   currentActiveChar: 0
+  currentDenfence: 0
+  buttTurn: 0
 --- !u!4 &853093757
 Transform:
   m_ObjectHideFlags: 0
@@ -4076,6 +4125,8 @@ MonoBehaviour:
   trideId: 0
   maxChar: 4
   currentActiveChar: 0
+  currentDenfence: 0
+  buttTurn: 0
   CurrentEnemy: 0
   trideDM: {fileID: 11400000, guid: 8f060fa795172cc4396e4dbcc6a21258, type: 2}
   Icon: {fileID: 1573397470}
@@ -4656,6 +4707,7 @@ Transform:
   - {fileID: 1045713476}
   - {fileID: 853093757}
   - {fileID: 162646562}
+  - {fileID: 267039489}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1778203744
@@ -4936,7 +4988,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1861927861}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1861927861
 MonoBehaviour:
   m_ObjectHideFlags: 0

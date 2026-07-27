@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 
 
@@ -19,14 +21,7 @@ public enum Yut
 }
 
 
-public enum TrideType 
-{
-    humen,
-    goblin,
-    elf,
-    undead,
-    angel,
-}
+
 
 public interface canSkill
 {
@@ -223,16 +218,18 @@ public class BattleSceneManager : MonoBehaviour
                     
 
                     isCaughtAnything = true;
-                    foreach( YutPiace kid in targetPiace.carriedChar)
+                    if(yutPlayer.isGoblinSkillUsed ==true)
+                    {
+                        yutPlayer.onCatchEnemyPiace(MovePiace.player, targetPiace.player);
+                    }
+                    
+
+
+                    foreach ( YutPiace kid in targetPiace.carriedChar)
                     {
                         if(kid !=null)
                         {
-                            
-                            
                                 kid.CatchChar();
-                                
-                            
-                            
                         }
                         
                     }
@@ -298,7 +295,8 @@ public class BattleSceneManager : MonoBehaviour
        else
         {
             attacktext.text = "공격을 명중했다.";
-            int Damage = Mathf.Max(0, damage-depence);
+            int totalDefence = depence + yutPlayer.currentDenfence;
+            int Damage = Mathf.Max(0, damage- totalDefence);
 
             tride.hp-=Damage;
 
