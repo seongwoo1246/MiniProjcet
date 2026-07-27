@@ -45,17 +45,66 @@ public class EnemyController : YutPlayer
     {
         base.Start();
         BattleSceneManager.instance.CuttrentEnemy = this;
+        PlayerManager.Instance.enemyController = this;
          maxChar = trideDM.TrideList[CurrentEnemy].maxCharacter;
+
+        
+    }
+
+    private void ApplyDifficulty(Difficulty difficulty)
+    {
+        switch(difficulty)
+        {
+            case Difficulty.easy:
+                enemyData.maxHp *= 1.5f;
+                enemyData.hp *= 1.5f;
+                enemyData.damage += 50;
+                enemyData.depence += 5;
+                enemyData.critical += 0.05f;
+                enemyData.length += 1;
+                enemyData.kidnap += 0.05f;
+                enemyData.infection += 0.05f;
+                enemyData.rivival += 0.05f;
+                break;
+
+                case Difficulty.normal:
+                enemyData.maxHp *= 3;
+                enemyData.hp *= 3;
+                enemyData.damage += 100;
+                enemyData.depence += 10;
+                enemyData.critical += 0.1f;
+                enemyData.length += 1;
+                enemyData.kidnap += 0.05f;
+                enemyData.infection += 0.05f;
+                enemyData.rivival += 0.05f;
+                break;
+
+            case Difficulty.hard:
+                {
+                    enemyData.maxHp *= 5;
+                    enemyData.hp *= 5;
+                    enemyData.damage += 200;
+                    enemyData.depence += 20;
+                    enemyData.critical += 0.2f;
+                    enemyData.length += 2;
+                    enemyData.kidnap += 0.15f;
+                    enemyData.infection += 0.15f;
+                    enemyData.rivival += 0.15f;
+                    break;
+                }
+        }
     }
 
     protected void SetEnemy(int i)
     {
         enemyData = trideDM.TrideList[i].Clone();
+        ApplyDifficulty(ScenesM.instance.SelectedDifficulty);
         Icon.sprite = enemyData.icon;
         CharacterIcon.sprite = enemyData.icon;
         maxCharacter.text = enemyData.maxCharacter.ToString();
         Hpbar.text = $"{enemyData.hp}/{enemyData.maxHp}";
         BattleSceneManager.instance.enemy = this;
+       
     }
 
     public void Hpeffect(int i)
@@ -64,7 +113,12 @@ public class EnemyController : YutPlayer
         Hpbar.text = $"{enemyData.hp}/{enemyData.maxHp}";
     }
 
-   
+   private IEnumerator moveEndGoalIn(int bestCharIndex)
+    {
+        yield return new WaitUntil(() => CharMoveEnd == true);
+        YutPiace target = BattleSceneManager.instance.allActiveChar[bestCharIndex];
+        GoalIn(target);
+    }
     
   public virtual void EnemyTurn()
     {
@@ -132,10 +186,15 @@ public class EnemyController : YutPlayer
 
         if (CanGoalIn(out bestCharIndex, out bestYutIndex) == true)
         {
-            
-                ifNewStart(bestCharIndex, bestYutIndex);
-            YutPiace target = BattleSceneManager.instance.allActiveChar[bestCharIndex];
-            GoalIn(target);
+
+            if (bestCharIndex == -1)
+            { ifNewStart(bestCharIndex, bestYutIndex); return; }
+            else
+            {
+                MoveEnemy(bestCharIndex, bestYutIndex);
+                StartCoroutine(moveEndGoalIn(bestCharIndex));
+            }
+               
             return;
         }
          if (CanCatchPlayer(out bestCharIndex, out bestYutIndex) == true)
@@ -382,6 +441,7 @@ public class EnemyController : YutPlayer
         }
         if (activeEnemys.Count == 0)
         {
+
             StartNewChar(moveCount, true);
         }
         else
@@ -473,7 +533,7 @@ public class EnemyController : YutPlayer
   public bool canCatchOrAllyForStart(Yut yut)
     {
         int moveCount = GetYutMoveCount(yut);
-        int nextposition = moveCount;
+        int nextposition = moveCount-1;
         foreach(YutPiace target in BattleSceneManager.instance.allActiveChar)
         {
             if(target.isCarried||target.currentPathIndex<=0) continue;

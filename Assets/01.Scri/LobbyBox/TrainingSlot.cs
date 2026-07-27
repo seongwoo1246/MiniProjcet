@@ -26,14 +26,15 @@ public class TrainingSlot : MonoBehaviour
     }
     public void UpgradeLevel()
     {
-       
-        if(Data != null)
+        var player = PlayerManager.Instance;
+
+        if (Data != null)
         {
-            if (TrainingUi.Instance.haveMoney >= Data.price&& PlayerManager.Instance != null&&PlayerManager.Instance.PlayerData != null)
+            if (player.haveMoney >= Data.price&& player != null&& player.PlayerData != null)
             {
-                
-                TrainingUi.Instance.haveMoney -= Data.price;
-                TrainingUi.Instance.money.text = $" 현재 소유 금액 : {TrainingUi.Instance.haveMoney}";
+
+                player.haveMoney -= Data.price;
+                TrainingUi.Instance.money.text = $" 현재 소유 금액 : {player.haveMoney}";
 
                 var playerState = PlayerManager.Instance.PlayerData;
                

@@ -16,7 +16,7 @@ public class TrainingUi : LobbyUiManager
     public TextMeshProUGUI TrainingSuccess;
     public TextMeshProUGUI money;
     public TextMeshProUGUI NoMoney;
-    public int haveMoney = 0;
+    
 
     
   
@@ -27,7 +27,7 @@ public class TrainingUi : LobbyUiManager
         if (Instance == null)
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
+           
             ItTrainingSlot();
         }
         else
@@ -40,7 +40,7 @@ public class TrainingUi : LobbyUiManager
         TrainingSuccess.gameObject.SetActive(false);
         TrainingPanel.SetActive(false);
         NoMoney.gameObject.SetActive(false);
-        money.text = $" 현재 소유 금액 : {haveMoney}";
+        money.text = $" 현재 소유 금액 : {PlayerManager.Instance.haveMoney}";
     }
 
     public override void OpenPanel()
@@ -61,7 +61,7 @@ public class TrainingUi : LobbyUiManager
         {
             
 
-            var TrainingData = TrainingM.TrainingList[i].Clone();
+            var TrainingData = TrainingM.TrainingList[i];
            
             if (TrainingData != null)
             {

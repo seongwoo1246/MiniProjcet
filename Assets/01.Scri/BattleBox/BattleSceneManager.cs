@@ -126,6 +126,13 @@ public class BattleSceneManager : MonoBehaviour
     {
         if(IsMyTurn==true)
         {
+            TurnYutResult.Clear();
+            moC = 0;
+            moCount.text = $"{moC}";
+            yutC = 0;
+            yutCount.text = $"{yutC}";
+            currentRestYut = Yut.zero;
+            yutname.text = "";
             TurnEnd();
         }
     }
@@ -366,8 +373,9 @@ public class BattleSceneManager : MonoBehaviour
 
     public void GameOver()
     {
-        GainMoney.text = $"{GainMoneys()}";
-        TrainingUi.Instance.haveMoney += GainMoneys();
+        int gain = GainMoneys();
+        PlayerManager.Instance.haveMoney +=gain;
+        GainMoney.text = $" 얻은 돈 : {gain} \n현재 소지금 : {PlayerManager.Instance.haveMoney}";
         if (PlayerManager.Instance.PlayerData.hp == 0)
             Break.text = "패배하셨군요 다음에 도전해 보세요.";
         else
@@ -382,8 +390,8 @@ public class BattleSceneManager : MonoBehaviour
     {
 
         int gainM = Random.Range(500, 2000);
-        
-        return gainM;
+        int gainMoney = gainM + PlayerManager.Instance.PlayerData.moneyUp;
+        return gainMoney;
     }
 
     public void GiveTip()
@@ -541,6 +549,7 @@ public class BattleSceneManager : MonoBehaviour
             if(!IsEnemy)
             {
                 CanThrow = true;
+                canUseYut = false;
             }
             else 
             {
@@ -672,8 +681,8 @@ public class BattleSceneManager : MonoBehaviour
     //새로운 말 출발 코드
     public void OnChilckStartNewChar()
     {
-        Debug.Log("OnChilckStartNewChar 호출됨" + System.Environment.StackTrace);
-        if(TurnYutResult ==null|| TurnYutResult.Count ==0) return;
+        
+        if(TurnYutResult ==null|| TurnYutResult.Count ==0|| isYutSelected == false) return;
         if (TurnYutResult[0]== Yut.zero)
         { TurnYutResult.RemoveAt(0); return; }
        

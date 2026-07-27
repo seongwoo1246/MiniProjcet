@@ -14,10 +14,17 @@ public enum scenetpye
 
 }
 
+public enum Difficulty
+{
+    easy,
+    normal,
+    hard
+}
+
 public class ScenesM : MonoBehaviour
 {
     public static ScenesM instance;
-
+    public Difficulty SelectedDifficulty = Difficulty.normal;
  
     
 
@@ -37,6 +44,10 @@ public class ScenesM : MonoBehaviour
         SceneManager.LoadScene((int)type);
     }
 
+    public void SetDifficulty(Difficulty difficulty)
+    {
+        SelectedDifficulty = difficulty;
+    }
    
    
 }

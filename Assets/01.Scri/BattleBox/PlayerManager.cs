@@ -15,7 +15,8 @@ public class PlayerManager : YutPlayer
      TextMeshProUGUI Hpbar;
      Scrollbar HP;
 
-    EnemyController enemyController;
+    public int haveMoney = 0;
+    public EnemyController enemyController;
 
     public Tride PlayerData { get; private set; }
 
@@ -32,11 +33,7 @@ public class PlayerManager : YutPlayer
             Destroy(gameObject);
     }
 
-    protected override void Start() 
-    {
-        enemyController = FindAnyObjectByType<EnemyController>();
-     
-    }
+   
 
         public void UpdataUI(GameObject gameObject)
          {

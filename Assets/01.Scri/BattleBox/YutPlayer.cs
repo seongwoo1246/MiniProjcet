@@ -34,7 +34,7 @@ public class YutPlayer : MonoBehaviour
     //오버라이드 할지는 잠시 보기 ( 새 말 출발 코드 내용)
     public virtual void StartNewChar(int SelectMoveSpace , bool isEnemy)
     {
-        Debug.Log("StartNewChar 호출됨" + System.Environment.StackTrace);
+       
         var BSM = BattleSceneManager.instance;
         if (currentActiveChar>=maxChar)
         {
@@ -61,6 +61,13 @@ public class YutPlayer : MonoBehaviour
         
         Vector3 StartWorldPosition = YutBoardController.instance.GetWorldPosition(YutBoardController.instance.mainPathSpace[0]);
         newChar.transform.position = StartWorldPosition;
+
+        
+            Vector3 scale = newChar.transform.localScale;
+            scale.x = isEnemy ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
+            newChar.transform.localScale = scale;
+        
+
 
         yutPiaceScrips.StartMove(SelectMoveSpace);
         BSM.allActiveChar.Add(yutPiaceScrips);

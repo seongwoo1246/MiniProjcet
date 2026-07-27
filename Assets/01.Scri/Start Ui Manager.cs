@@ -32,17 +32,19 @@ public class StartUi : MonoBehaviour
 
     public void EasyStart()
     {
+        ScenesM.instance.SetDifficulty(Difficulty.easy);
         ScenesM.instance.LoadScenes(scenetpye.Lobby);
-        //나중에 적들 능력치 줄이는 코드 적기
     }
     public void NormalStart()
     {
+        ScenesM.instance.SetDifficulty(Difficulty.normal);
         ScenesM.instance.LoadScenes(scenetpye.Lobby); ;
     }
 
     public void HardStart()
     {
+        ScenesM.instance.SetDifficulty(Difficulty.hard);
         ScenesM.instance.LoadScenes(scenetpye.Lobby);
-        // 나중에 적들 능력치 올리는 코드 적기
+       
     }
 }
