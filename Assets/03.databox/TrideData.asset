@@ -24,7 +24,7 @@ MonoBehaviour:
     moneyUp: 0
     maxCharacter: 4
     heal: 0
-    luck: 0
+    luck: 0.5
     block: 0
     miss: 0.1
     length: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
     moneyUp: 0
     maxCharacter: 6
     heal: 0
-    luck: 0
+    luck: 0.5
     block: 0
     miss: 0.15
     length: 0
@@ -71,7 +71,7 @@ MonoBehaviour:
     moneyUp: 0
     maxCharacter: 4
     heal: 0
-    luck: 0
+    luck: 0.5
     block: 0
     miss: 0.05
     length: 1
@@ -94,7 +94,7 @@ MonoBehaviour:
     moneyUp: 0
     maxCharacter: 3
     heal: 100
-    luck: 0
+    luck: 0.5
     block: 0
     miss: 0.1
     length: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
     moneyUp: 0
     maxCharacter: 3
     heal: 200
-    luck: 0
+    luck: 0.5
     block: 0
     miss: 0.1
     length: 0

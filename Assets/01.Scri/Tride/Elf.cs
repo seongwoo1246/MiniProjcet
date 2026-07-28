@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class Elf : EnemyController, canSkill
 {
+    private YutPiace myPiace;
     protected override void Start()
     {
         base.Start();
+        myPiace = GetComponent<YutPiace>();
         CurrentEnemy = 2;
         SetEnemy(CurrentEnemy);
         BattleSceneManager.instance.ItbattleSet();
@@ -38,7 +40,7 @@ public class Elf : EnemyController, canSkill
         }
         else
         {
-            //스킬 성공
+            SkillManager.instance.ElfSkill(this, myPiace, enemyData.length);
         }
 
     }
@@ -50,7 +52,7 @@ public class Elf : EnemyController, canSkill
         }
         else
         {
-            //스킬 성공
+            SkillManager.instance.ElfSkill(this, myPiace, enemyData.length);
         }
 
     }
@@ -62,7 +64,7 @@ public class Elf : EnemyController, canSkill
         }
         else
         {
-            //스킬 성공
+            SkillManager.instance.ElfSkill(this, myPiace, enemyData.length);
         }
 
     }

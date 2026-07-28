@@ -61,6 +61,7 @@ public class EnemyController : YutPlayer
                 enemyData.damage += 50;
                 enemyData.depence += 5;
                 enemyData.critical += 0.05f;
+                enemyData.block += 0.1f;
                 enemyData.length += 1;
                 enemyData.kidnap += 0.05f;
                 enemyData.infection += 0.05f;
@@ -73,6 +74,7 @@ public class EnemyController : YutPlayer
                 enemyData.damage += 100;
                 enemyData.depence += 10;
                 enemyData.critical += 0.1f;
+                enemyData.block += 0.2f;
                 enemyData.length += 1;
                 enemyData.kidnap += 0.05f;
                 enemyData.infection += 0.05f;
@@ -86,6 +88,7 @@ public class EnemyController : YutPlayer
                     enemyData.damage += 200;
                     enemyData.depence += 20;
                     enemyData.critical += 0.2f;
+                    enemyData.block += 0.4f;
                     enemyData.length += 2;
                     enemyData.kidnap += 0.15f;
                     enemyData.infection += 0.15f;
@@ -430,23 +433,24 @@ public class EnemyController : YutPlayer
 
         BSMYutList.RemoveAt(0);
 
-        List<YutPiace>activeEnemys = new List<YutPiace>();
+       
       
         foreach(var enemy in BSMActiveChar)
         {
             if (enemy.isEnemy == true&&enemy.isMovingOnBorad == true&&enemy.isCarried == false)
             {
-                activeEnemys.Add(enemy);
+                EnemyGroup.Add(enemy);
             }
         }
-        if (activeEnemys.Count == 0)
+        if (EnemyGroup.Count == 0)
         {
-
+            
             StartNewChar(moveCount, true);
+            
         }
         else
         {
-            StartCoroutine(activeEnemys[0].MoveStepRoutine(moveCount));
+            StartCoroutine(EnemyGroup[0].MoveStepRoutine(moveCount));
         }
 
 
@@ -573,10 +577,21 @@ public class EnemyController : YutPlayer
         return enemyData.hp / enemyData.maxHp;
     }
 
-
+    protected float finalprecent;
     public override float GoblinSkillPercent()
     {
-        return enemyData.kidnap;
+         finalprecent = enemyData.kidnap;
+        return finalprecent;
+    }
+    public override float UndeadSkillPercent()
+    {
+         finalprecent = enemyData.infection;
+        return finalprecent;
+    }
+    public override float AngelSkillPercent()
+    {
+         finalprecent = enemyData.rivival;
+        return finalprecent;
     }
 
     public override void UpdateText()

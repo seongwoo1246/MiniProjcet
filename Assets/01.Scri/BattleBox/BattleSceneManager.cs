@@ -107,6 +107,7 @@ public class BattleSceneManager : MonoBehaviour
         Turn = 0;
         TurnCount.text =$"°æ°ú ÅÏ : {Turn}";
         FirstStart();
+        PlayerManager.Instance.playerPiace = FindAnyObjectByType<YutPiace>();
         PlayerManager.Instance.playerUiDate = playData1;
 
         PlayerManager.Instance.ButtonSet();
@@ -220,7 +221,7 @@ public class BattleSceneManager : MonoBehaviour
                     isCaughtAnything = true;
                     if(yutPlayer.isGoblinSkillUsed ==true)
                     {
-                        yutPlayer.onCatchEnemyPiace(MovePiace.player, targetPiace.player);
+                        yutPlayer.UsedGoblinSkill(MovePiace.player, targetPiace.player);
                     }
                     
 

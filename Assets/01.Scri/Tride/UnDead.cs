@@ -41,7 +41,8 @@ public class UnDead : EnemyController ,canSkill
         }
         else
         {
-            //스킬 성공
+            isUndeadSkillUsed = true;
+            
         }
 
     }
@@ -53,7 +54,8 @@ public class UnDead : EnemyController ,canSkill
         }
         else
         {
-            //스킬 성공
+            isUndeadSkillUsed = true;
+            finalprecent += 0.05f;
         }
 
     }
@@ -65,7 +67,8 @@ public class UnDead : EnemyController ,canSkill
         }
         else
         {
-            //스킬 성공
+            isUndeadSkillUsed = true;
+            finalprecent += 0.1f;
         }
 
     }

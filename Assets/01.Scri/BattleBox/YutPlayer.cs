@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -155,13 +156,17 @@ public class YutPlayer : MonoBehaviour
 
     public bool isGoblinSkillUsed = false;
     
-    public void onCatchEnemyPiace(YutPlayer attacker,YutPlayer target)
+    public void UsedGoblinSkill(YutPlayer attacker,YutPlayer target)
     {
         float percent = attacker.GoblinSkillPercent();
-        if (!attacker.isGoblinSkillUsed) return;
-        attacker.isGoblinSkillUsed = false ;
+        
+        if(attacker == PlayerManager.Instance)
+        {
+            if (!attacker.isGoblinSkillUsed) return;
+            attacker.isGoblinSkillUsed = false;
+        }
         if(target.maxChar<=1)  return;
-        float randomValue = Random.Range(0f, 100f);
+        float randomValue = Random.value;
         if(randomValue <= percent)
         {
             attacker.maxChar++;
@@ -170,13 +175,39 @@ public class YutPlayer : MonoBehaviour
             target.UpdateText();
         }
     }
+    public void UsedUndeadSkill(YutPlayer attacker, YutPlayer target)
+    {
+        float percent = attacker.UndeadSkillPercent();
+
+        if (attacker == PlayerManager.Instance)
+        {
+            if (!attacker.isUndeadSkillUsed) return;
+            attacker.isUndeadSkillUsed = false;
+        }
+        
+        float randomValue = Random.value;
+        if (randomValue <= percent)
+        {
+           
+        }
+    }
 
     public virtual float GoblinSkillPercent()
     {
         return 5f;
     }
+    public virtual float UndeadSkillPercent()
+    {
+        return 5f;
+    }
+    public virtual float AngelSkillPercent()
+    {
+        return 5f;
+    }
     public virtual void UpdateText()
     { }
+
+    public bool isUndeadSkillUsed = false;
 
 
 }

@@ -1,8 +1,8 @@
+using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
+
 
 public class SkillManager : MonoBehaviour
 {
@@ -12,8 +12,9 @@ public class SkillManager : MonoBehaviour
     [SerializeField] public Button SkillB;
 
     public int skillCount = 3;
+    
    
-
+    EnemyController enemyController;
 
     private void Awake()
     {
@@ -23,6 +24,7 @@ public class SkillManager : MonoBehaviour
             Destroy(gameObject);
 
         count.text=$"{skillCount}";
+        enemyController = FindAnyObjectByType<EnemyController>();
     }
 
     //플레이어용 적용으로 만들기 버츄얼로 만드는 것도 좋을 듯
@@ -57,18 +59,105 @@ public class SkillManager : MonoBehaviour
         
     }
     //엘프스킬 사거리 칸 안에 적을 제거함 / 적은 가장 많이 업고 있는 적을 제거
-    public void ElfSkill()
+    public bool isWaitingForElfSkillTarget = false;
+    public int currentElfSkillRange = 0;
+    public void ElfSkill(YutPlayer player,YutPiace caster, int skillRange)
     {
+        if(player == PlayerManager.Instance)
+        {
+            OnClickElfskill(PlayerManager.Instance.PlayerData.length);
+         
+        }
+        else if(player == enemyController)
+        {
+            YutPiace absoluteBestTarget = null;
+            int maxBsetCount = 0;
 
+            foreach(var mypiece in enemyController.EnemyGroup)
+            {
+                if (CanUseElfSkill(false, enemyController.enemyData.length, caster.currentPathIndex, caster.PathState1, out YutPiace bestTarget, out int bestcount))
+                {
+                    if( bestcount > maxBsetCount||(bestcount==maxBsetCount&&absoluteBestTarget != null && bestTarget.currentPathIndex>absoluteBestTarget.currentPathIndex))
+                    {
+                        maxBsetCount = bestcount;
+                        absoluteBestTarget = bestTarget;
+                    }
+                    
+                }
+            }
+            if(absoluteBestTarget != null)
+            {
+                CatchAllOnTile(absoluteBestTarget);
+            }
+
+        }
+       
     }
-    //언데드 스킬  잡았을 때 일정 확률로 업은 말의 수 +1 / 적은 패시브로 발동하며 확률이 잃은 체력 비례해서 증가 예정
-    public void UndeadSkill()
-    {
 
+  
+    //언데드 스킬  잡았을 때 일정 확률로 업은 말의 수 +1 / 적은 패시브로 발동하며 확률이 잃은 체력 비례해서 증가 예정
+    public void UndeadSkill(YutPlayer caster)
+    {
+        caster.isUndeadSkillUsed = true;
     }
     //천사스킬 잡혔을 때 잡히면 일정 확률로 부활하여 반격해서 역으로 잡음 / 패시브로 반격하며 잃은 체력 비례해서 증가할 예정
     public void AngelSkill()
     {
 
+    }
+
+
+
+
+    public void OnClickElfskill(int range)
+    {
+        isWaitingForElfSkillTarget = true;
+        currentElfSkillRange = range;
+
+    }
+
+    public bool CanUseElfSkill(bool findenemy, int skillRange, int casterPathIndex, PathState casterPathState, out YutPiace bestTarget, out int bestCount)
+    {
+        bestTarget = null;
+        bestCount = 0;
+
+        var allChar = BattleSceneManager.instance.allActiveChar;
+
+        foreach (var piace in allChar)
+        {
+            if (piace.isCarried || piace.isMoveing) continue;
+
+            bool isTargetVaild = findenemy ? piace.isEnemy : !piace.isEnemy;
+            if (!isTargetVaild) continue;
+
+            int distance = Mathf.Abs(piace.currentPathIndex - casterPathIndex);
+            if (distance > skillRange) continue;
+
+            int count = 1 + piace.carriedChar.Count;
+            if (count > bestCount||(count == bestCount&&bestTarget !=null&&piace.currentPathIndex>bestTarget.currentPathIndex))
+            {
+                bestCount = count;
+                bestTarget = piace;
+            }
+        }
+        return bestTarget != null;
+    }
+
+    public void CatchAllOnTile(YutPiace target)
+    {
+        if (target.carriedChar != null)
+        {
+            foreach (YutPiace kid in new List<YutPiace>(target.carriedChar))
+            {
+                if (kid != null)
+                {
+                    kid.CatchChar();
+                }
+
+            }
+            target.carriedChar.Clear();
+
+            target.CatchChar();
+        }
     }
 }

@@ -39,7 +39,7 @@ public class Goblin : EnemyController, canSkill
         }
         else
         {
-            //스킬 성공
+            isGoblinSkillUsed=true;
         }
 
     }
@@ -51,7 +51,8 @@ public class Goblin : EnemyController, canSkill
         }
         else
         {
-            //스킬 성공
+            isGoblinSkillUsed = true;
+            finalprecent += 0.05f;
         }
 
     }
@@ -63,9 +64,13 @@ public class Goblin : EnemyController, canSkill
         }
         else
         {
-            //스킬 성공
+            isGoblinSkillUsed = true;
+            finalprecent += 0.1f;
+
         }
 
     }
+
+   
 }
 

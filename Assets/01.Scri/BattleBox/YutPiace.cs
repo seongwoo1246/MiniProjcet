@@ -372,6 +372,19 @@ public class YutPiace : MonoBehaviour
     // 말 선택하기 
     public void OnMouseDown()
     {
+        var skill = SkillManager.instance;
+
+        if(skill.isWaitingForElfSkillTarget&&!isEnemy)
+        {
+            skill.isWaitingForElfSkillTarget = false;
+            if(skill.CanUseElfSkill(true, skill.currentElfSkillRange,this.currentPathIndex, this.PathState1, out YutPiace bestTarget, out int bestcount))
+            {
+                skill.CatchAllOnTile(bestTarget);
+
+            }
+            return;
+        }
+
 
         
         var manger = BattleSceneManager.instance;

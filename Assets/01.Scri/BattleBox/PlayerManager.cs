@@ -11,6 +11,7 @@ public class PlayerManager : YutPlayer
     
     public GameObject playerUiDate;
 
+
      Image Icon;
      Image CharacterIcon;
      TextMeshProUGUI maxCharacter;
@@ -19,6 +20,7 @@ public class PlayerManager : YutPlayer
 
     public int haveMoney = 0;
     public EnemyController enemyController;
+
 
     public Tride PlayerData { get; private set; }
 
@@ -127,6 +129,9 @@ public class PlayerManager : YutPlayer
         Hpbar.text = $"{PlayerData.hp}/{PlayerData.maxHp}";
     }
     //----------------------------------------------------------------- 여기부터는 스킬 관련 함수들
+
+    public  YutPiace playerPiace;
+    
     public override float GetHpVaule()
     {
         if (PlayerData == null) return 1.0f;
@@ -155,7 +160,7 @@ public class PlayerManager : YutPlayer
                         break;
 
                 case 2:
-                    skill.ElfSkill();
+                    skill.ElfSkill(this, playerPiace, PlayerData.length);
                     break;
 
                 case 3:
@@ -179,6 +184,16 @@ public class PlayerManager : YutPlayer
     {
         return PlayerData.kidnap;
     }
+    public override float UndeadSkillPercent()
+    {
+
+        return PlayerData.infection;
+    }
+    public override float AngelSkillPercent()
+    {
+        
+        return PlayerData.rivival;
+    }
 
 
     public override void UpdateText()
@@ -186,4 +201,12 @@ public class PlayerManager : YutPlayer
         maxCharacter.text = $" {maxChar}";
 
     }
+
+    
+
+
+
+
+
+
 }
