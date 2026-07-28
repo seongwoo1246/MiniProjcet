@@ -37,12 +37,17 @@ public class UnDead : EnemyController ,canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
             isUndeadSkillUsed = true;
-            
+            SkillManager.instance.skillText.text = "적이 지금부터 일정 확률로 감염을 시작합니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
+
         }
 
     }
@@ -50,12 +55,18 @@ public class UnDead : EnemyController ,canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
+
             isUndeadSkillUsed = true;
             finalprecent += 0.05f;
+            SkillManager.instance.skillText.text = "적이 힘을 발휘하기 시작합니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
         }
 
     }
@@ -63,12 +74,17 @@ public class UnDead : EnemyController ,canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
             isUndeadSkillUsed = true;
             finalprecent += 0.1f;
+            SkillManager.instance.skillText.text = "적의 힘이 폭팔할 듯 뿜어져 나오기 시작합니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
         }
 
     }

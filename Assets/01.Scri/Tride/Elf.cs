@@ -36,11 +36,17 @@ public class Elf : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
             return;
         }
         else
         {
             SkillManager.instance.ElfSkill(this, myPiace, enemyData.length);
+            SkillManager.instance.skillText.text = "적이 사냥을 시작합니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
         }
 
     }
@@ -48,11 +54,17 @@ public class Elf : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
             return;
         }
         else
         {
             SkillManager.instance.ElfSkill(this, myPiace, enemyData.length);
+            SkillManager.instance.skillText.text = "적이 사냥을 재개합니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
         }
 
     }
@@ -60,11 +72,17 @@ public class Elf : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
             return;
         }
         else
         {
             SkillManager.instance.ElfSkill(this, myPiace, enemyData.length);
+            SkillManager.instance.skillText.text = "적이 마무리 사냥을 시작합니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
         }
 
     }

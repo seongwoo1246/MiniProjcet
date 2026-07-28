@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,10 +11,12 @@ public class SkillManager : MonoBehaviour
 
     [SerializeField] public TextMeshProUGUI count;
     [SerializeField] public Button SkillB;
+    [SerializeField] public TextMeshProUGUI skillText;
+    [SerializeField] public TextMeshProUGUI skill;
 
     public int skillCount = 3;
-    
-   
+
+    YutPiace yutPiace;
     EnemyController enemyController;
 
     private void Awake()
@@ -22,16 +25,20 @@ public class SkillManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
-
+        skill.text = "";
+        skillText.text = "";
+        skillText.gameObject.SetActive(false);
         count.text=$"{skillCount}";
         enemyController = FindAnyObjectByType<EnemyController>();
+        yutPiace = FindAnyObjectByType<YutPiace>();
     }
 
-    //플레이어용 적용으로 만들기 버츄얼로 만드는 것도 좋을 듯
+    
 
     //휴먼 스킬 방어력이 증가 (한턴동안) / 적은 3턴동안
     public void HumenSkill(YutPlayer caster, int defence , int turnCont)
     {
+        skill.text = $"{turnCont}";
         float hpbar = caster.GetHpVaule();
 
         int finalDefence = defence;
@@ -55,7 +62,8 @@ public class SkillManager : MonoBehaviour
     //고블린 스킬 잡았을 때 일정 확률로 적의 최대 말 갯수를 줄이고 나의 최대말을 늘림 / 적은 처음은 30프로 두번째는 50프로 3번째는 70프로 확률로 훔침
     public void GoblinSkill(YutPlayer caster)
     {
-        caster.isGoblinSkillUsed = true;
+        skill.text = "가능";
+       caster.isGoblinSkillUsed = true;
         
     }
     //엘프스킬 사거리 칸 안에 적을 제거함 / 적은 가장 많이 업고 있는 적을 제거
@@ -63,7 +71,7 @@ public class SkillManager : MonoBehaviour
     public int currentElfSkillRange = 0;
     public void ElfSkill(YutPlayer player,YutPiace caster, int skillRange)
     {
-        if(player == PlayerManager.Instance)
+        if (player == PlayerManager.Instance)
         {
             OnClickElfskill(PlayerManager.Instance.PlayerData.length);
          
@@ -98,12 +106,16 @@ public class SkillManager : MonoBehaviour
     //언데드 스킬  잡았을 때 일정 확률로 업은 말의 수 +1 / 적은 패시브로 발동하며 확률이 잃은 체력 비례해서 증가 예정
     public void UndeadSkill(YutPlayer caster)
     {
+        skill.text = "가능";
         caster.isUndeadSkillUsed = true;
     }
     //천사스킬 잡혔을 때 잡히면 일정 확률로 부활하여 반격해서 역으로 잡음 / 패시브로 반격하며 잃은 체력 비례해서 증가할 예정
-    public void AngelSkill()
+    public void AngelSkill(YutPiace target)
     {
-
+       
+        target.isAngelCounterActive = true;
+        target.counterTurns = 3;
+        skill.text = $"{target.counterTurns}";
     }
 
 
@@ -151,13 +163,23 @@ public class SkillManager : MonoBehaviour
             {
                 if (kid != null)
                 {
-                    kid.CatchChar();
+                    kid.CatchChar(yutPiace);
                 }
 
             }
             target.carriedChar.Clear();
 
-            target.CatchChar();
+            target.CatchChar(yutPiace);
         }
     }
+
+
+    public IEnumerator Textfadeinout()
+    {
+        skillText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f) ;
+        skillText.gameObject.SetActive(false);
+
+    }
+
 }

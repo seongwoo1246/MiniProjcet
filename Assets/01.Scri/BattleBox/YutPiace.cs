@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 
 
 public enum PathState
@@ -88,8 +89,15 @@ public class YutPiace : MonoBehaviour
         
     }
     //말이 잡혔을 때 하는 코드
-    public void CatchChar()
+    public void CatchChar(YutPiace yutPiace)
     {
+        if(Counter(yutPiace))
+        {
+            return;
+        }
+
+
+
         if (this.isEnemy==true)
         {
             enemyController.currentActiveChar--;
@@ -105,7 +113,7 @@ public class YutPiace : MonoBehaviour
     //잡히거나 골인 후 말이 돌아가는 내용
     public void returnReady()
     {
-        if( BattleSceneManager.instance!=null||BattleSceneManager.instance.allActiveChar.Contains(this))
+        if( BattleSceneManager.instance!=null&&BattleSceneManager.instance.allActiveChar.Contains(this))
         {
             BattleSceneManager.instance.allActiveChar.Remove(this);
         }
@@ -135,8 +143,7 @@ public class YutPiace : MonoBehaviour
         //뒷도가 나왔을 경우
         if (steps == -1)
         {
-
-
+            
             if (PathState1 == PathState.main && currentPathIndex > 0)
             {
                 currentPathIndex = currentPathIndex - 2;
@@ -189,7 +196,17 @@ public class YutPiace : MonoBehaviour
                 }
             }
 
-            steps = 1;
+            if (isEnemy && enemyController.currentActiveChar == 0)
+            {
+                isMoveing = false;
+                yield break; }
+            else if (!isEnemy && PlayerManager.Instance.currentActiveChar == 0)
+            {
+                isMoveing = false;
+                yield break; }
+            else
+            { steps = 1; }
+               
 
         }
 
@@ -425,6 +442,49 @@ public class YutPiace : MonoBehaviour
         }
         return false;
     }
+
+    //----------------------------------------------------------------- 여기부터는 스킬 관련 함수들
+
+    public bool isAngelCounterActive = false;
+    public int counterTurns = 0;
+    public float angelCountChance = 0;
+
+    public void AngelTurnDisCount()
+    {
+        if(counterTurns == 0)
+        {  return; }
+        if (counterTurns > 0)
+        {
+            counterTurns--;
+            SkillManager.instance.skill.text = $"{counterTurns}";
+            if (counterTurns <= 0)
+            {
+                isAngelCounterActive = false;
+                SkillManager.instance.skill.text = "0";
+
+            }
+        }
+    }
+
+    public bool Counter(YutPiace attacker)
+    {
+        if(isAngelCounterActive)
+        {
+            angelCountChance = player.AngelSkillPercent();
+            if(Random.value < angelCountChance)
+            {
+                SkillManager.instance.skillText.text = "반격 성공했습니다. 야호(>.<)/*";
+                SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+                attacker.CatchChar(this);
+                isAngelCounterActive=false;
+                SkillManager.instance.skill.text = "불가능";
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
 
 }

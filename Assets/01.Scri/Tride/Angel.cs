@@ -36,11 +36,18 @@ public class Angel: EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
+            
         }
         else
         {
-            //스킬 성공
+            SkillManager.instance.skillText.text = "적이 지금부터 일정 확률로 반격을 시작합니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
+            yutcount.isAngelCounterActive = true;
+            yutcount.counterTurns = 999;
         }
 
     }
@@ -48,11 +55,18 @@ public class Angel: EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
-            //스킬 성공
+            SkillManager.instance.skillText.text = "적이 빛나기 시작합니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+            yutcount.isAngelCounterActive = true;
+            yutcount.counterTurns = 999;
+            finalprecent = 0.05f;
+            
         }
 
     }
@@ -60,11 +74,18 @@ public class Angel: EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
-            //스킬 성공
+            SkillManager.instance.skillText.text = "적의 모습이 심상치 않습니다. 주의하세요. ";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+            yutcount.isAngelCounterActive = true;
+            yutcount.counterTurns = 999;
+            finalprecent = 0.1f;
+            
         }
 
     }

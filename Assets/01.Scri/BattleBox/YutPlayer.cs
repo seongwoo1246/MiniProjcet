@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -36,7 +37,8 @@ public class YutPlayer : MonoBehaviour
     //오버라이드 할지는 잠시 보기 ( 새 말 출발 코드 내용)
     public virtual void StartNewChar(int SelectMoveSpace , bool isEnemy)
     {
-       
+        
+
         var BSM = BattleSceneManager.instance;
         if (currentActiveChar>=maxChar)
         {
@@ -99,7 +101,7 @@ public class YutPlayer : MonoBehaviour
     //말이 들어갔을 때 할 행동의 모체
     public virtual void GoalIn(YutPiace targetPiace)
     {
-        Debug.Log("플레이어부모");
+       
         if (targetPiace == null) return;
         if (targetPiace.carriedChar != null)
         {
@@ -125,6 +127,8 @@ public class YutPlayer : MonoBehaviour
 
     //----------------------------------------------------------------- 여기부터는 스킬 관련 함수들
 
+    
+
     public virtual float GetHpVaule()
     {
         return 1.0f;
@@ -146,10 +150,14 @@ public class YutPlayer : MonoBehaviour
         if(buttTurn>0)
         {
             buttTurn--;
-            if(buttTurn <= 0)
+            SkillManager.instance.skill.text = $"{buttTurn}";
+            if (buttTurn <= 0)
             {
                 buttTurn = 0;
                 currentDenfence = 0;
+                SkillManager.instance.skill.text = "0";
+                SkillManager.instance.skillText.text = "방어력이 돌아옵니다.";
+                SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             }
         }
     }
@@ -164,18 +172,21 @@ public class YutPlayer : MonoBehaviour
         {
             if (!attacker.isGoblinSkillUsed) return;
             attacker.isGoblinSkillUsed = false;
+            SkillManager.instance.skill.text = "불가능";
         }
         if(target.maxChar<=1)  return;
         float randomValue = Random.value;
         if(randomValue <= percent)
         {
+            SkillManager.instance.skillText.text = "약탈 성공했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             attacker.maxChar++;
             target.maxChar--;
             attacker.UpdateText();
             target.UpdateText();
         }
     }
-    public void UsedUndeadSkill(YutPlayer attacker, YutPlayer target)
+    public void UsedUndeadSkill(YutPlayer attacker, YutPiace attackerpiece)
     {
         float percent = attacker.UndeadSkillPercent();
 
@@ -183,26 +194,30 @@ public class YutPlayer : MonoBehaviour
         {
             if (!attacker.isUndeadSkillUsed) return;
             attacker.isUndeadSkillUsed = false;
+            SkillManager.instance.skill.text = "불가능";
         }
         
         float randomValue = Random.value;
         if (randomValue <= percent)
         {
-           
+            SkillManager.instance.skillText.text = "감염 성공했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+            attackerpiece.carriedChar.Add(null);
+            attackerpiece.UpdateVisuals();
         }
     }
 
     public virtual float GoblinSkillPercent()
     {
-        return 5f;
+        return 0.5f;
     }
     public virtual float UndeadSkillPercent()
     {
-        return 5f;
+        return 0.5f;
     }
     public virtual float AngelSkillPercent()
     {
-        return 5f;
+        return 0.5f;
     }
     public virtual void UpdateText()
     { }

@@ -60,7 +60,8 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField ] Button TurnEND;
 
     [SerializeField]private YutPlayer yutPlayer;
-    
+
+    public YutPiace yutpiace;
     public GameObject playData1;
     public EnemyController CuttrentEnemy;
     public EnemyController enemyController;
@@ -107,6 +108,9 @@ public class BattleSceneManager : MonoBehaviour
         Turn = 0;
         TurnCount.text =$"경과 턴 : {Turn}";
         FirstStart();
+
+        
+
         PlayerManager.Instance.playerPiace = FindAnyObjectByType<YutPiace>();
         PlayerManager.Instance.playerUiDate = playData1;
 
@@ -156,7 +160,7 @@ public class BattleSceneManager : MonoBehaviour
             Turn++;
             TurnCount.text = $"경과 턴 : {Turn}";
             yutPlayer.TurnDisCount();
-
+            yutpiace.AngelTurnDisCount();
            
         }
     }
@@ -223,6 +227,10 @@ public class BattleSceneManager : MonoBehaviour
                     {
                         yutPlayer.UsedGoblinSkill(MovePiace.player, targetPiace.player);
                     }
+                    if(yutPlayer.isUndeadSkillUsed  ==true)
+                    {
+                        yutPlayer.UsedUndeadSkill(MovePiace.player, MovePiace);
+                    }
                     
 
 
@@ -230,13 +238,13 @@ public class BattleSceneManager : MonoBehaviour
                     {
                         if(kid !=null)
                         {
-                                kid.CatchChar();
+                                kid.CatchChar(yutpiace);
                         }
                         
                     }
                     targetPiace.carriedChar.Clear();
 
-                    targetPiace.CatchChar();
+                    targetPiace.CatchChar(yutpiace);
 
                     break;
                 }

@@ -37,11 +37,16 @@ public class Humen : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
             SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
+            SkillManager.instance.skillText.text = "적이 3턴간 단단해집니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
         }
 
     }
@@ -49,11 +54,16 @@ public class Humen : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
             SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
+            SkillManager.instance.skillText.text = "적이 3턴간 더 단단해집니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
         }
 
     }
@@ -61,11 +71,16 @@ public class Humen : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
             SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
+            SkillManager.instance.skillText.text = "적이 3턴간 더 더욱 단단해집니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
         }
 
     }

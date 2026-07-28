@@ -35,11 +35,16 @@ public class Goblin : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
             isGoblinSkillUsed=true;
+            SkillManager.instance.skillText.text = "적이 지금부터 일정 확률로 약탈을 시전합니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
         }
 
     }
@@ -47,12 +52,17 @@ public class Goblin : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
             isGoblinSkillUsed = true;
             finalprecent += 0.05f;
+            SkillManager.instance.skillText.text = "적이 화난 듯합니다. 확률이 올라갑니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
         }
 
     }
@@ -60,12 +70,17 @@ public class Goblin : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
             isGoblinSkillUsed = true;
             finalprecent += 0.1f;
+            SkillManager.instance.skillText.text = "현재 적의 눈에 보이는게 없는 광분 상태입니다. 조심하세요.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
 
         }
 

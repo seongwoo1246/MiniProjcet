@@ -118,9 +118,12 @@ public class EnemyController : YutPlayer
 
    private IEnumerator moveEndGoalIn(int bestCharIndex)
     {
-        yield return new WaitUntil(() => CharMoveEnd == true);
         YutPiace target = BattleSceneManager.instance.allActiveChar[bestCharIndex];
-        GoalIn(target);
+        yield return null;
+        yield return new WaitUntil(() => target.isMoveing == true);
+        yield return new WaitUntil(() => target.isMoveing == false);
+       
+        //GoalIn(target);
     }
     
   public virtual void EnemyTurn()
@@ -194,7 +197,7 @@ public class EnemyController : YutPlayer
             { ifNewStart(bestCharIndex, bestYutIndex); return; }
             else
             {
-                MoveEnemy(bestCharIndex, bestYutIndex);
+                MoveEnemy(bestCharIndex, bestYutIndex);              
                 StartCoroutine(moveEndGoalIn(bestCharIndex));
             }
                
@@ -438,7 +441,7 @@ public class EnemyController : YutPlayer
         foreach(var enemy in BSMActiveChar)
         {
             if (enemy.isEnemy == true&&enemy.isMovingOnBorad == true&&enemy.isCarried == false)
-            {
+            { //여기가 계속 늘어남
                 EnemyGroup.Add(enemy);
             }
         }
@@ -570,6 +573,8 @@ public class EnemyController : YutPlayer
     }
 
     //----------------------------------------------------------------- 여기부터는 스킬 관련 함수들
+
+
 
     public override float GetHpVaule()
     {

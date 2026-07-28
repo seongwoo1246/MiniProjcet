@@ -144,7 +144,10 @@ public class PlayerManager : YutPlayer
         var skill = SkillManager.instance;
         if (skill.skillCount <= 0|| (Random.value+ enemyController.enemyData.block) > PlayerData.luck)
         {
-
+            SkillManager.instance.skillText.text = "적이 스킬을 방해했습니다. 앙대/(ㅠ-ㅠ)/";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+            skill.skillCount--;
+            skill.count.text = $"{skill.skillCount}";
             return;
         }
         else
@@ -153,31 +156,46 @@ public class PlayerManager : YutPlayer
             {
                 case 0:
                     skill.HumenSkill(this, PlayerData.depence, 1);
+                    SkillManager.instance.skillText.text = "이번 턴 동안 잃은 체략에 비례해서 방어력이 상승합니다.";
+                    SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
                     break;
 
                 case 1:
                     skill.GoblinSkill(this);
-                        break;
+                    SkillManager.instance.skillText.text = "이번에 적을 잡으면 일정 확률로 적의 말을 가져옵니다.";
+                    SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
+                    break;
 
                 case 2:
                     skill.ElfSkill(this, playerPiace, PlayerData.length);
+                    SkillManager.instance.skillText.text = " 아군 엘프중 하나를 선택하세요. 같은 루트 사거리 안 가장 많은 적을 잡습니다.";
+                    SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
                     break;
 
                 case 3:
-                    skill.UndeadSkill(); 
+                    skill.UndeadSkill(this);
+                    SkillManager.instance.skillText.text = "이번에 적을 잡으면 일정 확률로 업은 갯수가 증가합니다.";
+                    SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
                     break;
 
                 case 4:
-                    skill.AngelSkill(); 
+                    skill.AngelSkill(playerPiace);
+                    SkillManager.instance.skillText.text = "3턴 동안 반격을 준비합니다. 일정 확률로 반격 성공시 해제됩니다.";
+                    SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+
                     break;
             }
 
-            skill.skillCount--;
-            skill.count.text = $"{skill.skillCount}";
+            
         }
 
-        
-        
+        skill.skillCount--;
+        skill.count.text = $"{skill.skillCount}";
+
     }
 
     public override float GoblinSkillPercent()
