@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Video;
 
 public class TrainingUi : LobbyUiManager
 {
@@ -9,7 +10,7 @@ public class TrainingUi : LobbyUiManager
 
     [SerializeField] GameObject TrainingPanel;
 
-
+    public VideoPlayer Secret;
     [SerializeField] private TrainingDataManager TrainingM;
     public GameObject Trainingslot;
     public Transform TrainingContent;
@@ -28,7 +29,6 @@ public class TrainingUi : LobbyUiManager
         {
             Instance = this;
            
-            ItTrainingSlot();
         }
         else
             Destroy(gameObject);
@@ -37,10 +37,19 @@ public class TrainingUi : LobbyUiManager
 
     public override void Start()
     {
+        ItTrainingSlot();
         TrainingSuccess.gameObject.SetActive(false);
         TrainingPanel.SetActive(false);
         NoMoney.gameObject.SetActive(false);
         money.text = $" 현재 소유 금액 : {PlayerManager.Instance.haveMoney}";
+        Secret.gameObject.SetActive(false);
+        Secret.loopPointReached += Flawal;
+        
+    }
+
+    void Flawal(VideoPlayer player)
+    {
+        Secret.gameObject.SetActive(false);
     }
 
     public override void OpenPanel()
@@ -59,10 +68,12 @@ public class TrainingUi : LobbyUiManager
       
         for (int i = 0; i < TrainingM.TrainingList.Count; i++)
         {
-            
+
 
             var TrainingData = TrainingM.TrainingList[i];
-           
+            
+
+
             if (TrainingData != null)
             {
                 GameObject go = Instantiate(Trainingslot, TrainingContent);
@@ -70,13 +81,28 @@ public class TrainingUi : LobbyUiManager
 
                 if (slot != null)
                 {
-                    slot.SetTraining(TrainingData.id, TrainingData.icon,TrainingData.name,  TrainingData.price, TrainingData.upgrad);
+                    slot.SetTraining(TrainingData);
                     TrainingSlots.Add(slot);
                     slot.gameObject.SetActive(true);
                 }
             }
         }
+        ReFreshSlot();
     }
+
+    public void ReFreshSlot()
+    {
+        int currnetTrideId = PlayerManager.Instance.PlayerData.id;
+
+        for (int i = 0; i < TrainingSlots.Count; i++)
+        {
+            Training rawData = TrainingM.TrainingList[i];
+            Training currentData = PlayerManager.Instance.GetTrainingData(currnetTrideId, rawData.id, rawData);
+            TrainingSlots[i].SetTraining(currentData);
+        }
+
+    }
+
 
     public void BuyXX()
     {

@@ -50,7 +50,7 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI attacktext;
     [SerializeField] public TextMeshProUGUI MaxCharCaption;
 
-    
+    [SerializeField] Button ThrowButton;
     [SerializeField] Button mo;
     [SerializeField] Button yut;
     [SerializeField] Button elseyut;
@@ -67,7 +67,9 @@ public class BattleSceneManager : MonoBehaviour
     public EnemyController enemyController;
     public YutPlayer Player;
     public YutPlayer enemy;
-    public bool CanThrow;
+    private bool canthrow;
+    public bool CanThrow
+    {  get => canthrow;  set { canthrow = value;  ThrowButtonControll(); } }
     public bool CanThrowEnemy;
     public bool IsMyFirst;
     private int Turn;
@@ -101,6 +103,7 @@ public class BattleSceneManager : MonoBehaviour
 
     private void Start()
     {
+        ThrowButton.gameObject.SetActive(false);
         attacktext.gameObject.SetActive(false);
         First.gameObject.SetActive(false);
         MaxCharCaption.gameObject.SetActive(false);
@@ -121,6 +124,10 @@ public class BattleSceneManager : MonoBehaviour
         button.onClick.AddListener(GoToLobby);
 
     }
+
+    
+
+
     //윷을 안 던지고 턴을 넘기는 것도 전략이다.
     public void TurnEndButton()
     {
@@ -184,6 +191,24 @@ public class BattleSceneManager : MonoBehaviour
         }
         
     }
+    //구조적으로 같은 칸인지 검사
+    private bool IsSameTile(int targetA , PathState pathA , int targetB, PathState pathB )
+    {
+        if (targetA == targetB && pathA == pathB) return true;
+        if(pathA == PathState.autumn)
+        {
+            (targetA, targetB) = (targetB, targetA);
+            (pathA, pathB) = (pathB, pathA);
+        }
+
+        if (targetA == 3 && targetB == 0 && pathA == PathState.spring && pathB == PathState.autumn) return true;
+        if (targetA == 4 && targetB == 1 && pathA == PathState.spring && pathB == PathState.autumn) return true;
+        if (targetA == 5 && targetB == 2 && pathA == PathState.spring && pathB == PathState.autumn) return true;
+
+        return false;
+    }
+
+
     //말을 잡을 수 있는 가 검사
     public void checkCatchChar(YutPiace MovePiace)
     {
@@ -196,8 +221,9 @@ public class BattleSceneManager : MonoBehaviour
         {
             if (targetPiace.isCarried || targetPiace == MovePiace || !targetPiace.isMovingOnBorad) continue;
 
+           
             //좌표와 루트가 같다면
-            if(targetPiace.currentPathIndex == MovePiace.currentPathIndex && targetPiace.PathState1 ==MovePiace.PathState1)
+            if (IsSameTile(targetPiace.currentPathIndex, targetPiace.PathState1, MovePiace.currentPathIndex, MovePiace.PathState1))
             {
                 // 적이라면 잡고 아군이면 업히는 코드
                 if(targetPiace.isEnemy == MovePiace.isEnemy)
@@ -463,7 +489,7 @@ public class BattleSceneManager : MonoBehaviour
         else
         {
             IsMyFirst= false;
-            CanThrow= false;
+            CanThrow = false;
             IsMyTurn= false;
             CanThrowEnemy = true;
             enemyController.IsEnemyTurn = true;
@@ -502,6 +528,18 @@ public class BattleSceneManager : MonoBehaviour
         }
 
         return result;
+    }
+
+    public void ThrowButtonControll()
+    {
+        if(CanThrow)
+        {
+            ThrowButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            ThrowButton.gameObject.SetActive(false);
+        }
     }
     //윷 던지기
     public void OnClickThrowButton()
@@ -543,6 +581,7 @@ public class BattleSceneManager : MonoBehaviour
             currentRestYut = Yut.zero;
             yutname.text = "";
             CanThrowEnemy=false;
+            canthrow = false;
             return;
         }
         if(currentYut == Yut.four|| currentYut == Yut.five)

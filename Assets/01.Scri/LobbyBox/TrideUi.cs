@@ -86,7 +86,7 @@ public class TrideUi : LobbyUiManager
 
         TrideId = id;
 
-        var TrideData = TrideM.TrideList[TrideId].Clone();
+        var TrideData = TrideM.TrideList[TrideId];
         if (TrideData != null)
         {
            iconIn.sprite = TrideData.icon;
@@ -106,12 +106,9 @@ public class TrideUi : LobbyUiManager
     {
         if (TrideId == -1)
         { return; }
-        var TrideData = TrideM.TrideList[TrideId].Clone();
-        if (TrideData != null)
-        {
-           PlayerManager.Instance.SetTridePlayer(TrideData);  
-        }
 
+        var TrideData = TrideM.TrideList[TrideId];
+        PlayerManager.Instance.SelectTride(TrideData);
 
         TrideSelect.SetActive(false);
         TrideSelectSpace.SetActive(false);

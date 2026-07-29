@@ -8,26 +8,37 @@ public class TrainingSlot : MonoBehaviour
     
 
     private int TrainingId = -1;
-    private int UpgradeCount = 0;
+   
     private Training Data = null;
 
-   public Image icon;
+   public Image icon1;
    public TextMeshProUGUI Level;
    public TextMeshProUGUI name1;
-   public TextMeshProUGUI price;
+   public TextMeshProUGUI price1;
 
 
 
-    public void SetData(int id, Sprite icon, string name ,int price , int Level)
+    public void SetTraining(Training trainingData)
     {
-      TrainingId=id;
-        if (TrainingId == -1) return;
-         Data = TrainingM.TrainingList[id - 100].Clone();
+        if (trainingData == null) return;
+
+        this.Data = trainingData;
+        this.TrainingId = trainingData.id;
+
+
+
+        if (icon1 != null) icon1.sprite = trainingData.icon;
+        if (name1 != null) name1.text = trainingData.name;
+        if (price1 != null) price1.text = trainingData.price.ToString();
+        if (Level != null) Level.text = trainingData.upgrad.ToString();
+
+
     }
+
     public void UpgradeLevel()
     {
         var player = PlayerManager.Instance;
-
+        
         if (Data != null)
         {
             if (player.haveMoney >= Data.price&& player != null&& player.PlayerData != null)
@@ -40,7 +51,6 @@ public class TrainingSlot : MonoBehaviour
                
                 TrainingUi.Instance.TrainingSuccess.text = Data.GetDesc();
                 
-                // 멘토링에서 전부 함수로 만들어서 관리 하는 방식을 배웠으나 그러면 함수가 15개가 늘어나고 변수도 30개가 늘어나서 그쪽이 더 애매해져서 이쪽을 그냥 쓰는게 좋을지도 모르겠다.
 
 
                 switch (Data.id)
@@ -89,14 +99,17 @@ public class TrainingSlot : MonoBehaviour
                         Data.price += 5000;
                         break;
                     case 114:
-                       // 나중에 적을 내용
+                        playerState.damage += 99999;
+                        TrainingUi.Instance.Secret.gameObject.SetActive(true);
+                        TrainingUi.Instance.Secret.Play();
+                        
                         break;
 
                 }
-                price.text = $"{Data.price}";
+                price1.text = $"{Data.price}";
                 TrainingUi.Instance.BuyOO();
-                UpgradeCount++;
-                Level.text = UpgradeCount.ToString();
+                Data.upgrad++;
+                Level.text = Data.upgrad.ToString();
             }
             else
                 TrainingUi.Instance.BuyXX();
@@ -105,16 +118,7 @@ public class TrainingSlot : MonoBehaviour
 
     
 
-    public void SetTraining(int id, Sprite icon, string name, int price, int level)
-    {
-        TrainingId = id;
-         this.icon.sprite= icon;
-        name1.text = name;
-        this.price.text = price.ToString();
-        Level.text = level.ToString(); ;
-            
-        SetData(id,icon,name,price,level);
-    }
+    
 
 
 }

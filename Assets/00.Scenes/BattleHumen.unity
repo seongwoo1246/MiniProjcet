@@ -5008,6 +5008,7 @@ MonoBehaviour:
   Tip: {fileID: 4237667492618322165}
   attacktext: {fileID: 314758518}
   MaxCharCaption: {fileID: 1718253880}
+  ThrowButton: {fileID: 686246436}
   mo: {fileID: 155819052}
   yut: {fileID: 437783080}
   elseyut: {fileID: 21843348}
@@ -5022,7 +5023,6 @@ MonoBehaviour:
   enemyController: {fileID: 1573397472}
   Player: {fileID: 0}
   enemy: {fileID: 0}
-  CanThrow: 0
   CanThrowEnemy: 0
   IsMyFirst: 0
   IsMyTurn: 0

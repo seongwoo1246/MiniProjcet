@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +7,10 @@ using UnityEngine.UI;
 
 public class PlayerManager : YutPlayer
 {
+    [SerializeField] TrideDataManager trideM;
+    
+
+
     public static PlayerManager Instance;
 
     
@@ -35,6 +40,9 @@ public class PlayerManager : YutPlayer
         }
         else
             Destroy(gameObject);
+
+       SelectTride(trideM.TrideList[0]);
+       
     }
 
    
@@ -70,12 +78,7 @@ public class PlayerManager : YutPlayer
         button2.onClick.AddListener(UseSkill);
     }
 
-    public void SetTridePlayer(Tride Data)
-    {
-       this.PlayerData = Data.Clone();
-        SetPlayer();
-        maxChar = PlayerData.maxCharacter;
-    }
+    
 
     public void SetPlayer()
     {
@@ -222,9 +225,51 @@ public class PlayerManager : YutPlayer
 
     
 
+    //天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天 謙褶滌 釭援晦 й 蘊
+    //謙褶滌煎 釭揚 蛐敷傘葬
+    public Dictionary<int,Tride> TrideDataDic = new Dictionary<int,Tride>();
+    // 謙褶滌煎 鬼�香鬌繡� 釭揚 蛐敷傘葬
+    public Dictionary<int,Dictionary<int,Training>> TrideUpgradeLevels =new Dictionary<int,Dictionary<int, Training>>();
 
 
+    public void SelectTride(Tride originalTrideData)
+    {
+        int TrideId = originalTrideData.id;
 
+        if(!TrideDataDic.ContainsKey(TrideId))
+        {
+            TrideDataDic.Add(TrideId, originalTrideData.Clone());
+            TrideUpgradeLevels.Add(TrideId, new Dictionary<int, Training>());
+        }
+
+        PlayerData = TrideDataDic[TrideId];
+        SetPlayer();
+        maxChar = PlayerData.maxCharacter;
+
+        if(TrainingUi.Instance == null)
+        { return; }
+        
+
+        TrainingUi.Instance.ReFreshSlot();
+
+
+    }
+
+    public Training GetTrainingData(int TrideId, int slotid, Training defultdata)
+    {
+        
+        if(!TrideUpgradeLevels.ContainsKey(TrideId))
+        {
+            TrideUpgradeLevels.Add(TrideId,new Dictionary<int, Training>());
+        }
+
+        if(!TrideUpgradeLevels[TrideId].ContainsKey(slotid))
+        {
+            TrideUpgradeLevels[TrideId].Add(slotid, defultdata.Clone());
+        }
+
+        return TrideUpgradeLevels[TrideId][slotid];
+    }
 
 
 }

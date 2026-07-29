@@ -2,16 +2,25 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 
 public class BattleUi : LobbyUiManager
 {
     public static BattleUi Instance;
 
+
+
     [SerializeField] TrideDataManager TrideM;
     [SerializeField] GameObject Battle;
     [SerializeField] Transform BattleCanvas;
     [SerializeField] GameObject BattleSlot;
+    [SerializeField] VideoPlayer LoToBa;
+    [SerializeField] VideoPlayer LoToEnd;
+    [SerializeField] Button LastBattle;
+
+
+    private scenetpye ST;
     public GameObject SelectEnemy;
 
     public Image iconIn;
@@ -28,7 +37,7 @@ public class BattleUi : LobbyUiManager
         if (Instance == null)
         {
             Instance = this;
-           // DontDestroyOnLoad(gameObject);
+           
             ItBattleSlot();
         }
         else
@@ -39,11 +48,40 @@ public class BattleUi : LobbyUiManager
 
     public override void Start()
     {
-        
+        LastBattle.gameObject.SetActive(false);
         Battle.SetActive(false);
        SelectEnemy.SetActive(false);
-       
+        LoToBa.gameObject.SetActive(false);
+        LoToEnd.gameObject.SetActive(false);
+
+        LoToEnd.loopPointReached += ToEnd;
+        LoToBa.loopPointReached += ToBattle;
     }
+
+    // 보스한태 가는 버튼 
+    public void LastBattleStart()
+    {
+
+        LoToBa.gameObject.SetActive(true);
+        LoToBa.Play();
+        
+    }
+
+    
+
+    void ToEnd(VideoPlayer player)
+    {
+        LoToBa.gameObject.SetActive(false);
+        //ScenesM.instance.LoadScenes();
+    }
+    void ToBattle(VideoPlayer player)
+    {
+        LoToBa.gameObject.SetActive(false);
+        ScenesM.instance.LoadScenes(ST);
+    }
+
+    
+    
 
 
     public void ItBattleSlot()
@@ -113,31 +151,38 @@ public class BattleUi : LobbyUiManager
         switch (battleId)
         {
             case 0:
-                ScenesM.instance.LoadScenes(scenetpye.humun);
+                ST = scenetpye.humun;
 
                 break;
 
             case 1:
-                ScenesM.instance.LoadScenes(scenetpye.goblin);
+                ST = scenetpye.goblin;
 
                 break;
 
             case 2:
-                ScenesM.instance.LoadScenes(scenetpye.elf);
+                ST = scenetpye.elf;
 
                 break;
 
             case 3:
-                ScenesM.instance.LoadScenes(scenetpye.undead);
+                ST = scenetpye.undead;
 
                 break;
 
             case 4:
-                ScenesM.instance.LoadScenes(scenetpye.angel);
+                ST = scenetpye.angel;
 
                 break;
         }
+
+        LoToBa.gameObject.SetActive(true);
+        LoToBa.Play();
         Destroy(dimClone);
+
+      
+        
+
     }
 
 

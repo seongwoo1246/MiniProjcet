@@ -117,8 +117,8 @@ public class YutPiace : MonoBehaviour
         {
             BattleSceneManager.instance.allActiveChar.Remove(this);
         }
-        
-        
+
+        enemyController.EnemyGroup.Remove(this);
         currentPathIndex = -1;
         isMovingOnBorad = false;
         isCarried = false;

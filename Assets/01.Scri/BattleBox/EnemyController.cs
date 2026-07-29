@@ -116,15 +116,7 @@ public class EnemyController : YutPlayer
         Hpbar.text = $"{enemyData.hp}/{enemyData.maxHp}";
     }
 
-   private IEnumerator moveEndGoalIn(int bestCharIndex)
-    {
-        YutPiace target = BattleSceneManager.instance.allActiveChar[bestCharIndex];
-        yield return null;
-        yield return new WaitUntil(() => target.isMoveing == true);
-        yield return new WaitUntil(() => target.isMoveing == false);
-       
-        //GoalIn(target);
-    }
+  
     
   public virtual void EnemyTurn()
     {
@@ -198,7 +190,7 @@ public class EnemyController : YutPlayer
             else
             {
                 MoveEnemy(bestCharIndex, bestYutIndex);              
-                StartCoroutine(moveEndGoalIn(bestCharIndex));
+                
             }
                
             return;
@@ -388,10 +380,10 @@ public class EnemyController : YutPlayer
         if(skilltouse == monState.nomal)
             { return false; }
 
-        if(enemyData is canSkill enemySkill)
+        if(this is canSkill enemySkill)
         switch(skilltouse)
         {
-            case monState.skill_hp70:
+            case monState.skill_hp70: 
                 useedSkill70 = true;
                 enemySkill.UseSkill70(PlayerManager.Instance.PlayerData.block, enemyData.luck);
                 break;
@@ -436,12 +428,12 @@ public class EnemyController : YutPlayer
 
         BSMYutList.RemoveAt(0);
 
-       
-      
+
+        EnemyGroup.Clear();
         foreach(var enemy in BSMActiveChar)
         {
             if (enemy.isEnemy == true&&enemy.isMovingOnBorad == true&&enemy.isCarried == false)
-            { //여기가 계속 늘어남
+            { 
                 EnemyGroup.Add(enemy);
             }
         }
