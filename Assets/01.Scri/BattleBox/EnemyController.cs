@@ -564,6 +564,15 @@ public class EnemyController : YutPlayer
         }
     }
 
+    public virtual void DeadMob()
+    {
+       
+    }
+
+
+
+
+
     //----------------------------------------------------------------- 여기부터는 스킬 관련 함수들
 
 

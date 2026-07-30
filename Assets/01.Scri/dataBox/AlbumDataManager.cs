@@ -8,14 +8,20 @@ public class Album
 {
     public int id;
     public Sprite image;
+    public bool isUnLocked;
 
     public Album(int _id,Sprite _image)
     {
         id = _id;
         image = _image;
+        isUnLocked = false;
     }
 
-    public Album Clone() { return new Album(id,image); }
+    public Album Clone() 
+    { Album album = new Album(id,image);
+        album.isUnLocked = isUnLocked;
+        return album;
+    }
 }
 
 [CreateAssetMenu(fileName ="AlbumData",menuName ="Data/Album")]

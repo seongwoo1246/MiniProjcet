@@ -16,7 +16,9 @@ public class BattleUi : LobbyUiManager
     [SerializeField] Transform BattleCanvas;
     [SerializeField] GameObject BattleSlot;
     [SerializeField] VideoPlayer LoToBa;
+    [SerializeField] RawImage BaRaw;
     [SerializeField] VideoPlayer LoToEnd;
+    [SerializeField] RawImage EnRaw;
     [SerializeField] Button LastBattle;
 
 
@@ -48,6 +50,8 @@ public class BattleUi : LobbyUiManager
 
     public override void Start()
     {
+        EnRaw.gameObject.SetActive(false);
+        BaRaw.gameObject.SetActive(false);
         LastBattle.gameObject.SetActive(false);
         Battle.SetActive(false);
        SelectEnemy.SetActive(false);
@@ -63,6 +67,7 @@ public class BattleUi : LobbyUiManager
     {
 
         LoToBa.gameObject.SetActive(true);
+        BaRaw.gameObject.SetActive(true);
         LoToBa.Play();
         
     }
@@ -72,11 +77,13 @@ public class BattleUi : LobbyUiManager
     void ToEnd(VideoPlayer player)
     {
         LoToBa.gameObject.SetActive(false);
+        BaRaw.gameObject.SetActive(false);
         //ScenesM.instance.LoadScenes();
     }
     void ToBattle(VideoPlayer player)
     {
         LoToBa.gameObject.SetActive(false);
+        BaRaw.gameObject.SetActive(false);
         ScenesM.instance.LoadScenes(ST);
     }
 
@@ -100,7 +107,7 @@ public class BattleUi : LobbyUiManager
                 if (slot != null)
                 {
                     slot.gameObject.SetActive(true);
-                    slot.SetTride(TrideData.id, TrideData.icon, TrideData.name, TrideData.character, TrideData.trideDescription);
+                    slot.SetTride(TrideData);
                     battleSlots.Add(slot);
                    
                 }
@@ -156,27 +163,32 @@ public class BattleUi : LobbyUiManager
                 break;
 
             case 1:
+
                 ST = scenetpye.goblin;
 
                 break;
 
             case 2:
+
                 ST = scenetpye.elf;
 
                 break;
 
             case 3:
+
                 ST = scenetpye.undead;
 
                 break;
 
             case 4:
+
                 ST = scenetpye.angel;
 
                 break;
         }
 
         LoToBa.gameObject.SetActive(true);
+        BaRaw.gameObject.SetActive(true);
         LoToBa.Play();
         Destroy(dimClone);
 

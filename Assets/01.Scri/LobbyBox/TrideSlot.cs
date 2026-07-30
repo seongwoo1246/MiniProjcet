@@ -8,8 +8,10 @@ public class TrideSlot : MonoBehaviour
     public Image icon1;
     public TextMeshProUGUI SelectSlotName;
 
-    
- 
+   
+    public Image UnLockedTride;
+
+
     protected int TrideId = -1;
    
    
@@ -24,21 +26,22 @@ public class TrideSlot : MonoBehaviour
    
    
 
-    public virtual void SetTride(int id ,Sprite icon, string name, string character, string Description)
+    public virtual void SetTride(Tride tride)
     {
-        if(id == -1) return;
-       TrideId = id;
-        if(icon != null)
-       icon1.sprite = icon;
+        if(tride.id == -1) return;
+       TrideId = tride.id;
+        if(tride.icon != null)
+       icon1.sprite = tride.icon;
         if(name != null)
-            SelectSlotName.text = name;
+            SelectSlotName.text = tride.name;
 
-        if(TrideUi.instance != null)
+        UnLockedTride.gameObject.SetActive(!tride.isUnLocked);
+        if (TrideUi.instance != null)
         {
-            TrideUi.instance.iconIn.sprite = icon;
-            TrideUi.instance.name1.text = name;
-            TrideUi.instance.character.text = character;
-            TrideUi.instance.TrideDescription.text = Description;
+            TrideUi.instance.iconIn.sprite = tride.icon;
+            TrideUi.instance.name1.text = tride.name;
+            TrideUi.instance.character.text = tride.character;
+            TrideUi.instance.TrideDescription.text = tride.trideDescription;
         }
      
     }

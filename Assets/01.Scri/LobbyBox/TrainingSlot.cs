@@ -101,7 +101,8 @@ public class TrainingSlot : MonoBehaviour
                     case 114:
                         playerState.damage += 99999;
                         TrainingUi.Instance.Secret.gameObject.SetActive(true);
-                        TrainingUi.Instance.Secret.Play();
+                        TrainingUi.Instance.SecretRaw.gameObject.SetActive(true);
+                       TrainingUi.Instance.Secret.Play();
                         
                         break;
 

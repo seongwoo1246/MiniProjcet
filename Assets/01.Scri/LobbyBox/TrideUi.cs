@@ -63,7 +63,7 @@ public class TrideUi : LobbyUiManager
 
                 if (slot != null)
                 {
-                    slot.SetTride(TrideData.id, TrideData.icon, TrideData.name, TrideData.character, TrideData.trideDescription);
+                    slot.SetTride(TrideData);
                     TrideUiList.Add(slot);
                     slot.gameObject.SetActive(true);
                 }

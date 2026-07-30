@@ -59,8 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eade90186471b5e48ac74799ad2ec45e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AlbumSlot
-  album: {fileID: 0}
   memori: {fileID: 4882760877904433977}
+  UnlockedAlbum: {fileID: 0}
 --- !u!114 &4882760877904433977
 MonoBehaviour:
   m_ObjectHideFlags: 0

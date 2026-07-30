@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
+using UnityEngine.Video;
 
 
 
@@ -61,6 +60,9 @@ public class BattleSceneManager : MonoBehaviour
 
     [SerializeField]private YutPlayer yutPlayer;
 
+    [SerializeField] VideoPlayer videoPlayer;
+    [SerializeField] RawImage ToLobbyRaw;
+
     public YutPiace yutpiace;
     public GameObject playData1;
     public EnemyController CuttrentEnemy;
@@ -93,7 +95,6 @@ public class BattleSceneManager : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-            //DontDestroyOnLoad(gameObject);
         }
         else
             Destroy(gameObject);
@@ -111,8 +112,9 @@ public class BattleSceneManager : MonoBehaviour
         Turn = 0;
         TurnCount.text =$"경과 턴 : {Turn}";
         FirstStart();
-
-        
+        videoPlayer.gameObject.SetActive(false);
+        ToLobbyRaw.gameObject.SetActive(false);
+        videoPlayer.loopPointReached +=OnVideoEndToLobby;
 
         PlayerManager.Instance.playerPiace = FindAnyObjectByType<YutPiace>();
         PlayerManager.Instance.playerUiDate = playData1;
@@ -125,6 +127,15 @@ public class BattleSceneManager : MonoBehaviour
 
     }
 
+    // 영상 끝나고 넘어감
+    void OnVideoEndToLobby(VideoPlayer videoPlayer)
+    {
+        videoPlayer.gameObject.SetActive(false);
+        ToLobbyRaw.gameObject.SetActive(false);
+        ResetScene();
+        PlayerManager.Instance.SetHp();
+        ScenesM.instance.LoadScenes(scenetpye.Lobby);
+    }
     
 
 
@@ -339,6 +350,7 @@ public class BattleSceneManager : MonoBehaviour
             if(tride.hp <=0)
             {
                 tride.hp = 0;
+                enemyController.DeadMob();
                 GameOver();
             }
 
@@ -374,9 +386,9 @@ public class BattleSceneManager : MonoBehaviour
 
     public void GoToLobby()
     {
-        ResetScene();
-        PlayerManager.Instance.SetHp();
-        ScenesM.instance.LoadScenes(scenetpye.Lobby);
+        videoPlayer.gameObject.SetActive (true);
+        ToLobbyRaw.gameObject.SetActive (true);
+       videoPlayer.Play();
     }
 
     public void ResetScene()

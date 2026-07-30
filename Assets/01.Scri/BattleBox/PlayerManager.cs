@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class PlayerManager : YutPlayer
 {
     [SerializeField] TrideDataManager trideM;
-    
+    [SerializeField] AlbumDataManager albumM;
 
 
     public static PlayerManager Instance;
@@ -26,7 +26,6 @@ public class PlayerManager : YutPlayer
     public int haveMoney = 0;
     public EnemyController enemyController;
 
-
     public Tride PlayerData { get; private set; }
 
     
@@ -42,8 +41,34 @@ public class PlayerManager : YutPlayer
             Destroy(gameObject);
 
        SelectTride(trideM.TrideList[0]);
-       
+        UnLockedList(0);
+
+
     }
+
+
+    public void UnLockedList(int id)
+    {
+        Tride target = trideM.TrideList.Find(x => x.id == id);
+        if (target != null)
+        {
+            target.isUnLocked = true;
+        }
+
+
+        var albumdata = albumM;
+        Album targetalbum = albumdata.AlbumList.Find(y =>  y.id == id);
+        if (targetalbum != null)
+        {
+            targetalbum.isUnLocked = true;
+        }
+
+    }
+
+
+
+
+
 
    
 
@@ -224,6 +249,15 @@ public class PlayerManager : YutPlayer
     }
 
     
+
+
+
+
+
+
+
+
+
 
     //天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天 謙褶滌 釭援晦 й 蘊
     //謙褶滌煎 釭揚 蛐敷傘葬

@@ -86,6 +86,15 @@ public class Goblin : EnemyController, canSkill
 
     }
 
-   
+    public override void DeadMob()
+    {
+        if (enemyData.hp <= 0)
+        {
+
+            PlayerManager.Instance.UnLockedList(2);
+        }
+    }
+
+
 }
 

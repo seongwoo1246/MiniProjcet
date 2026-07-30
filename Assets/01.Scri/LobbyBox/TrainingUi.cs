@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Video;
+using UnityEngine.UI;
 
 public class TrainingUi : LobbyUiManager
 {
@@ -11,6 +12,7 @@ public class TrainingUi : LobbyUiManager
     [SerializeField] GameObject TrainingPanel;
 
     public VideoPlayer Secret;
+    public RawImage SecretRaw;
     [SerializeField] private TrainingDataManager TrainingM;
     public GameObject Trainingslot;
     public Transform TrainingContent;
@@ -43,12 +45,14 @@ public class TrainingUi : LobbyUiManager
         NoMoney.gameObject.SetActive(false);
         money.text = $" 현재 소유 금액 : {PlayerManager.Instance.haveMoney}";
         Secret.gameObject.SetActive(false);
+        SecretRaw.gameObject.SetActive(false);
         Secret.loopPointReached += Flawal;
         
     }
 
     void Flawal(VideoPlayer player)
     {
+        SecretRaw.gameObject.SetActive(false);
         Secret.gameObject.SetActive(false);
     }
 
@@ -112,7 +116,7 @@ public class TrainingUi : LobbyUiManager
     public void BuyOO()
     {
         TrainingSuccess.gameObject.SetActive(true);
-        StartCoroutine(BuyO(1));
+        StartCoroutine(BuyO(2));
     }
 
     IEnumerator BuyX(float time)

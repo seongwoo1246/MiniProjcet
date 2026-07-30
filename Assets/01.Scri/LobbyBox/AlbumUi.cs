@@ -34,7 +34,7 @@ public class AlbumUi : LobbyUiManager
         for (int i = 0; i < AlbumM.AlbumList.Count; i++)
         {
          
-            var albumData = AlbumM.AlbumList[i].Clone();
+            var albumData = AlbumM.AlbumList[i];
            
             
             if (albumData != null)
@@ -44,7 +44,7 @@ public class AlbumUi : LobbyUiManager
              
                 if (slot != null)
                 {
-                    slot.SetMemori(albumData.id, albumData.image);
+                    slot.SetMemori(albumData);
                     albumSlots.Add(slot);
                     slot.gameObject.SetActive(true);
                 }
