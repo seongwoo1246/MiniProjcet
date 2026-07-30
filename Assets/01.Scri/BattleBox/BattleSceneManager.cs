@@ -177,8 +177,15 @@ public class BattleSceneManager : MonoBehaviour
             CanThrow = true;
             Turn++;
             TurnCount.text = $"경과 턴 : {Turn}";
-            yutPlayer.TurnDisCount();
-            yutpiace.AngelTurnDisCount();
+            if(yutPlayer.buttTurn>=0)
+            {
+                yutPlayer.TurnDisCount();
+            }
+            if(yutpiace.counterTurns>=0)
+            {
+                yutpiace.AngelTurnDisCount();
+            }
+            
            
         }
     }
@@ -262,10 +269,12 @@ public class BattleSceneManager : MonoBehaviour
                     isCaughtAnything = true;
                     if(yutPlayer.isGoblinSkillUsed ==true)
                     {
+                        SoundManager.instance.PlayVoice("사악한웃음");
                         yutPlayer.UsedGoblinSkill(MovePiace.player, targetPiace.player);
                     }
                     if(yutPlayer.isUndeadSkillUsed  ==true)
                     {
+                        SoundManager.instance.PlayVoice("사악한웃음");
                         yutPlayer.UsedUndeadSkill(MovePiace.player, MovePiace);
                     }
                     
@@ -332,6 +341,7 @@ public class BattleSceneManager : MonoBehaviour
     {
        if(Random.value < miss )
         {
+            SoundManager.instance.PlayVoice("빗나감");
             attacktext.text = "공격을 회피했다.";
             attacktext.gameObject.SetActive(true);
             StartCoroutine(FalseText(attacktext));
@@ -340,6 +350,7 @@ public class BattleSceneManager : MonoBehaviour
         }
        else
         {
+            SoundManager.instance.PlaySFX("폭팔");
             attacktext.text = "공격을 명중했다.";
             int totalDefence = depence + yutPlayer.currentDenfence;
             int Damage = Mathf.Max(0, damage- totalDefence);
@@ -366,6 +377,7 @@ public class BattleSceneManager : MonoBehaviour
         int finalDamage = damage;
         if(Random.value<critical)
         {
+            SoundManager.instance.PlaySFX("쨍그랑");
             finalDamage = damage * 2;
         }
         return finalDamage;   
@@ -395,9 +407,10 @@ public class BattleSceneManager : MonoBehaviour
     {
         foreach( YutPiace yutPiace in allActiveChar)
         {
+            yutPiace.transform.position = new Vector3(-39, -1, 0);
             string selectCharName = yutPlayer.GetCharPoolName();
             ObjectPooling.instance.ReturnObject(selectCharName, yutPiace.gameObject);
-
+            
         }
         PlayerManager.Instance.currentActiveChar = 0;
        TurnYutResult.Clear();
@@ -423,9 +436,22 @@ public class BattleSceneManager : MonoBehaviour
         PlayerManager.Instance.haveMoney +=gain;
         GainMoney.text = $" 얻은 돈 : {gain} \n현재 소지금 : {PlayerManager.Instance.haveMoney}";
         if (PlayerManager.Instance.PlayerData.hp == 0)
+        {
             Break.text = "패배하셨군요 다음에 도전해 보세요.";
+            if(Random.Range(0,2)==1)
+            {
+                SoundManager.instance.PlaySFX("코난우우");
+
+            }
+            else 
+            {
+                SoundManager.instance.PlaySFX("크레이지우우");
+            }
+        }
+           
+
         else
-        { Break.text = "승리를 축하드립니다.  상대 종족을 사용할 수 있게 되었습니다."; }
+        { Break.text = "승리를 축하드립니다.  상대 종족을 사용할 수 있게 되었습니다."; SoundManager.instance.PlayVoice("좋아하는소리"); }
         GiveTip();
 
             GameOver1.SetActive(true);
@@ -434,7 +460,7 @@ public class BattleSceneManager : MonoBehaviour
 
     public int GainMoneys()
     {
-
+        SoundManager.instance.PlaySFX("돈소리");
         int gainM = Random.Range(500, 2000);
         int gainMoney = gainM + PlayerManager.Instance.PlayerData.moneyUp;
         return gainMoney;
@@ -556,7 +582,8 @@ public class BattleSceneManager : MonoBehaviour
     //윷 던지기
     public void OnClickThrowButton()
     {
-        if(enemyController.IsEnemyTurn||!CanThrow)
+        SoundManager.instance.PlaySFX("뽕");
+        if (enemyController.IsEnemyTurn||!CanThrow)
             { return; }
         ThrowYut();
     }
@@ -582,6 +609,7 @@ public class BattleSceneManager : MonoBehaviour
      
         if (currentYut == Yut.zero)
         {
+            SoundManager.instance.PlayVoice("앙대");
             resultYut.text = "저런 낙이 나왔습니다 턴을 넘기세요.";
             resultYut.gameObject.SetActive(true);
             StartCoroutine(FalseText(resultYut));
@@ -679,10 +707,10 @@ public class BattleSceneManager : MonoBehaviour
 
     public void OnClickYutSlot(int value)
     {
-       
 
+        SoundManager.instance.PlaySFX("뽕");
 
-        if(canUseYut == true)
+        if (canUseYut == true)
         {
             Yut targetYut;
 

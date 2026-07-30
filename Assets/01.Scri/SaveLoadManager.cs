@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -56,12 +58,29 @@ public class SaveLoadManager : MonoBehaviour
     [SerializeField] TrideDataManager trideM;
     [SerializeField] AlbumDataManager albumM;
     [SerializeField] TrainingDataManager trainingM;
-    [SerializeField] Button SaveB;
-    [SerializeField] Button LoadB;
+    [SerializeField] TextMeshProUGUI save;
+    [SerializeField] TextMeshProUGUI load;
 
+    private void Start()
+    {
+        save.gameObject.SetActive(false);
+        load.gameObject.SetActive(false);
+        save.text = "흠냐흠냐 오늘 있던 일을 일기에 적습니다. (-.-)zZ";
+        load.text = "오늘 하루도 힘차게 출발합니다.(*ㅅ*)>";
+    }
+    public IEnumerator SaveLoadFalseText(TextMeshProUGUI Text)
+    {
+        yield return new WaitForSeconds(2f);
+        Text.gameObject.SetActive(false);
+
+    }
 
     public void SaveGame()
     {
+        SoundManager.instance.PlaySFX("뽕");
+        save.gameObject.SetActive(true);
+        StartCoroutine(SaveLoadFalseText(save));
+
         SaveData sd = new SaveData();
         sd.haveMoney = PlayerManager.Instance.haveMoney;
 
@@ -113,13 +132,16 @@ public class SaveLoadManager : MonoBehaviour
 
         string json =JsonUtility.ToJson(sd,true);
         File.WriteAllText(Application.persistentDataPath+ "/save.json",json);
-
+        Debug.Log("저장 완료" + Application.persistentDataPath + "/save.json");
     }
 
     public void LoadGame()
     {
+        SoundManager.instance.PlaySFX("뽕");
+        load.gameObject.SetActive(true);
+        StartCoroutine(SaveLoadFalseText(load));
         string path = Application.persistentDataPath+"/save.json";
-
+        Debug.Log("불러오기 경로" + path);
         if (!File.Exists(path)) return;
 
         SaveData sd = JsonUtility.FromJson<SaveData>(File.ReadAllText(path));
@@ -174,7 +196,8 @@ public class SaveLoadManager : MonoBehaviour
             Album target = albumM.AlbumList.Find(a => a.id == saved.id);
             if( target!=null) target.isUnLocked = saved.isUnLocked;
         }
-        
+
+       
     }
 
 

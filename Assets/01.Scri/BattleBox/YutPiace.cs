@@ -76,6 +76,7 @@ public class YutPiace : MonoBehaviour
     //업은 말 상태 표시
     public void UpdateVisuals()
     {
+        SoundManager.instance.PlaySFX("심장소리");
         int count = carriedChar.Count;
         if (count == 0) icon.color = Color.white;
         else if (count == 1) icon.color = Color.red;
@@ -91,8 +92,11 @@ public class YutPiace : MonoBehaviour
     //말이 잡혔을 때 하는 코드
     public void CatchChar(YutPiace yutPiace)
     {
-        if(Counter(yutPiace))
+        SoundManager.instance.PlaySFX("한입");
+
+        if (Counter(yutPiace))
         {
+            SoundManager.instance.PlayVoice("이거너무");
             return;
         }
 
@@ -113,7 +117,8 @@ public class YutPiace : MonoBehaviour
     //잡히거나 골인 후 말이 돌아가는 내용
     public void returnReady()
     {
-        if( BattleSceneManager.instance!=null&&BattleSceneManager.instance.allActiveChar.Contains(this))
+        SoundManager.instance.PlayVoice("뚝배기");
+        if ( BattleSceneManager.instance!=null&&BattleSceneManager.instance.allActiveChar.Contains(this))
         {
             BattleSceneManager.instance.allActiveChar.Remove(this);
         }
@@ -124,6 +129,7 @@ public class YutPiace : MonoBehaviour
         isCarried = false;
         carriedChar.Clear();
         UpdateVisuals();
+        transform.position = new Vector3(-39, -1,0);
         string selectCharName =player.GetCharPoolName();
         ObjectPooling.instance.ReturnObject(selectCharName, this.gameObject);
     }
@@ -143,16 +149,17 @@ public class YutPiace : MonoBehaviour
         //뒷도가 나왔을 경우
         if (steps == -1)
         {
-            
+            SoundManager.instance.PlaySFX("폭팔");
             if (PathState1 == PathState.main && currentPathIndex > 0)
             {
-                currentPathIndex = currentPathIndex - 2;
+                currentPathIndex--;
 
 
             }
             else if (PathState1 == PathState.main && currentPathIndex == 0)
             {
-                currentPathIndex = 18;
+                SoundManager.instance.PlayVoice("사악한웃음");
+                currentPathIndex = 19;
 
             }
             else
@@ -181,31 +188,23 @@ public class YutPiace : MonoBehaviour
                     if (PathState1 == PathState.summer)
                     {
                         PathState1 = PathState.summer;
-                        currentPathIndex = currentPathIndex - 2;
+                        currentPathIndex--;
                     }
                     else if (PathState1 == PathState.spring)
                     {
                         PathState1 = PathState.spring;
-                        currentPathIndex = currentPathIndex - 2;
+                        currentPathIndex--;
                     }
                     else if (PathState1 == PathState.autumn)
                     {
                         PathState1 = PathState.autumn;
-                        currentPathIndex = currentPathIndex - 2;
+                        currentPathIndex--;
                     }
                 }
             }
 
-            if (isEnemy && enemyController.currentActiveChar == 0)
-            {
-                isMoveing = false;
-                yield break; }
-            else if (!isEnemy && PlayerManager.Instance.currentActiveChar == 0)
-            {
-                isMoveing = false;
-                yield break; }
-            else
-            { steps = 1; }
+            
+             steps = 0; 
                
 
         }
@@ -216,6 +215,13 @@ public class YutPiace : MonoBehaviour
         Vector3Int nextSpace = Vector3Int.zero;
         var borad = YutBoardController.instance;
         int maxCount = 0;
+
+        if(targetIndex ==-1)
+        {
+            isMoveing = false;
+            yield break;
+        }
+
         switch (PathState1)
         {
             case PathState.main:
@@ -235,6 +241,7 @@ public class YutPiace : MonoBehaviour
                 {
                     if (CheckGoalIn(steps) == true)
                     {
+                        SoundManager.instance.PlayVoice("좋아하는소리");
                         player.GoalIn(this);
                         yield break;
                     }
@@ -264,6 +271,7 @@ public class YutPiace : MonoBehaviour
                 {
                     if (CheckGoalIn(steps) == true)
                     {
+                        SoundManager.instance.PlayVoice("좋아하는소리");
                         player.GoalIn(this);
                         yield break;
                     }
@@ -292,6 +300,7 @@ public class YutPiace : MonoBehaviour
 
                     if (CheckGoalIn(steps) == true)
                     {
+                        SoundManager.instance.PlayVoice("좋아하는소리");
                         player.GoalIn(this);
                         yield break;
                     }
@@ -389,6 +398,7 @@ public class YutPiace : MonoBehaviour
     // 말 선택하기 
     public void OnMouseDown()
     {
+        SoundManager.instance.PlaySFX("뽕");
         var skill = SkillManager.instance;
 
         if(skill.isWaitingForElfSkillTarget&&!isEnemy)

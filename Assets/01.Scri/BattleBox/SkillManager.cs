@@ -38,6 +38,7 @@ public class SkillManager : MonoBehaviour
     //휴먼 스킬 방어력이 증가 (한턴동안) / 적은 3턴동안
     public void HumenSkill(YutPlayer caster, int defence , int turnCont)
     {
+        SoundManager.instance.PlaySFX("심장소리");
         skill.text = $"{turnCont}";
         float hpbar = caster.GetHpVaule();
 
@@ -62,6 +63,7 @@ public class SkillManager : MonoBehaviour
     //고블린 스킬 잡았을 때 일정 확률로 적의 최대 말 갯수를 줄이고 나의 최대말을 늘림 / 적은 처음은 30프로 두번째는 50프로 3번째는 70프로 확률로 훔침
     public void GoblinSkill(YutPlayer caster)
     {
+        SoundManager.instance.PlayVoice("사악한웃음");
         skill.text = "가능";
        caster.isGoblinSkillUsed = true;
         
@@ -71,6 +73,8 @@ public class SkillManager : MonoBehaviour
     public int currentElfSkillRange = 0;
     public void ElfSkill(YutPlayer player,YutPiace caster, int skillRange)
     {
+        SoundManager.instance.PlayVoice("앙대");
+
         if (player == PlayerManager.Instance)
         {
             OnClickElfskill(PlayerManager.Instance.PlayerData.length);
@@ -106,13 +110,14 @@ public class SkillManager : MonoBehaviour
     //언데드 스킬  잡았을 때 일정 확률로 업은 말의 수 +1 / 적은 패시브로 발동하며 확률이 잃은 체력 비례해서 증가 예정
     public void UndeadSkill(YutPlayer caster)
     {
+        SoundManager.instance.PlayVoice("사악한웃음");
         skill.text = "가능";
         caster.isUndeadSkillUsed = true;
     }
     //천사스킬 잡혔을 때 잡히면 일정 확률로 부활하여 반격해서 역으로 잡음 / 패시브로 반격하며 잃은 체력 비례해서 증가할 예정
     public void AngelSkill(YutPiace target)
     {
-       
+        SoundManager.instance.PlaySFX("심장소리");
         target.isAngelCounterActive = true;
         target.counterTurns = 3;
         skill.text = $"{target.counterTurns}";

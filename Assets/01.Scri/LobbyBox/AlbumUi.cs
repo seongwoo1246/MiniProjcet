@@ -54,7 +54,7 @@ public class AlbumUi : LobbyUiManager
 
     public void SelectMemori(int id )
     {
-
+        SoundManager.instance.PlaySFX("»Í");
         //id°¡ 1000ÀÌ¸é ¸®½ºÆ® 1000¹øÂ° ¾øÀ¸´Ï ¹üÀ§¸¦ ¹þ¾î³µ´Ù°í ³ª¿È
         var Data = AlbumM.AlbumList[id-1000].Clone();
        
@@ -81,6 +81,7 @@ public class AlbumUi : LobbyUiManager
 
     public void ViewMemoriExit()
     {
+        SoundManager.instance.PlaySFX("»Í");
         ViewMemoris.SetActive(false);
     }
 

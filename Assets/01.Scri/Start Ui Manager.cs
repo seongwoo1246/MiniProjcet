@@ -12,10 +12,24 @@ public class StartUi : MonoBehaviour
     [SerializeField] Button Hard;
     [SerializeField] VideoPlayer VideoPlay;
     [SerializeField] RawImage raw;
+    [SerializeField] Image EndAfter;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if(ScenesM.instance.IsviewEnd ==true)
+        {
+            SoundManager.instance.PlayBGM(SoundManager.instance.hidenStart);
+            EndAfter.gameObject.SetActive(true);
+        }
+        else
+        {
+            SoundManager.instance.PlayBGM(SoundManager.instance.nomalStart);
+            EndAfter.gameObject.SetActive(false);
+        }
+
+
+
         Easy.gameObject.SetActive(false);
         Normal.gameObject.SetActive(false);
         Hard.gameObject.SetActive(false);
@@ -34,7 +48,7 @@ public class StartUi : MonoBehaviour
 
    public void GameStart()
     {
-        
+        SoundManager.instance.PlayVoice("æ»≥Á«œººø‰");
         StartB.gameObject.SetActive(false);
         Easy.gameObject.SetActive(true);
         Normal.gameObject.SetActive(true);
@@ -43,7 +57,7 @@ public class StartUi : MonoBehaviour
 
     public void EasyStart()
     {
-
+        SoundManager.instance.PlaySFX("ªÕ");
         ScenesM.instance.SetDifficulty(Difficulty.easy);
         VideoPlay.gameObject.SetActive(true);
         raw.gameObject.SetActive(true);
@@ -52,6 +66,7 @@ public class StartUi : MonoBehaviour
     }
     public void NormalStart()
     {
+        SoundManager.instance.PlaySFX("ªÕ");
         ScenesM.instance.SetDifficulty(Difficulty.normal);
         VideoPlay.gameObject.SetActive(true);
         raw.gameObject.SetActive(true);
@@ -61,6 +76,7 @@ public class StartUi : MonoBehaviour
 
     public void HardStart()
     {
+        SoundManager.instance.PlaySFX("ªÕ");
         ScenesM.instance.SetDifficulty(Difficulty.hard);
         VideoPlay.gameObject.SetActive(true);
         raw.gameObject.SetActive(true);

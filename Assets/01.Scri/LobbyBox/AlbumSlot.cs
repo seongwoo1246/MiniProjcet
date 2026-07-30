@@ -19,7 +19,8 @@ public class AlbumSlot : MonoBehaviour
 
     public void ViewMemori()
     {
-        if(GetSprite()==null)
+        SoundManager.instance.PlaySFX("»Í");
+        if (GetSprite()==null)
         {
             return;
         }
@@ -35,6 +36,7 @@ public class AlbumSlot : MonoBehaviour
 
     public void SetMemori(Album album)
     {
+       
         Albumid = album.id;
         if(album.isUnLocked)
         {

@@ -3,11 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class Tutorial : LobbyUiManager
 {
+    [SerializeField] Image EndAfter1;
+
+
+
+
+
     [SerializeField] TextMeshProUGUI text1;
     [SerializeField] TextMeshProUGUI textreading;
     [SerializeField] GameObject page;
@@ -20,6 +25,20 @@ public class Tutorial : LobbyUiManager
 
     public override void Start()
     {
+        if(ScenesM.instance.IsviewEnd == true)
+        {
+            SoundManager.instance.PlayBGM(SoundManager.instance.hidenLobby);
+            EndAfter1.gameObject.SetActive(true);
+        }
+        else
+        {
+            SoundManager.instance.PlayBGM(SoundManager.instance.nomalLobby);
+            EndAfter1.gameObject.SetActive(false);
+        }
+
+
+
+
         text1.gameObject.SetActive(false);
         textreading.gameObject.SetActive(false);
         page.SetActive(false);
@@ -72,6 +91,7 @@ public class Tutorial : LobbyUiManager
         text.gameObject.SetActive(true);
         for(int i = 0; i<strings.Count;i++)
         {
+            SoundManager.instance.PlaySFX("»Í");
             text.text = "";
             int strTypingCount = strings[i].GetTypingLength();
             for (int j = 0; j <= strTypingCount; j++)

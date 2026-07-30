@@ -4,12 +4,14 @@ using UnityEngine.SceneManagement;
 
 public enum scenetpye
 {
-   Lobby =1, 
+    start,
+   Lobby, 
     humun,
     undead,
     goblin,
     elf,
     angel,
+    last,
     Ending
 
 }
@@ -21,11 +23,23 @@ public enum Difficulty
     hard
 }
 
+
+
+
+
+
+
+
+
+
 public class ScenesM : MonoBehaviour
 {
     public static ScenesM instance;
     public Difficulty SelectedDifficulty = Difficulty.normal;
  
+
+
+    public bool IsviewEnd = false;
     
 
     private void Awake()
@@ -41,6 +55,7 @@ public class ScenesM : MonoBehaviour
 
     public void LoadScenes(scenetpye type)
     {
+        SoundManager.instance.PlayVoice("진실의방으로");
         SceneManager.LoadScene((int)type);
     }
 

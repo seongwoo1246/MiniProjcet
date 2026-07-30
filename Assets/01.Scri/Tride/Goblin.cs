@@ -4,6 +4,7 @@ public class Goblin : EnemyController, canSkill
 {
     protected override void Start()
     {
+        SoundManager.instance.PlayBGM(SoundManager.instance.goblin);
         base.Start();
         CurrentEnemy = 1;
         SetEnemy(CurrentEnemy);
@@ -35,13 +36,15 @@ public class Goblin : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SoundManager.instance.PlaySFX("쨍그랑");
             SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
-            isGoblinSkillUsed=true;
+            SoundManager.instance.PlaySFX("뿌뿌");
+            isGoblinSkillUsed =true;
             SkillManager.instance.skillText.text = "적이 지금부터 일정 확률로 약탈을 시전합니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
 
@@ -52,12 +55,14 @@ public class Goblin : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SoundManager.instance.PlaySFX("쨍그랑");
             SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
+            SoundManager.instance.PlaySFX("뿌뿌");
             isGoblinSkillUsed = true;
             finalprecent += 0.05f;
             SkillManager.instance.skillText.text = "적이 화난 듯합니다. 확률이 올라갑니다.";
@@ -70,12 +75,14 @@ public class Goblin : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SoundManager.instance.PlaySFX("쨍그랑");
             SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
+            SoundManager.instance.PlaySFX("뿌뿌");
             isGoblinSkillUsed = true;
             finalprecent += 0.1f;
             SkillManager.instance.skillText.text = "현재 적의 눈에 보이는게 없는 광분 상태입니다. 조심하세요.";
@@ -88,11 +95,24 @@ public class Goblin : EnemyController, canSkill
 
     public override void DeadMob()
     {
+       
         if (enemyData.hp <= 0)
         {
-
+            SoundManager.instance.PlayVoice("마린죽는소리");
             PlayerManager.Instance.UnLockedList(2);
+
+            switch (PlayerManager.Instance.PlayerData.id)
+            {
+                case 0: PlayerManager.Instance.UnLockedList(1000); break;
+                case 1:  break;
+                case 2: PlayerManager.Instance.UnLockedList(1004); break;
+                case 3: PlayerManager.Instance.UnLockedList(1005); break;
+                case 4: PlayerManager.Instance.UnLockedList(1006); break;
+                
+            }
         }
+        
+        
     }
 
 

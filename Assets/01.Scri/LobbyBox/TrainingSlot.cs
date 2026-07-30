@@ -37,6 +37,7 @@ public class TrainingSlot : MonoBehaviour
 
     public void UpgradeLevel()
     {
+        SoundManager.instance.PlaySFX("µ·¼Ò¸®");
         var player = PlayerManager.Instance;
         
         if (Data != null)

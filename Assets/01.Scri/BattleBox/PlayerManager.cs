@@ -26,6 +26,10 @@ public class PlayerManager : YutPlayer
     public int haveMoney = 0;
     public EnemyController enemyController;
 
+    public bool CanAttackLastBoss = false;
+    public bool CanGoEnd = false;
+
+
     public Tride PlayerData { get; private set; }
 
     
@@ -125,7 +129,7 @@ public class PlayerManager : YutPlayer
     public override void GoalIn(YutPiace targetPiace)
     {
 
-        Debug.Log("플레이어");
+        
         var BSM = BattleSceneManager.instance;
 
         int totalcount = 1;
@@ -176,6 +180,8 @@ public class PlayerManager : YutPlayer
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             skill.skillCount--;
             skill.count.text = $"{skill.skillCount}";
+            if(skill.skillCount <= 0)
+            { skill.skillCount = 0; }
             return;
         }
         else

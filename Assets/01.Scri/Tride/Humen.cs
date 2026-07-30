@@ -4,6 +4,7 @@ public class Humen : EnemyController, canSkill
 {
     protected override void Start()
     {
+        SoundManager.instance.PlayBGM(SoundManager.instance.humen);
         base.Start();
         CurrentEnemy = 0;
         SetEnemy(CurrentEnemy);
@@ -12,7 +13,7 @@ public class Humen : EnemyController, canSkill
     
     public override void GoalIn(YutPiace targetPiace)
     {
-        Debug.Log("휴먼");
+       
         var mydata = enemyData;
         var player = PlayerManager.Instance.PlayerData;
         var BSM = BattleSceneManager.instance;
@@ -37,12 +38,14 @@ public class Humen : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SoundManager.instance.PlaySFX("쨍그랑");
             SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
+            SoundManager.instance.PlaySFX("뿌뿌");
             SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
             SkillManager.instance.skillText.text = "적이 3턴간 단단해집니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
@@ -54,12 +57,14 @@ public class Humen : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SoundManager.instance.PlaySFX("쨍그랑");
             SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
+            SoundManager.instance.PlaySFX("뿌뿌");
             SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
             SkillManager.instance.skillText.text = "적이 3턴간 더 단단해집니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
@@ -71,12 +76,14 @@ public class Humen : EnemyController, canSkill
     {
         if (Random.value + block > luck)
         {
+            SoundManager.instance.PlaySFX("쨍그랑");
             SkillManager.instance.skillText.text = "적의 스킬을 방해했습니다. 야호(>.<)/*";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             return;
         }
         else
         {
+            SoundManager.instance.PlaySFX("뿌뿌");
             SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
             SkillManager.instance.skillText.text = "적이 3턴간 더 더욱 단단해집니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
@@ -88,8 +95,17 @@ public class Humen : EnemyController, canSkill
     {
         if (enemyData.hp <= 0)
         {
-
+            SoundManager.instance.PlayVoice("마린죽는소리");
             PlayerManager.Instance.UnLockedList(1);
+            switch (PlayerManager.Instance.PlayerData.id)
+            {
+                case 0: break;
+                case 1: PlayerManager.Instance.UnLockedList(1000); break;
+                case 2: PlayerManager.Instance.UnLockedList(1001); break;
+                case 3: PlayerManager.Instance.UnLockedList(1002); break;
+                case 4: PlayerManager.Instance.UnLockedList(1003); break;
+
+            }
         }
     }
 

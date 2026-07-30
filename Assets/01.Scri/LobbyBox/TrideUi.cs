@@ -83,7 +83,7 @@ public class TrideUi : LobbyUiManager
 
     public void SelectTride(int id)
     {
-
+        SoundManager.instance.PlayVoice("æ»≥Á«œººø‰");
         TrideId = id;
 
         var TrideData = TrideM.TrideList[TrideId];
@@ -99,11 +99,13 @@ public class TrideUi : LobbyUiManager
     }
     public void ExitSelect()
     {
+        SoundManager.instance.PlaySFX("ªÕ");
         TrideSelect.SetActive(false);
     }
 
     public void TrideSlectOk()
     {
+        SoundManager.instance.PlaySFX("ªÕ");
         if (TrideId == -1)
         { return; }
 

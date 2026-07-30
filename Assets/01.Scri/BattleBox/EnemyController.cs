@@ -51,6 +51,9 @@ public class EnemyController : YutPlayer
         
     }
 
+ 
+
+
     private void ApplyDifficulty(Difficulty difficulty)
     {
         switch(difficulty)
@@ -75,10 +78,10 @@ public class EnemyController : YutPlayer
                 enemyData.depence += 10;
                 enemyData.critical += 0.1f;
                 enemyData.block += 0.2f;
-                enemyData.length += 1;
-                enemyData.kidnap += 0.05f;
-                enemyData.infection += 0.05f;
-                enemyData.rivival += 0.05f;
+                enemyData.length += 2;
+                enemyData.kidnap += 0.1f;
+                enemyData.infection += 0.1f;
+                enemyData.rivival += 0.1f;
                 break;
 
             case Difficulty.hard:
@@ -89,7 +92,7 @@ public class EnemyController : YutPlayer
                     enemyData.depence += 20;
                     enemyData.critical += 0.2f;
                     enemyData.block += 0.4f;
-                    enemyData.length += 2;
+                    enemyData.length += 3;
                     enemyData.kidnap += 0.15f;
                     enemyData.infection += 0.15f;
                     enemyData.rivival += 0.15f;
@@ -184,7 +187,7 @@ public class EnemyController : YutPlayer
 
         if (CanGoalIn(out bestCharIndex, out bestYutIndex) == true)
         {
-
+            SoundManager.instance.PlayVoice("좋아하는소리");
             if (bestCharIndex == -1)
             { ifNewStart(bestCharIndex, bestYutIndex); return; }
             else
@@ -566,7 +569,7 @@ public class EnemyController : YutPlayer
 
     public virtual void DeadMob()
     {
-       
+        
     }
 
 

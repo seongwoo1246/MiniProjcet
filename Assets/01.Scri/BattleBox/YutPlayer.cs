@@ -109,9 +109,9 @@ public class YutPlayer : MonoBehaviour
             {
                 if(kid != null)
                 {
+                   
                     currentActiveChar--;
-                    string selectCharName =GetCharPoolName();
-                    ObjectPooling.instance.ReturnObject(selectCharName, kid.gameObject);
+                   
                     kid.returnReady();
                    
                 }
@@ -147,11 +147,12 @@ public class YutPlayer : MonoBehaviour
 
     public void TurnDisCount()
     {
-        if(buttTurn>0)
-        {
-            buttTurn--;
-            SkillManager.instance.skill.text = $"{buttTurn}";
-            if (buttTurn <= 0)
+
+        buttTurn--;
+        SkillManager.instance.skill.text = $"{buttTurn}";
+
+
+        if (buttTurn == 0)
             {
                 buttTurn = 0;
                 currentDenfence = 0;
@@ -159,7 +160,9 @@ public class YutPlayer : MonoBehaviour
                 SkillManager.instance.skillText.text = "방어력이 돌아옵니다.";
                 SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             }
-        }
+
+           
+        
     }
 
     public bool isGoblinSkillUsed = false;

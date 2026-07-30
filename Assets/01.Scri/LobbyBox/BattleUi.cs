@@ -50,9 +50,34 @@ public class BattleUi : LobbyUiManager
 
     public override void Start()
     {
-        EnRaw.gameObject.SetActive(false);
+
+      
+
+        if (PlayerManager.Instance.CanAttackLastBoss ==true)
+        {
+            LastBattle.gameObject.SetActive(true);
+        }
+        else
+        {
+            LastBattle.gameObject.SetActive(false);
+        }
+
+        if (PlayerManager.Instance.CanGoEnd == true)
+        {
+            LoToEnd.gameObject.SetActive(true);
+            EnRaw.gameObject.SetActive(true);
+            LoToEnd.Play();
+        }
+        else
+        {
+            LoToEnd.gameObject.SetActive(false);
+            EnRaw.gameObject.SetActive(false);
+        }
+
+
+            
         BaRaw.gameObject.SetActive(false);
-        LastBattle.gameObject.SetActive(false);
+       
         Battle.SetActive(false);
        SelectEnemy.SetActive(false);
         LoToBa.gameObject.SetActive(false);
@@ -65,26 +90,37 @@ public class BattleUi : LobbyUiManager
     // º¸½ºÇÑÅÂ °¡´Â ¹öÆ° 
     public void LastBattleStart()
     {
-
+        SoundManager.instance.PlaySFX("ÆøÆÈ");
         LoToBa.gameObject.SetActive(true);
         BaRaw.gameObject.SetActive(true);
         LoToBa.Play();
-        
     }
 
     
 
     void ToEnd(VideoPlayer player)
     {
-        LoToBa.gameObject.SetActive(false);
-        BaRaw.gameObject.SetActive(false);
-        //ScenesM.instance.LoadScenes();
+        LoToEnd.gameObject.SetActive(false);
+        EnRaw.gameObject.SetActive(false);
+        
+        ScenesM.instance.LoadScenes(scenetpye.Ending);
     }
     void ToBattle(VideoPlayer player)
     {
-        LoToBa.gameObject.SetActive(false);
-        BaRaw.gameObject.SetActive(false);
-        ScenesM.instance.LoadScenes(ST);
+        if (PlayerManager.Instance.CanAttackLastBoss == true)
+        {
+            LoToBa.gameObject.SetActive(false);
+            BaRaw.gameObject.SetActive(false);
+            ScenesM.instance.LoadScenes(scenetpye.last);
+        }
+        else
+        {
+            LoToBa.gameObject.SetActive(false);
+            BaRaw.gameObject.SetActive(false);
+            ScenesM.instance.LoadScenes(ST);
+        }
+
+        
     }
 
     
@@ -129,11 +165,12 @@ public class BattleUi : LobbyUiManager
 
     public void ExitSelectBattle()
     {
+        SoundManager.instance.PlaySFX("»Í");
         SelectEnemy.SetActive(false);
     }
     public void SelectBattle(int id)
     {
-
+        SoundManager.instance.PlaySFX("»Í");
         battleId = id;
 
         var TrideData = TrideM.TrideList[battleId].Clone();
@@ -149,6 +186,7 @@ public class BattleUi : LobbyUiManager
     }
     public void StartBattel()
     {
+        SoundManager.instance.PlaySFX("»Í");
         if (battleId == -1)
             return;
         Battle.SetActive(false);
