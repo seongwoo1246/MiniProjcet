@@ -93,26 +93,30 @@ public class YutPiace : MonoBehaviour
         
     }
     //말이 잡혔을 때 하는 코드
-    public void CatchChar(YutPiace yutPiace)
+    public void CatchChar(YutPiace attacker)
     {
-        YutPiace realAttacker  = yutPiace.GetComponentInChildren<YutPiace>();
-        if(realAttacker != null)
+
+        SoundManager.instance.PlaySFX("한입");
+        bool iscountered = this.Counter(attacker);
+
+       if(iscountered)
         {
-            yutPiace.Counter(realAttacker);
+            SoundManager.instance.PlayVoice("이거너무");
+            attacker.returnReady();
         }
         else
         {
-            yutPiace.Counter(yutPiace);
+            this.returnReady();
         }
 
 
 
-            SoundManager.instance.PlaySFX("한입");
-
-       
 
 
-        if (this.isEnemy==true)
+
+
+
+        if (this.isEnemy == true)
         {
             enemyController.currentActiveChar--;
             enemyController.isMaxChar = false;
@@ -122,7 +126,7 @@ public class YutPiace : MonoBehaviour
             PlayerManager.Instance.currentActiveChar--;
             PlayerManager.Instance.isMaxChar = false;
         }
-            returnReady();
+            
     }
     //잡히거나 골인 후 말이 돌아가는 내용
     public void returnReady()
@@ -148,20 +152,8 @@ public class YutPiace : MonoBehaviour
         }
         else
         {
-            string enemypool = "";
-
-            if (enemyController.enemyData != null)
-            {
-                enemypool = enemyController.enemyData.name;
-            }
-            else if (GetComponentInChildren<Tride>() != null)
-            {
-                enemypool = GetComponentInChildren<Tride>().name;
-            }
-            else
-            {
-                enemypool = gameObject.name.Replace("(Clone)", "").Trim();
-            }
+            string enemypool = gameObject.name.Replace("(Clone)", "").Trim();
+            
 
             ObjectPooling.instance.ReturnObject(enemypool, this.gameObject);
 
@@ -528,7 +520,6 @@ public class YutPiace : MonoBehaviour
             {
                 SkillManager.instance.skillText.text = "반격 성공했습니다. 야호(>.<)/*";
                 SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
-                attacker.returnReady();
                 isAngelCounterActive =false;
                 counterTurns = 0;
                 SkillManager.instance.skill.text = "불가능";

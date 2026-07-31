@@ -144,6 +144,7 @@ public class BattleSceneManager : MonoBehaviour
     {
         if(IsMyTurn==true)
         {
+            SoundManager.instance.PlaySFX("»Í");
             TurnYutResult.Clear();
             moC = 0;
             moCount.text = $"{moC}";

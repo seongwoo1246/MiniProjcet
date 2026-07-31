@@ -137,7 +137,7 @@ MonoBehaviour:
     isUnLocked: 1
   - id: 5
     icon: {fileID: 2815480276518151938, guid: 5fa36eca2136ea84cbd139657a638839, type: 3}
-    name: "\uCCA0\uC218?(\uB77C\uC2A4\uBCF4)"
+    name: "\uCCA0\uC218"
     maxHp: 20000
     hp: 20000
     damage: 400

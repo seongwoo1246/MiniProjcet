@@ -1122,6 +1122,7 @@ MonoBehaviour:
   skillCount: 99
   isWaitingForElfSkillTarget: 0
   currentElfSkillRange: 0
+  isWaitingForAngelTarget: 0
 --- !u!1 &279604853
 GameObject:
   m_ObjectHideFlags: 0
