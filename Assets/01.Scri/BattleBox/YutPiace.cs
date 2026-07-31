@@ -95,15 +95,19 @@ public class YutPiace : MonoBehaviour
     //말이 잡혔을 때 하는 코드
     public void CatchChar(YutPiace yutPiace)
     {
-        YutPiace realAttacker  =GetComponentInChildren<YutPiace>();
+        YutPiace realAttacker  = yutPiace.GetComponentInChildren<YutPiace>();
         if(realAttacker != null)
         {
-            yu
+            yutPiace.Counter(realAttacker);
+        }
+        else
+        {
+            yutPiace.Counter(yutPiace);
         }
 
 
 
-        SoundManager.instance.PlaySFX("한입");
+            SoundManager.instance.PlaySFX("한입");
 
        
 
@@ -144,9 +148,21 @@ public class YutPiace : MonoBehaviour
         }
         else
         {
-            
-            string enemypool = enemyController.enemyData!=null? enemyController.enemyData.name : gameObject.name.Replace("(Clone)","").Trim();
-            enemypool = "hemun";
+            string enemypool = "";
+
+            if (enemyController.enemyData != null)
+            {
+                enemypool = enemyController.enemyData.name;
+            }
+            else if (GetComponentInChildren<Tride>() != null)
+            {
+                enemypool = GetComponentInChildren<Tride>().name;
+            }
+            else
+            {
+                enemypool = gameObject.name.Replace("(Clone)", "").Trim();
+            }
+
             ObjectPooling.instance.ReturnObject(enemypool, this.gameObject);
 
         }
