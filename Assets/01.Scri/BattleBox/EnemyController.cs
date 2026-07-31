@@ -575,7 +575,20 @@ public class EnemyController : YutPlayer
 
 
 
+    public string GetCharPoolName1()
+    {
 
+        switch (CurrentEnemy)
+        {
+            case 0: return "humen";
+            case 1: return "goblin";
+            case 2: return "elf";
+            case 3: return "undead";
+            case 4: return "angel";
+            case 5: return "boss";
+            default: return "humen";
+        }
+    }
 
     //----------------------------------------------------------------- 여기부터는 스킬 관련 함수들
 

@@ -120,7 +120,7 @@ MonoBehaviour:
     moneyUp: 0
     maxCharacter: 3
     heal: 200
-    luck: 0.05
+    luck: 1
     block: 0
     miss: 0.1
     length: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
       \uC138\uC0C1\uC758 \uCD94\uC545\uD568\uC758 \uC808\uB9DD\uD558\uBA70 \uB208\uBB3C\uC744
       \uD758\uB9AC\uBA70 \uC138\uACC4\uB97C \uBA78\uD558\uAE30\uB85C \uACB0\uC815\uD558\uAC8C
       \uB418\uC5C8\uB2E4."
-    isUnLocked: 0
+    isUnLocked: 1
   - id: 5
     icon: {fileID: 5579335266590474791, guid: 3714ab70b8f9ae9478868d0059a1cd89, type: 3}
     name: "\uCCA0\uC218(\uBCF4\uC2A4)"

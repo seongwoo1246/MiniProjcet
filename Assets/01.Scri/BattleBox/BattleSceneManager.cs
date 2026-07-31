@@ -607,6 +607,9 @@ public class BattleSceneManager : MonoBehaviour
 
     public void ThrowYut()
     {
+        
+
+
         bool IsEnemy = enemyController.IsEnemyTurn;
 
         if (!IsEnemy)
@@ -724,6 +727,9 @@ public class BattleSceneManager : MonoBehaviour
 
     public void OnClickYutSlot(int value)
     {
+        if(canthrow ==true)
+        { return; }
+
 
         SoundManager.instance.PlaySFX("»Í");
 

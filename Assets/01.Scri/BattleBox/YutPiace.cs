@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine.UIElements;
+
 
 
 public enum PathState
@@ -51,6 +50,25 @@ public class YutPiace : MonoBehaviour
         this.player = ownerPlayer;
     }
 
+
+    public string GetmyPoolName()
+    {
+        if (player != null)
+        {
+            return player.GetCharPoolName();
+        }
+        else if (enemyController != null)
+        {
+            return enemyController.GetCharPoolName1();
+        }
+
+        return gameObject.name.Replace("(Clone)","").Trim();
+    }
+
+
+
+
+
     //말들이 판 위로 올라올 때  세팅하는 함수
     public void OnBoardIn(bool isEnemyPiece)
     {
@@ -97,7 +115,7 @@ public class YutPiace : MonoBehaviour
     {
         if (attacker == null) return;
 
-       // string realAttacker = attacker.player != null ? attacker.player.GetCharPoolName() : attacker.player.name.Replace("(Clone)", "").Trim();
+      
 
         SoundManager.instance.PlaySFX("한입");
         bool iscountered = this.Counter(attacker);
@@ -134,6 +152,8 @@ public class YutPiace : MonoBehaviour
     //잡히거나 골인 후 말이 돌아가는 내용
     public void returnReady()
     {
+        string poolname = GetmyPoolName();
+
         if(this ==null||gameObject==null) return;
         if(gameObject.activeInHierarchy)
         {
@@ -145,6 +165,10 @@ public class YutPiace : MonoBehaviour
         {
             BattleSceneManager.instance.allActiveChar.Remove(this);
         }
+        if ( enemyController !=null&&enemyController.EnemyGroup.Contains(this))
+        {
+            enemyController.EnemyGroup.Remove(this);
+        }
         
         enemyController.EnemyGroup.Remove(this);
         currentPathIndex = -1;
@@ -153,19 +177,12 @@ public class YutPiace : MonoBehaviour
         carriedChar.Clear();
         UpdateVisuals();
         transform.position = new Vector3(-39, -1,0);
-        if(player != null)
-        {
-            string selectCharName = player.GetCharPoolName();
-            ObjectPooling.instance.ReturnObject(selectCharName, this.gameObject);
-        }
-        else
-        {
-            string enemypool = gameObject.name.Replace("(Clone)", "").Trim();
-            
-
-            ObjectPooling.instance.ReturnObject(enemypool, this.gameObject);
-
-        }
+        
+        
+           
+            ObjectPooling.instance.ReturnObject(poolname, this.gameObject);
+        
+        
 
     }
 
@@ -433,6 +450,7 @@ public class YutPiace : MonoBehaviour
     // 말 선택하기 
     public void OnMouseDown()
     {
+
         SoundManager.instance.PlaySFX("뽕");
         var skill = SkillManager.instance;
 
