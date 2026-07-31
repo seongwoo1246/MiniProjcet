@@ -51,6 +51,7 @@ public class Angel: EnemyController, canSkill
 
             yutcount.isAngelCounterActive = true;
             yutcount.counterTurns = 999;
+            SkillManager.instance.skill.text = "";
         }
 
     }
@@ -71,7 +72,8 @@ public class Angel: EnemyController, canSkill
             yutcount.isAngelCounterActive = true;
             yutcount.counterTurns = 999;
             finalprecent = 0.05f;
-            
+            SkillManager.instance.skill.text = "";
+
         }
 
     }
@@ -92,7 +94,8 @@ public class Angel: EnemyController, canSkill
             yutcount.isAngelCounterActive = true;
             yutcount.counterTurns = 999;
             finalprecent = 0.1f;
-            
+            SkillManager.instance.skill.text = "";
+
         }
 
     }

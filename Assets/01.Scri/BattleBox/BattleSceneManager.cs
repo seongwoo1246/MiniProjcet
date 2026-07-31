@@ -177,11 +177,15 @@ public class BattleSceneManager : MonoBehaviour
             CanThrow = true;
             Turn++;
             TurnCount.text = $"°æ°ú ÅÏ : {Turn}";
-            if(yutPlayer.buttTurn>=0)
+            if(PlayerManager.Instance.buttTurn>0)
             {
-                yutPlayer.TurnDisCount();
+                PlayerManager.Instance.TurnDisCount();
             }
-            if(yutpiace.counterTurns>=0)
+            else if (enemyController.buttTurn>0)
+            {
+                enemyController.TurnDisCount();
+            }
+            if(yutpiace.counterTurns>0)
             {
                 yutpiace.AngelTurnDisCount();
             }
@@ -267,27 +271,38 @@ public class BattleSceneManager : MonoBehaviour
                     
 
                     isCaughtAnything = true;
-                    if(yutPlayer.isGoblinSkillUsed ==true)
+                    if(PlayerManager.Instance.isGoblinSkillUsed ==true)
                     {
                         SoundManager.instance.PlayVoice("»ç¾ÇÇÑ¿ôÀ½");
-                        yutPlayer.UsedGoblinSkill(MovePiace.player, targetPiace.player);
+                        PlayerManager.Instance.UsedGoblinSkill(MovePiace.player, targetPiace.player);
                     }
-                    if(yutPlayer.isUndeadSkillUsed  ==true)
+                    else if(enemyController.isGoblinSkillUsed ==true)
                     {
                         SoundManager.instance.PlayVoice("»ç¾ÇÇÑ¿ôÀ½");
-                        yutPlayer.UsedUndeadSkill(MovePiace.player, MovePiace);
+                       enemyController.UsedGoblinSkill(MovePiace.player, targetPiace.player);
                     }
-                    
 
-
-                    foreach ( YutPiace kid in targetPiace.carriedChar)
+                    if (PlayerManager .Instance.isUndeadSkillUsed == true)
                     {
-                        if(kid !=null)
+                        SoundManager.instance.PlayVoice("»ç¾ÇÇÑ¿ôÀ½");
+                        PlayerManager.Instance.UsedUndeadSkill(MovePiace.player, MovePiace);
+                    }
+                    else if(enemyController.isUndeadSkillUsed)
+                    {
+                        SoundManager.instance.PlayVoice("»ç¾ÇÇÑ¿ôÀ½");
+                        enemyController.UsedUndeadSkill(MovePiace.player, MovePiace);
+                    }
+
+
+
+                        foreach (YutPiace kid in targetPiace.carriedChar)
                         {
+                            if (kid != null)
+                            {
                                 kid.CatchChar(yutpiace);
+                            }
+
                         }
-                        
-                    }
                     targetPiace.carriedChar.Clear();
 
                     targetPiace.CatchChar(yutpiace);

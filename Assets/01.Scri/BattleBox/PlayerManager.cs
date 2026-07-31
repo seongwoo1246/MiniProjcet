@@ -173,6 +173,8 @@ public class PlayerManager : YutPlayer
 
     public void UseSkill()
     {
+        if (!BattleSceneManager.instance.IsMyTurn) return;
+
         var skill = SkillManager.instance;
         if (skill.skillCount <= 0|| (Random.value+ enemyController.enemyData.block) > PlayerData.luck)
         {
@@ -181,7 +183,7 @@ public class PlayerManager : YutPlayer
             skill.skillCount--;
             skill.count.text = $"{skill.skillCount}";
             if(skill.skillCount <= 0)
-            { skill.skillCount = 0; }
+            { skill.skillCount = 0; skill.count.text = $"{skill.skillCount}"; }
             return;
         }
         else
@@ -189,7 +191,7 @@ public class PlayerManager : YutPlayer
             switch(PlayerData.id)
             {
                 case 0:
-                    skill.HumenSkill(this, PlayerData.depence, 1);
+                    skill.HumenSkill(this, PlayerData.depence, 1,0);
                     SkillManager.instance.skillText.text = "이번 턴 동안 잃은 체략에 비례해서 방어력이 상승합니다.";
                     SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
 
@@ -217,8 +219,8 @@ public class PlayerManager : YutPlayer
                     break;
 
                 case 4:
-                    skill.AngelSkill(playerPiace);
-                    SkillManager.instance.skillText.text = "3턴 동안 반격을 준비합니다. 일정 확률로 반격 성공시 해제됩니다.";
+                    skill.isWaitingForAngelTarget = true;
+                    SkillManager.instance.skillText.text = "아군 천사중 하나를 선택하세요. 3턴 동안 반격을 준비합니다. 일정 확률로 반격 성공시 해제됩니다.";
                     SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
 
                     break;
@@ -254,14 +256,24 @@ public class PlayerManager : YutPlayer
 
     }
 
-    
 
 
 
+    public override void TurnDisCount()
+    {
+        base.TurnDisCount();
+    }
 
 
+    public override void UsedGoblinSkill(YutPlayer attacker, YutPlayer target)
+    {
+        base.UsedGoblinSkill(attacker, target);
+    }
 
-
+    public override void UsedUndeadSkill(YutPlayer attacker, YutPiace attackerpiece)
+    {
+        base.UsedUndeadSkill(attacker, attackerpiece);
+    }
 
 
 

@@ -136,21 +136,26 @@ public class YutPlayer : MonoBehaviour
 
     public int currentDenfence = 0;
     public int buttTurn = 0;
+    public int enemyBuffTurn = 0;
 
-    public void ApplyDefence(int defence, int turn)
+    public void ApplyDefence(int defence, int turn, int enemyturn)
     {
         currentDenfence = defence;
         buttTurn = turn;
-
+        enemyBuffTurn = enemyturn;
 
     }
 
-    public void TurnDisCount()
+    public virtual void TurnDisCount()
     {
 
         buttTurn--;
         SkillManager.instance.skill.text = $"{buttTurn}";
-
+        if(enemyBuffTurn>0)
+        {
+            SkillManager.instance.enemyskill.text = $"{enemyBuffTurn}";
+        }
+        
 
         if (buttTurn == 0)
             {
@@ -160,6 +165,14 @@ public class YutPlayer : MonoBehaviour
                 SkillManager.instance.skillText.text = "방어력이 돌아옵니다.";
                 SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
             }
+        if(enemyBuffTurn == 0)
+        {
+            enemyBuffTurn = 0;
+            currentDenfence = 0;
+            SkillManager.instance.enemyskill.text = "0";
+            SkillManager.instance.skillText.text = "방어력이 돌아옵니다.";
+            SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+        }
 
            
         
@@ -167,7 +180,7 @@ public class YutPlayer : MonoBehaviour
 
     public bool isGoblinSkillUsed = false;
     
-    public void UsedGoblinSkill(YutPlayer attacker,YutPlayer target)
+    public virtual void UsedGoblinSkill(YutPlayer attacker,YutPlayer target)
     {
         float percent = attacker.GoblinSkillPercent();
         
@@ -189,7 +202,7 @@ public class YutPlayer : MonoBehaviour
             target.UpdateText();
         }
     }
-    public void UsedUndeadSkill(YutPlayer attacker, YutPiace attackerpiece)
+    public virtual void UsedUndeadSkill(YutPlayer attacker, YutPiace attackerpiece)
     {
         float percent = attacker.UndeadSkillPercent();
 

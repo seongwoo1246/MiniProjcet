@@ -46,7 +46,7 @@ public class Elf : EnemyController, canSkill
         else
         {
             SoundManager.instance.PlaySFX("뿌뿌");
-            SkillManager.instance.ElfSkill(this, myPiace, enemyData.length);
+            SkillManager.instance.ElfSkill(this, myPiace, enemyData.length+1);
             SkillManager.instance.skillText.text = "적이 사냥을 시작합니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
 
@@ -66,7 +66,7 @@ public class Elf : EnemyController, canSkill
         else
         {
             SoundManager.instance.PlaySFX("뿌뿌");
-            SkillManager.instance.ElfSkill(this, myPiace, enemyData.length);
+            SkillManager.instance.ElfSkill(this, myPiace, enemyData.length+2);
             SkillManager.instance.skillText.text = "적이 사냥을 재개합니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
 
@@ -86,7 +86,7 @@ public class Elf : EnemyController, canSkill
         else
         {
             SoundManager.instance.PlaySFX("뿌뿌");
-            SkillManager.instance.ElfSkill(this, myPiace, enemyData.length);
+            SkillManager.instance.ElfSkill(this, myPiace, enemyData.length+3);
             SkillManager.instance.skillText.text = "적이 마무리 사냥을 시작합니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
 

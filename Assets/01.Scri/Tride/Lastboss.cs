@@ -11,8 +11,9 @@ public class Lastboss : EnemyController, canSkill
         BattleSceneManager.instance.ItbattleSet();
         isGoblinSkillUsed = true;
         isUndeadSkillUsed = true;
-        yutcount.isAngelCounterActive = true;
-        yutcount.counterTurns = 999;
+        
+        maxChar = 6;
+       
     }
 
     public override void GoalIn(YutPiace targetPiace)
@@ -50,8 +51,8 @@ public class Lastboss : EnemyController, canSkill
         else
         {
             SoundManager.instance.PlaySFX("폭팔");
-            SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
-            SkillManager.instance.skillText.text = "적이 3턴간 단단해집니다.";
+            SkillManager.instance.HumenSkill(this, enemyData.depence,0, 5);
+            SkillManager.instance.skillText.text = "적이 5턴간 단단해집니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
 
         }
@@ -69,8 +70,8 @@ public class Lastboss : EnemyController, canSkill
         else
         {
             SoundManager.instance.PlaySFX("폭팔");
-            SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
-            SkillManager.instance.skillText.text = "적이 3턴간 더 단단해집니다.";
+            SkillManager.instance.HumenSkill(this, enemyData.depence, 0,7);
+            SkillManager.instance.skillText.text = "적이 7턴간 더 단단해집니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
 
         }
@@ -88,8 +89,8 @@ public class Lastboss : EnemyController, canSkill
         else
         {
             SoundManager.instance.PlaySFX("폭팔");
-            SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
-            SkillManager.instance.skillText.text = "적이 3턴간 더 더욱 단단해집니다.";
+            SkillManager.instance.HumenSkill(this, enemyData.depence, 0, 10);
+            SkillManager.instance.skillText.text = "적이 10턴간 더 더욱 단단해집니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
 
         }

@@ -23,7 +23,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip lastboss;
 
     //SFX와Voice 는 Resources/Sounds에서 이름으로 찾는 방식 채용
- 
+
+   
 
     private void Awake()
     {
@@ -44,9 +45,12 @@ public class SoundManager : MonoBehaviour
         SetBGMVolume(PlayerPrefs.GetFloat("BGMSound", 0.5f));
         SetSFXVolume(PlayerPrefs.GetFloat("SFXSound", 0.5f));
         SetVoiceVolume(PlayerPrefs.GetFloat("VoiceSound", 0.5f));
+
     }
 
-
+    public float GetBGM() => BGM.volume;
+    public float GetSFX() => SFX.volume;
+    public float GetVoice() => Voice.volume;
 
 
 

@@ -47,8 +47,9 @@ public class EnemyController : YutPlayer
         BattleSceneManager.instance.CuttrentEnemy = this;
         PlayerManager.Instance.enemyController = this;
          maxChar = trideDM.TrideList[CurrentEnemy].maxCharacter;
+        yutcount = FindAnyObjectByType<YutPiace>();
 
-        
+
     }
 
  
@@ -610,9 +611,20 @@ public class EnemyController : YutPlayer
     }
 
 
+    public override void TurnDisCount()
+    {
+        base.TurnDisCount();
+    }
 
+    public override void UsedGoblinSkill(YutPlayer attacker, YutPlayer target)
+    {
+        base.UsedGoblinSkill(attacker, target);
+    }
 
-
+    public override void UsedUndeadSkill(YutPlayer attacker, YutPiace attackerpiece)
+    {
+        base.UsedUndeadSkill(attacker, attackerpiece);
+    }
 
 
 }

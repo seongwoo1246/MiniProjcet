@@ -925,7 +925,7 @@ MonoBehaviour:
   playerUiDate: {fileID: 3210998589038123252, guid: 496e3c6702d5e1241be61bcb51036de0, type: 3}
   haveMoney: 0
   enemyController: {fileID: 0}
-  CanAttackLastBoss: 0
+  CanAttackLastBoss: 1
   CanGoEnd: 0
   playerPiace: {fileID: 0}
 --- !u!4 &132905994
@@ -5076,7 +5076,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 393111486}
+        m_TargetAssemblyTypeName: SetUPUi, Assembly-CSharp
+        m_MethodName: GetSFXVolume
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &743886801
 GameObject:
   m_ObjectHideFlags: 0
@@ -7072,7 +7084,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 393111486}
+        m_TargetAssemblyTypeName: SetUPUi, Assembly-CSharp
+        m_MethodName: GetBGMVolume
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1068776374
 GameObject:
   m_ObjectHideFlags: 0
@@ -12466,7 +12490,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 393111486}
+        m_TargetAssemblyTypeName: SetUPUi, Assembly-CSharp
+        m_MethodName: GetVoiceVolume
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1774059047
 GameObject:
   m_ObjectHideFlags: 0
@@ -12818,8 +12854,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 515, y: 57}
-  m_SizeDelta: {x: 823, y: 80.299194}
+  m_AnchoredPosition: {x: 820, y: 54}
+  m_SizeDelta: {x: 1174.2875, y: 110.0378}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1891768460
 MonoBehaviour:
@@ -12850,8 +12886,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967040
+  m_fontColor: {r: 0, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

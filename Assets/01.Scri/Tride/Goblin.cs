@@ -43,6 +43,7 @@ public class Goblin : EnemyController, canSkill
         }
         else
         {
+            SkillManager.instance.enemyskill.text = "æ‡≈ªΩ√¿€";
             SoundManager.instance.PlaySFX("ª—ª—");
             isGoblinSkillUsed =true;
             SkillManager.instance.skillText.text = "¿˚¿Ã ¡ˆ±›∫Œ≈Õ ¿œ¡§ »Æ∑¸∑Œ æ‡≈ª¿ª Ω√¿¸«’¥œ¥Ÿ.";
@@ -62,6 +63,7 @@ public class Goblin : EnemyController, canSkill
         }
         else
         {
+            SkillManager.instance.enemyskill.text = "æ‡≈ªΩ√¿€";
             SoundManager.instance.PlaySFX("ª—ª—");
             isGoblinSkillUsed = true;
             finalprecent += 0.05f;
@@ -82,6 +84,7 @@ public class Goblin : EnemyController, canSkill
         }
         else
         {
+            SkillManager.instance.enemyskill.text = "æ‡≈ªΩ√¿€";
             SoundManager.instance.PlaySFX("ª—ª—");
             isGoblinSkillUsed = true;
             finalprecent += 0.1f;

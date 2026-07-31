@@ -46,8 +46,8 @@ public class Humen : EnemyController, canSkill
         else
         {
             SoundManager.instance.PlaySFX("뿌뿌");
-            SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
-            SkillManager.instance.skillText.text = "적이 3턴간 단단해집니다.";
+            SkillManager.instance.HumenSkill(this, enemyData.depence,0, 1);
+            SkillManager.instance.skillText.text = "적이 1턴간 단단해집니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
 
         }
@@ -65,8 +65,8 @@ public class Humen : EnemyController, canSkill
         else
         {
             SoundManager.instance.PlaySFX("뿌뿌");
-            SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
-            SkillManager.instance.skillText.text = "적이 3턴간 더 단단해집니다.";
+            SkillManager.instance.HumenSkill(this, enemyData.depence,0, 2);
+            SkillManager.instance.skillText.text = "적이 2턴간 더 단단해집니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
 
         }
@@ -84,7 +84,7 @@ public class Humen : EnemyController, canSkill
         else
         {
             SoundManager.instance.PlaySFX("뿌뿌");
-            SkillManager.instance.HumenSkill(this, enemyData.depence, 3);
+            SkillManager.instance.HumenSkill(this, enemyData.depence,0, 3);
             SkillManager.instance.skillText.text = "적이 3턴간 더 더욱 단단해집니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
 

@@ -76,30 +76,36 @@ public class YutPiace : MonoBehaviour
     //업은 말 상태 표시
     public void UpdateVisuals()
     {
-        SoundManager.instance.PlaySFX("심장소리");
-        int count = carriedChar.Count;
-        if (count == 0) icon.color = Color.white;
-        else if (count == 1) icon.color = Color.red;
-        else if (count == 2) icon.color = Color.orange;
-        else if (count == 3) icon.color = Color.yellow;
-        else if (count == 4) icon.color = Color.green;
-        else if (count == 5) icon.color = Color.blue;
-        else if (count == 6) icon.color = Color.navyBlue;
-        else if (count == 7) icon.color = Color.purple;
+        if(TryGetComponent<SpriteRenderer>(out SpriteRenderer sr))
+        {
+           
+            int count = carriedChar.Count;
+            if (count == 0) icon.color = Color.white;
+            else if (count == 1) icon.color = Color.red;
+            else if (count == 2) icon.color = Color.orange;
+            else if (count == 3) icon.color = Color.yellow;
+            else if (count == 4) icon.color = Color.green;
+            else if (count == 5) icon.color = Color.blue;
+            else if (count == 6) icon.color = Color.navyBlue;
+            else if (count == 7) icon.color = Color.purple;
+        }
         
         
     }
     //말이 잡혔을 때 하는 코드
     public void CatchChar(YutPiace yutPiace)
     {
-        SoundManager.instance.PlaySFX("한입");
-
-        if (Counter(yutPiace))
+        YutPiace realAttacker  =GetComponentInChildren<YutPiace>();
+        if(realAttacker != null)
         {
-            SoundManager.instance.PlayVoice("이거너무");
-            return;
+            yu
         }
 
+
+
+        SoundManager.instance.PlaySFX("한입");
+
+       
 
 
         if (this.isEnemy==true)
@@ -117,12 +123,13 @@ public class YutPiace : MonoBehaviour
     //잡히거나 골인 후 말이 돌아가는 내용
     public void returnReady()
     {
+        StopAllCoroutines();
         SoundManager.instance.PlayVoice("뚝배기");
         if ( BattleSceneManager.instance!=null&&BattleSceneManager.instance.allActiveChar.Contains(this))
         {
             BattleSceneManager.instance.allActiveChar.Remove(this);
         }
-
+        
         enemyController.EnemyGroup.Remove(this);
         currentPathIndex = -1;
         isMovingOnBorad = false;
@@ -130,8 +137,20 @@ public class YutPiace : MonoBehaviour
         carriedChar.Clear();
         UpdateVisuals();
         transform.position = new Vector3(-39, -1,0);
-        string selectCharName =player.GetCharPoolName();
-        ObjectPooling.instance.ReturnObject(selectCharName, this.gameObject);
+        if(player != null)
+        {
+            string selectCharName = player.GetCharPoolName();
+            ObjectPooling.instance.ReturnObject(selectCharName, this.gameObject);
+        }
+        else
+        {
+            
+            string enemypool = enemyController.enemyData!=null? enemyController.enemyData.name : gameObject.name.Replace("(Clone)","").Trim();
+            enemypool = "hemun";
+            ObjectPooling.instance.ReturnObject(enemypool, this.gameObject);
+
+        }
+
     }
 
     //움직이는 함수
@@ -412,7 +431,11 @@ public class YutPiace : MonoBehaviour
             return;
         }
 
-
+        if (skill.isWaitingForAngelTarget && !isEnemy)
+        {
+            skill.AngelSkill(this);
+            skill.isWaitingForAngelTarget = false;
+        }
         
         var manger = BattleSceneManager.instance;
 
@@ -466,7 +489,11 @@ public class YutPiace : MonoBehaviour
         if (counterTurns > 0)
         {
             counterTurns--;
-            SkillManager.instance.skill.text = $"{counterTurns}";
+            
+            
+                SkillManager.instance.skill.text = $"{counterTurns}";
+            
+
             if (counterTurns <= 0)
             {
                 isAngelCounterActive = false;
@@ -485,8 +512,9 @@ public class YutPiace : MonoBehaviour
             {
                 SkillManager.instance.skillText.text = "반격 성공했습니다. 야호(>.<)/*";
                 SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
-                attacker.CatchChar(this);
-                isAngelCounterActive=false;
+                attacker.returnReady();
+                isAngelCounterActive =false;
+                counterTurns = 0;
                 SkillManager.instance.skill.text = "불가능";
                 return true;
             }

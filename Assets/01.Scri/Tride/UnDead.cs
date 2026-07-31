@@ -45,6 +45,7 @@ public class UnDead : EnemyController ,canSkill
         }
         else
         {
+            SkillManager.instance.enemyskill.text = "∞®ø∞Ω√¿€";
             SoundManager.instance.PlaySFX("ª—ª—");
             isUndeadSkillUsed = true;
             SkillManager.instance.skillText.text = "¿˚¿Ã ¡ˆ±›∫Œ≈Õ ¿œ¡§ »Æ∑¸∑Œ ∞®ø∞¿ª Ω√¿€«’¥œ¥Ÿ.";
@@ -65,6 +66,7 @@ public class UnDead : EnemyController ,canSkill
         }
         else
         {
+            SkillManager.instance.enemyskill.text = "∞®ø∞Ω√¿€";
             SoundManager.instance.PlaySFX("ª—ª—");
             isUndeadSkillUsed = true;
             finalprecent += 0.05f;
@@ -85,6 +87,7 @@ public class UnDead : EnemyController ,canSkill
         }
         else
         {
+            SkillManager.instance.enemyskill.text = "∞®ø∞Ω√¿€";
             SoundManager.instance.PlaySFX("ª—ª—");
             isUndeadSkillUsed = true;
             finalprecent += 0.1f;

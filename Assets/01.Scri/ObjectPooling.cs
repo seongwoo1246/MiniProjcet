@@ -28,7 +28,7 @@ public class ObjectPooling : MonoBehaviour
 
     private void Start()
     {
-        poolSize = 15;
+        poolSize = 30;
 
         foreach(GameObject obj in Objects)
         {
@@ -68,6 +68,7 @@ public class ObjectPooling : MonoBehaviour
         if(!poolD.ContainsKey(name))
         {
             Destroy(obj);
+            return;
         }
         obj.SetActive(false);
         poolD[name].Enqueue(obj);

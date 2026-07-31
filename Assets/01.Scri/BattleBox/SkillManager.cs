@@ -13,8 +13,10 @@ public class SkillManager : MonoBehaviour
     [SerializeField] public Button SkillB;
     [SerializeField] public TextMeshProUGUI skillText;
     [SerializeField] public TextMeshProUGUI skill;
+    [SerializeField] public TextMeshProUGUI enemyskill;
 
     public int skillCount = 3;
+    
 
     YutPiace yutPiace;
     EnemyController enemyController;
@@ -25,6 +27,7 @@ public class SkillManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
+        enemyskill.text = "";
         skill.text = "";
         skillText.text = "";
         skillText.gameObject.SetActive(false);
@@ -36,10 +39,12 @@ public class SkillManager : MonoBehaviour
     
 
     //휴먼 스킬 방어력이 증가 (한턴동안) / 적은 3턴동안
-    public void HumenSkill(YutPlayer caster, int defence , int turnCont)
+    public void HumenSkill(YutPlayer caster, int defence , int turnCont ,int enemyturn)
     {
         SoundManager.instance.PlaySFX("심장소리");
         skill.text = $"{turnCont}";
+        enemyskill.text = $"{enemyturn}";
+
         float hpbar = caster.GetHpVaule();
 
         int finalDefence = defence;
@@ -56,7 +61,7 @@ public class SkillManager : MonoBehaviour
             finalDefence *= 2;
         }
 
-        caster.ApplyDefence(finalDefence, turnCont);
+        caster.ApplyDefence(finalDefence, turnCont,enemyturn);
         
 
     }
@@ -115,6 +120,8 @@ public class SkillManager : MonoBehaviour
         caster.isUndeadSkillUsed = true;
     }
     //천사스킬 잡혔을 때 잡히면 일정 확률로 부활하여 반격해서 역으로 잡음 / 패시브로 반격하며 잃은 체력 비례해서 증가할 예정
+
+    public bool isWaitingForAngelTarget = false;
     public void AngelSkill(YutPiace target)
     {
         SoundManager.instance.PlaySFX("심장소리");
