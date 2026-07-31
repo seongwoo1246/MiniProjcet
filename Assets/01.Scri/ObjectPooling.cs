@@ -13,6 +13,10 @@ public class ObjectPooling : MonoBehaviour
 
     Dictionary<string,Queue<GameObject>> poolD = new Dictionary<string,Queue<GameObject>>();
 
+
+    private List<GameObject> garbage = new List<GameObject>();
+
+
     private void Awake()
     {
         if(instance == null)
@@ -65,16 +69,29 @@ public class ObjectPooling : MonoBehaviour
 
     public void ReturnObject(string name,GameObject obj)
     {
+        if( obj == null ) return;
+
         if(!poolD.ContainsKey(name))
         {
-            Destroy(obj);
+            obj.SetActive(false);
+            garbage.Add(obj);
             return;
         }
         obj.SetActive(false);
         poolD[name].Enqueue(obj);
     }
 
-
+    public void cleargarbage()
+    {
+        foreach (var go in garbage)
+        {
+            if (go != null)
+            {
+                Destroy(go);
+            }
+        }
+        garbage.Clear();
+    }
 
 
 }

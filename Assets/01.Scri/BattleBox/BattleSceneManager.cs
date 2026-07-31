@@ -378,6 +378,7 @@ public class BattleSceneManager : MonoBehaviour
             {
                 tride.hp = 0;
                 enemyController.DeadMob();
+                ObjectPooling.instance.cleargarbage();
                 GameOver();
             }
 

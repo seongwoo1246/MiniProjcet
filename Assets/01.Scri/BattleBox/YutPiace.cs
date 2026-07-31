@@ -95,6 +95,9 @@ public class YutPiace : MonoBehaviour
     //말이 잡혔을 때 하는 코드
     public void CatchChar(YutPiace attacker)
     {
+        if (attacker == null) return;
+
+       // string realAttacker = attacker.player != null ? attacker.player.GetCharPoolName() : attacker.player.name.Replace("(Clone)", "").Trim();
 
         SoundManager.instance.PlaySFX("한입");
         bool iscountered = this.Counter(attacker);
@@ -131,7 +134,12 @@ public class YutPiace : MonoBehaviour
     //잡히거나 골인 후 말이 돌아가는 내용
     public void returnReady()
     {
-        StopAllCoroutines();
+        if(this ==null||gameObject==null) return;
+        if(gameObject.activeInHierarchy)
+        {
+            StopAllCoroutines();
+        }
+       
         SoundManager.instance.PlayVoice("뚝배기");
         if ( BattleSceneManager.instance!=null&&BattleSceneManager.instance.allActiveChar.Contains(this))
         {

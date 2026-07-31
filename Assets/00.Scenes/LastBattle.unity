@@ -1120,7 +1120,7 @@ MonoBehaviour:
   skillText: {fileID: 162027467}
   skill: {fileID: 95988069}
   enemyskill: {fileID: 548724344}
-  skillCount: 99
+  skillCount: 3
   isWaitingForElfSkillTarget: 0
   currentElfSkillRange: 0
   isWaitingForAngelTarget: 0

@@ -918,6 +918,7 @@ MonoBehaviour:
   currentActiveChar: 0
   currentDenfence: 0
   buttTurn: 0
+  enemyBuffTurn: 0
   isGoblinSkillUsed: 0
   isUndeadSkillUsed: 0
   trideM: {fileID: 11400000, guid: 8f060fa795172cc4396e4dbcc6a21258, type: 2}
@@ -925,7 +926,7 @@ MonoBehaviour:
   playerUiDate: {fileID: 3210998589038123252, guid: 496e3c6702d5e1241be61bcb51036de0, type: 3}
   haveMoney: 0
   enemyController: {fileID: 0}
-  CanAttackLastBoss: 1
+  CanAttackLastBoss: 0
   CanGoEnd: 0
   playerPiace: {fileID: 0}
 --- !u!4 &132905994
