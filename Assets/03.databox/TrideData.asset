@@ -136,8 +136,8 @@ MonoBehaviour:
       \uB418\uC5C8\uB2E4."
     isUnLocked: 1
   - id: 5
-    icon: {fileID: 2815480276518151938, guid: 5fa36eca2136ea84cbd139657a638839, type: 3}
-    name: "\uCCA0\uC218"
+    icon: {fileID: 5579335266590474791, guid: 3714ab70b8f9ae9478868d0059a1cd89, type: 3}
+    name: "\uCCA0\uC218(\uBCF4\uC2A4)"
     maxHp: 20000
     hp: 20000
     damage: 400

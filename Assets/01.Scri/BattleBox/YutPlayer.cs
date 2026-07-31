@@ -88,6 +88,7 @@ public class YutPlayer : MonoBehaviour
             case 2: return "elf"; 
             case 3: return "undead";
             case 4: return "angel";
+            case 5: return "boss";
             default:  return   "humen"; 
         }
     }
