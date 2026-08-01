@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class AlbumUi : LobbyUiManager
 {
+    public static AlbumUi Instance;
+
     [SerializeField] private AlbumDataManager AlbumM;
 
 
@@ -19,6 +21,21 @@ public class AlbumUi : LobbyUiManager
     
 
     public List<AlbumSlot> albumSlots = new List<AlbumSlot>();
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+
+        }
+        else
+            Destroy(gameObject);
+    }
+
+
+
+
     public override void Start()
     {
         
@@ -30,7 +47,8 @@ public class AlbumUi : LobbyUiManager
 
     public void ItAlbumSlot()
     {
-        
+       
+
         for (int i = 0; i < AlbumM.AlbumList.Count; i++)
         {
          
@@ -52,6 +70,16 @@ public class AlbumUi : LobbyUiManager
         }
     }
 
+    public void ReFreshAlbumUI()
+    {
+        foreach (var slot in albumSlots)
+        {
+            if(slot != null) Destroy(slot.gameObject);
+        }
+        albumSlots.Clear();
+
+        ItAlbumSlot();
+    }
     public void SelectMemori(int id )
     {
         SoundManager.instance.PlaySFX("»Í");

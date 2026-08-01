@@ -30,7 +30,7 @@ public class TrainingUi : LobbyUiManager
         if (Instance == null)
         {
             Instance = this;
-           
+            ItTrainingSlot();
         }
         else
             Destroy(gameObject);
@@ -39,7 +39,7 @@ public class TrainingUi : LobbyUiManager
 
     public override void Start()
     {
-        ItTrainingSlot();
+       
         TrainingSuccess.gameObject.SetActive(false);
         TrainingPanel.SetActive(false);
         NoMoney.gameObject.SetActive(false);
@@ -69,7 +69,9 @@ public class TrainingUi : LobbyUiManager
     }
     public void ItTrainingSlot()
     {
-      
+       
+
+
         for (int i = 0; i < TrainingM.TrainingList.Count; i++)
         {
 
@@ -91,11 +93,15 @@ public class TrainingUi : LobbyUiManager
                 }
             }
         }
-        ReFreshSlot();
+        TrainingReFreshSlot();
     }
 
-    public void ReFreshSlot()
+    public void TrainingReFreshSlot()
     {
+       
+
+        if (PlayerManager.Instance == null || PlayerManager.Instance.PlayerData == null) return;
+
         int currnetTrideId = PlayerManager.Instance.PlayerData.id;
 
         for (int i = 0; i < TrainingSlots.Count; i++)

@@ -14,7 +14,7 @@ public class ObjectPooling : MonoBehaviour
     Dictionary<string,Queue<GameObject>> poolD = new Dictionary<string,Queue<GameObject>>();
 
 
-    private List<GameObject> garbage = new List<GameObject>();
+    public List<GameObject> garbage = new List<GameObject>();
 
 
     private void Awake()

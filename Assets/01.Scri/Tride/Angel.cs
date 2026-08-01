@@ -48,8 +48,11 @@ public class Angel: EnemyController, canSkill
             SoundManager.instance.PlaySFX("뿌뿌");
             SkillManager.instance.skillText.text = "적이 지금부터 일정 확률로 반격을 시작합니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
-
-            yutcount.isAngelCounterActive = true;
+            foreach(var target in EnemyGroup)
+            {
+                SkillManager.instance.AngelSkill(target);
+            }
+          
             yutcount.counterTurns = 999;
             SkillManager.instance.skill.text = "";
         }
@@ -69,9 +72,12 @@ public class Angel: EnemyController, canSkill
             SoundManager.instance.PlaySFX("뿌뿌");
             SkillManager.instance.skillText.text = "적이 빛나기 시작합니다.";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
-            yutcount.isAngelCounterActive = true;
+            foreach (var target in EnemyGroup)
+            {
+                SkillManager.instance.AngelSkill(target);
+            }
             yutcount.counterTurns = 999;
-            finalprecent = 0.05f;
+            finalprecent += 0.05f;
             SkillManager.instance.skill.text = "";
 
         }
@@ -91,9 +97,13 @@ public class Angel: EnemyController, canSkill
             SoundManager.instance.PlaySFX("뿌뿌");
             SkillManager.instance.skillText.text = "적의 모습이 심상치 않습니다. 주의하세요. ";
             SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
-            yutcount.isAngelCounterActive = true;
+            foreach (var target in EnemyGroup)
+            {
+                SkillManager.instance.AngelSkill(target);
+            }
+
             yutcount.counterTurns = 999;
-            finalprecent = 0.1f;
+            finalprecent += 0.1f;
             SkillManager.instance.skill.text = "";
 
         }

@@ -3,11 +3,28 @@ using UnityEngine;
 
 public class StateUi : LobbyUiManager
 {
+
+    public static StateUi Instance;
+
     [SerializeField] GameObject SimpleState;
     
     [SerializeField] GameObject StateSlot1;
     [SerializeField] Transform SimpleCanva;
-    
+
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+
+        }
+        else
+            Destroy(gameObject);
+    }
+
+
+
 
     public override void Start()
     {
@@ -35,10 +52,10 @@ public class StateUi : LobbyUiManager
         {
             foreach (Transform t in SimpleCanva)
             {
-                t.gameObject.SetActive(false);
+                Destroy(t.gameObject);
             }
         }
-        if (PlayerManager.Instance != null || PlayerManager.Instance.PlayerData != null)
+        if (PlayerManager.Instance != null && PlayerManager.Instance.PlayerData != null)
         {
 
 

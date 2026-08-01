@@ -85,6 +85,7 @@ public class BattleSceneManager : MonoBehaviour
     public int selectMoveSpace = 0;
     public bool isYutSelected =false;
     
+    public bool countSuccess=false;
 
     public List<Yut> TurnYutResult = new List<Yut>();
 
@@ -300,33 +301,42 @@ public class BattleSceneManager : MonoBehaviour
                         {
                             if (kid != null)
                             {
-                                kid.CatchChar(yutpiace);
+                                kid.CatchChar(MovePiace);
                             }
 
                         }
                     targetPiace.carriedChar.Clear();
 
-                    targetPiace.CatchChar(yutpiace);
+                    targetPiace.CatchChar(MovePiace);
 
                     break;
                 }
             }
 
         }
-        if(IsMyTurn==true)
+        if(countSuccess == true)
         {
-            if (isCaughtAnything)
-            {
-                CanThrow = true;
-            }
+            countSuccess = false;
+            return;
         }
         else
         {
-            if (isCaughtAnything)
+            if (IsMyTurn == true)
             {
-                CanThrowEnemy = true;
+                if (isCaughtAnything)
+                {
+                    CanThrow = true;
+                }
+            }
+            else
+            {
+                if (isCaughtAnything)
+                {
+                    CanThrowEnemy = true;
+                }
             }
         }
+       
        
     }
 

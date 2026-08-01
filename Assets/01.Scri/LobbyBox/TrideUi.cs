@@ -49,6 +49,7 @@ public class TrideUi : LobbyUiManager
 
     public void ItTrideSlot()
     {
+       
 
         for (int i = 0; i < TrideM.TrideList.Count; i++)
         {
@@ -70,6 +71,19 @@ public class TrideUi : LobbyUiManager
             }
         }
     }
+
+    public void ReFreshTrideUI()
+    {
+        foreach (var slot in TrideUiList)
+        {
+            if (slot != null) Destroy(slot.gameObject);
+        }
+        TrideUiList.Clear();
+
+        ItTrideSlot();
+    }
+
+
     public override void OpenPanel()
     {
         base.OpenPanel();

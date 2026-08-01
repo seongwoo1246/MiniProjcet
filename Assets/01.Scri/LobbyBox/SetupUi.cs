@@ -43,4 +43,8 @@ public class SetUPUi : LobbyUiManager
         volume = SFXVolume.value;
         SoundManager.instance.SetSFXVolume(volume);
     }
+    public void GoStart()
+    {
+        ScenesM.instance.LoadScenes(scenetpye.start);
+    }
 }

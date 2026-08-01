@@ -302,7 +302,7 @@ public class PlayerManager : YutPlayer
         { return; }
         
 
-        TrainingUi.Instance.ReFreshSlot();
+        TrainingUi.Instance.TrainingReFreshSlot();
 
 
     }
@@ -315,12 +315,14 @@ public class PlayerManager : YutPlayer
             TrideUpgradeLevels.Add(TrideId,new Dictionary<int, Training>());
         }
 
-        if(!TrideUpgradeLevels[TrideId].ContainsKey(slotid))
+        if(TrideUpgradeLevels[TrideId].ContainsKey(slotid))
         {
-            TrideUpgradeLevels[TrideId].Add(slotid, defultdata.Clone());
+           return TrideUpgradeLevels[TrideId][slotid];
+           
         }
-
-        return TrideUpgradeLevels[TrideId][slotid];
+        Training newname = defultdata.Clone();
+        TrideUpgradeLevels[TrideId].Add(slotid, newname);
+        return newname;
     }
 
 

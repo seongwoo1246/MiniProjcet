@@ -177,11 +177,9 @@ public class YutPiace : MonoBehaviour
         carriedChar.Clear();
         UpdateVisuals();
         transform.position = new Vector3(-39, -1,0);
+        ObjectPooling.instance.ReturnObject(poolname, this.gameObject);
         
-        
-           
-            ObjectPooling.instance.ReturnObject(poolname, this.gameObject);
-        
+      
         
 
     }
@@ -544,8 +542,10 @@ public class YutPiace : MonoBehaviour
             angelCountChance = player.AngelSkillPercent();
             if(Random.value < angelCountChance)
             {
+
                 SkillManager.instance.skillText.text = "반격 성공했습니다. 야호(>.<)/*";
                 SkillManager.instance.StartCoroutine(SkillManager.instance.Textfadeinout());
+                BattleSceneManager.instance.countSuccess= true;
                 isAngelCounterActive =false;
                 counterTurns = 0;
                 SkillManager.instance.skill.text = "불가능";

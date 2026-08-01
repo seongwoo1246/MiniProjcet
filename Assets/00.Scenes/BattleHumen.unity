@@ -785,6 +785,7 @@ MonoBehaviour:
   - {fileID: 8348055339200321254, guid: a4b23f888a96ccd458fab3343dbf5c80, type: 3}
   - {fileID: 8397322203263878383, guid: 42c1afb7d1a6cdc479fa2ec1a55d4ecf, type: 3}
   - {fileID: 5008944903970836491, guid: 5263c1f6580ca9a46a4493608989a12e, type: 3}
+  garbage: []
 --- !u!1001 &183785727
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1119,7 +1120,7 @@ MonoBehaviour:
   skillText: {fileID: 162027467}
   skill: {fileID: 95988069}
   enemyskill: {fileID: 591477074}
-  skillCount: 99
+  skillCount: 3
   isWaitingForElfSkillTarget: 0
   currentElfSkillRange: 0
   isWaitingForAngelTarget: 0
@@ -5317,6 +5318,7 @@ MonoBehaviour:
   selectYut: 0
   selectMoveSpace: 0
   isYutSelected: 0
+  countSuccess: 0
   TurnYutResult: 
   allActiveChar: []
 --- !u!4 &1722787103

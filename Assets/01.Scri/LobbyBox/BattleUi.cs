@@ -129,6 +129,7 @@ public class BattleUi : LobbyUiManager
 
     public void ItBattleSlot()
     {
+        
 
         for (int i = 0; i < TrideM.TrideList.Count; i++)
         {
@@ -149,6 +150,17 @@ public class BattleUi : LobbyUiManager
                 }
             }
         }
+    }
+
+    public void RefreshBattleUi()
+    {
+        foreach (var slot in battleSlots)
+        {
+            if(slot != null) Destroy(slot.gameObject); 
+        }
+        battleSlots.Clear();
+
+        ItBattleSlot();
     }
     public override void OpenPanel()
     {

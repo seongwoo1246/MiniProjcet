@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
+using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 [Serializable]
 public class TrideSaveData
@@ -60,6 +61,24 @@ public class SaveLoadManager : MonoBehaviour
     [SerializeField] TrainingDataManager trainingM;
     [SerializeField] TextMeshProUGUI save;
     [SerializeField] TextMeshProUGUI load;
+
+
+    public static SaveLoadManager instance;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
 
     private void Start()
     {
@@ -142,11 +161,12 @@ public class SaveLoadManager : MonoBehaviour
         StartCoroutine(SaveLoadFalseText(load));
         string path = Application.persistentDataPath+"/save.json";
         Debug.Log("불러오기 경로" + path);
-        if (!File.Exists(path)) return;
+        if (File.Exists(path) ==false) return;
 
         SaveData sd = JsonUtility.FromJson<SaveData>(File.ReadAllText(path));
+        if (sd == null) return;
         PlayerManager.Instance.haveMoney = sd.haveMoney;
-
+        TrainingUi.Instance.money.text = $"현재 소유 돈 : {sd.haveMoney}";
         foreach (var saved in sd.TribeStates)
         {
             Tride original = trideM.TrideList.Find(t => t.id == saved.id);
@@ -175,12 +195,13 @@ public class SaveLoadManager : MonoBehaviour
             
         }
 
-        foreach( var saved in sd.TrainingSaveDatas)
+        foreach (var saved in sd.TrainingSaveDatas)
         {
-            if(!PlayerManager.Instance.TrideUpgradeLevels.ContainsKey(saved.trideid))
-            {   
+            if (!PlayerManager.Instance.TrideUpgradeLevels.ContainsKey(saved.trideid))
+            {
                 PlayerManager.Instance.TrideUpgradeLevels.Add(saved.trideid, new Dictionary<int, Training>());
-                Training baseTraining = trainingM.TrainingList.Find(t => t.id ==saved.trideid);
+            }
+                Training baseTraining = trainingM.TrainingList.Find(t => t.id ==saved.slotid);
                 if(baseTraining != null)
                 {
                     Training clone = baseTraining.Clone();
@@ -188,7 +209,7 @@ public class SaveLoadManager : MonoBehaviour
                     clone.price = saved.price;
                     PlayerManager.Instance.TrideUpgradeLevels[saved.trideid][saved.slotid] = clone;
                 }
-            }
+            
         }
 
         foreach(var saved in sd.AlbumSaveDatas)
@@ -197,10 +218,21 @@ public class SaveLoadManager : MonoBehaviour
             if( target!=null) target.isUnLocked = saved.isUnLocked;
         }
 
-       
+        TrainingUi.Instance.TrainingReFreshSlot();
+        TrideUi.instance.ReFreshTrideUI();
+        AlbumUi.Instance.ReFreshAlbumUI();
+        BattleUi.Instance.RefreshBattleUi();
+        StateUi.Instance.SetState();
+
     }
 
+   
+    
+       
 
+
+
+    
 
 
 

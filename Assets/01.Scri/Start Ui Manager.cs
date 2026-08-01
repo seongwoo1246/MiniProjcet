@@ -10,9 +10,11 @@ public class StartUi : MonoBehaviour
     [SerializeField] Button Easy;
     [SerializeField] Button Normal;
     [SerializeField] Button Hard;
+    [SerializeField] Button ExitGameButton;
     [SerializeField] VideoPlayer VideoPlay;
     [SerializeField] RawImage raw;
     [SerializeField] Image EndAfter;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,7 +31,7 @@ public class StartUi : MonoBehaviour
         }
 
 
-
+       
         Easy.gameObject.SetActive(false);
         Normal.gameObject.SetActive(false);
         Hard.gameObject.SetActive(false);
@@ -42,6 +44,11 @@ public class StartUi : MonoBehaviour
     {
         VideoPlay.gameObject.SetActive(false);
         raw.gameObject.SetActive(false);
+        ExitGameButton.gameObject.SetActive(true);
+        StartB.gameObject.SetActive(true);
+        Easy.gameObject.SetActive(false);
+        Normal.gameObject.SetActive(false);
+        Hard.gameObject.SetActive(false);
         ScenesM.instance.LoadScenes(scenetpye.Lobby);
 
     }
@@ -50,6 +57,7 @@ public class StartUi : MonoBehaviour
     {
         SoundManager.instance.PlayVoice("æ»≥Á«œººø‰");
         StartB.gameObject.SetActive(false);
+        ExitGameButton.gameObject.SetActive(false);
         Easy.gameObject.SetActive(true);
         Normal.gameObject.SetActive(true);
         Hard.gameObject.SetActive(true);
@@ -83,5 +91,12 @@ public class StartUi : MonoBehaviour
         VideoPlay.Play();
 
 
+    }
+
+
+    public void ExitGame()
+    {
+        SaveLoadManager.instance.SaveGame();
+        Application.Quit();
     }
 }
