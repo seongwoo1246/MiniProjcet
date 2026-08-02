@@ -81,7 +81,7 @@ public class PlayerManager : YutPlayer
 
         if (gameObject == null)
         {
-            Debug.Log("아직 플레이어 정보가 없어!! 조금만 기다려!!");
+            
             return;
         }
         playerUiDate = gameObject;

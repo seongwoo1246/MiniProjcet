@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 
@@ -46,6 +45,9 @@ public class TrainingSaveData
 public class SaveData
 {
     public int haveMoney;
+    public int lastSelectTrideId;
+    public bool CanAttackLastBossData;
+    public bool CanGoEndData;
     public List<TrideSaveData> TribeStates = new List<TrideSaveData>();
     public List<AlbumSaveData> AlbumSaveDatas = new List<AlbumSaveData>();
     public List<TrainingSaveData> TrainingSaveDatas = new List<TrainingSaveData>();
@@ -102,6 +104,9 @@ public class SaveLoadManager : MonoBehaviour
 
         SaveData sd = new SaveData();
         sd.haveMoney = PlayerManager.Instance.haveMoney;
+        sd.lastSelectTrideId = PlayerManager.Instance.PlayerData.id;
+        sd.CanGoEndData = PlayerManager.Instance.CanGoEnd;
+        sd.CanAttackLastBossData = PlayerManager.Instance.CanAttackLastBoss;
 
         foreach (var t in PlayerManager.Instance.TrideDataDic)
         {
@@ -151,7 +156,7 @@ public class SaveLoadManager : MonoBehaviour
 
         string json =JsonUtility.ToJson(sd,true);
         File.WriteAllText(Application.persistentDataPath+ "/save.json",json);
-        Debug.Log("저장 완료" + Application.persistentDataPath + "/save.json");
+       
     }
 
     public void LoadGame()
@@ -160,19 +165,23 @@ public class SaveLoadManager : MonoBehaviour
         load.gameObject.SetActive(true);
         StartCoroutine(SaveLoadFalseText(load));
         string path = Application.persistentDataPath+"/save.json";
-        Debug.Log("불러오기 경로" + path);
+     
         if (File.Exists(path) ==false) return;
 
         SaveData sd = JsonUtility.FromJson<SaveData>(File.ReadAllText(path));
         if (sd == null) return;
         PlayerManager.Instance.haveMoney = sd.haveMoney;
         TrainingUi.Instance.money.text = $"현재 소유 돈 : {sd.haveMoney}";
+        PlayerManager.Instance.CanGoEnd = sd.CanGoEndData;
+        PlayerManager.Instance.CanAttackLastBoss = sd.CanAttackLastBossData;
         foreach (var saved in sd.TribeStates)
         {
             Tride original = trideM.TrideList.Find(t => t.id == saved.id);
             if (original == null) continue;
-            
-                Tride t = original.Clone();
+
+            original.isUnLocked = saved.isUnLocked;
+
+            Tride t = original.Clone();
 
                 t.isUnLocked = saved.isUnLocked;
                 t.hp = saved.hp;
@@ -217,6 +226,12 @@ public class SaveLoadManager : MonoBehaviour
             Album target = albumM.AlbumList.Find(a => a.id == saved.id);
             if( target!=null) target.isUnLocked = saved.isUnLocked;
         }
+
+        if(PlayerManager.Instance.TrideDataDic.ContainsKey(sd.lastSelectTrideId))
+        {
+            PlayerManager.Instance.SelectTride(PlayerManager.Instance.TrideDataDic[sd.lastSelectTrideId]);
+        }
+
 
         TrainingUi.Instance.TrainingReFreshSlot();
         TrideUi.instance.ReFreshTrideUI();

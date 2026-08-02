@@ -18,7 +18,7 @@ public class Lastboss : EnemyController, canSkill
 
     public override void GoalIn(YutPiace targetPiace)
     {
-        Debug.Log("¶ó½ºº¸");
+
         var mydata = enemyData;
         var player = PlayerManager.Instance.PlayerData;
         var BSM = BattleSceneManager.instance;

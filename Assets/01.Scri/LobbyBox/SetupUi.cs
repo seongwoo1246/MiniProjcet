@@ -45,6 +45,7 @@ public class SetUPUi : LobbyUiManager
     }
     public void GoStart()
     {
+       
         ScenesM.instance.LoadScenes(scenetpye.start);
     }
 }
