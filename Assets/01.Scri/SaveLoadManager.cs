@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 [Serializable]
@@ -63,7 +64,7 @@ public class SaveLoadManager : MonoBehaviour
     [SerializeField] TrainingDataManager trainingM;
     [SerializeField] TextMeshProUGUI save;
     [SerializeField] TextMeshProUGUI load;
-
+    
 
     public static SaveLoadManager instance;
 
