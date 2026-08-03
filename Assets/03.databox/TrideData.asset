@@ -18,7 +18,7 @@ MonoBehaviour:
     name: "\uCCA0\uC218"
     maxHp: 500
     hp: 500
-    damage: 100
+    damage: 800
     depence: 20
     critical: 0.05
     moneyUp: 0
@@ -41,13 +41,13 @@ MonoBehaviour:
     name: "\uBCF4\uC988"
     maxHp: 700
     hp: 700
-    damage: 80
+    damage: 50
     depence: 10
     critical: 0.05
     moneyUp: 0
     maxCharacter: 6
     heal: 0
-    luck: 0.5
+    luck: 0.05
     block: 0
     miss: 0.15
     length: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
       \uB458\uB7EC\uBD10\uB77C  \uADF8\uAC83\uC740 \uC808\uB300 \uD63C\uC790 \uB2E4\uB2C8\uC9C0
       \uC54A\uB294\uB2E4. \uACE0\uBE14\uB9B0\uC5D0\uAC8C \uD328\uBC30\uD55C \uC790\uB4E4\uC740
       \uC804\uBD80 \uD589\uBC29 \uBD88\uBA85\uC774 \uB418\uC5C8\uB2E4."
-    isUnLocked: 0
+    isUnLocked: 1
   - id: 2
     icon: {fileID: 3429794657976500964, guid: 3714ab70b8f9ae9478868d0059a1cd89, type: 3}
     name: "\uBE44\uC2A4\uB098 \uD3F0 \uC5D8\uB85C\uD504"
@@ -72,10 +72,10 @@ MonoBehaviour:
     moneyUp: 0
     maxCharacter: 4
     heal: 0
-    luck: 0.5
+    luck: 1
     block: 0
     miss: 0.05
-    length: 1
+    length: 5
     infection: 0
     kidnap: 0
     rivival: 0
@@ -84,7 +84,7 @@ MonoBehaviour:
       \uC5D8\uD504, \uADF8 \uC5B4\uB5A4 \uC885\uC871\uC5D0\uAC8C\uB3C4 \uC138\uACC4\uC218\uB294
       \uB118\uAE30\uC9C0 \uC54A\uACA0\uB2E4\uB294 \uC2E0\uB150\uC73C\uB85C \uC788\uC73C\uBA70
       \uD65C\uC744 \uB2A5\uC219\uD558\uAC8C \uB2E4\uB8EC\uB2E4."
-    isUnLocked: 0
+    isUnLocked: 1
   - id: 3
     icon: {fileID: -1235142525551724512, guid: 3714ab70b8f9ae9478868d0059a1cd89, type: 3}
     name: "\uB370\uC2A4\uB85C\uB4DC  \uD398\uC2A4\uD2B8"
@@ -114,7 +114,7 @@ MonoBehaviour:
     name: "\uB8E8\uC2DC\uC5D8"
     maxHp: 1500
     hp: 1500
-    damage: 40
+    damage: 50
     depence: 20
     critical: 0.05
     moneyUp: 0

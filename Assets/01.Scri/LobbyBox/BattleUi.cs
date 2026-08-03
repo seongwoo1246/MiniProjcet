@@ -20,7 +20,7 @@ public class BattleUi : LobbyUiManager
     [SerializeField] VideoPlayer LoToEnd;
     [SerializeField] RawImage EnRaw;
     [SerializeField] Button LastBattle;
-
+    [SerializeField] Image EndAfter1;
 
     private scenetpye ST;
     public GameObject SelectEnemy;
@@ -50,8 +50,17 @@ public class BattleUi : LobbyUiManager
 
     public override void Start()
     {
+        if (ScenesM.instance.IsviewEnd == true)
+        {
+            SoundManager.instance.PlayBGM(SoundManager.instance.hidenLobby);
+            EndAfter1.gameObject.SetActive(true);
+        }
+        else
+        {
+            SoundManager.instance.PlayBGM(SoundManager.instance.nomalLobby);
+            EndAfter1.gameObject.SetActive(false);
+        }
 
-      
 
         if (PlayerManager.Instance.CanAttackLastBoss ==true)
         {
@@ -199,6 +208,8 @@ public class BattleUi : LobbyUiManager
     public void StartBattel()
     {
         SoundManager.instance.PlaySFX("»Í");
+        SaveLoadManager.instance.saveB.gameObject.SetActive(false);
+        SaveLoadManager.instance.loadB.gameObject.SetActive(false);
         if (battleId == -1)
             return;
         Battle.SetActive(false);

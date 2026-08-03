@@ -92,7 +92,12 @@ public class SkillManager : MonoBehaviour
 
             foreach(var mypiece in enemyController.EnemyGroup)
             {
-                if (CanUseElfSkill(false, enemyController.enemyData.length, caster.currentPathIndex, caster.PathState1, out YutPiace bestTarget, out int bestcount))
+                if(enemyController ==null ||enemyController.enemyData == null)
+                {
+                    Debug.Log("에너미 콘트롤러  에너미 데이터 빈상자");
+                }
+
+                if (CanUseElfSkill(false, skillRange, caster.currentPathIndex, caster.PathState1, out YutPiace bestTarget, out int bestcount))
                 {
                     if( bestcount > maxBsetCount||(bestcount==maxBsetCount&&absoluteBestTarget != null && bestTarget.currentPathIndex>absoluteBestTarget.currentPathIndex))
                     {

@@ -9,6 +9,7 @@ public class Goblin : EnemyController, canSkill
         CurrentEnemy = 1;
         SetEnemy(CurrentEnemy);
         BattleSceneManager.instance.ItbattleSet();
+        maxChar = 6;
     }
     public override void GoalIn(YutPiace targetPiace)
     {

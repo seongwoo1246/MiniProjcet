@@ -46,7 +46,8 @@ public class EnemyController : YutPlayer
         base.Start();
         BattleSceneManager.instance.CuttrentEnemy = this;
         PlayerManager.Instance.enemyController = this;
-         maxChar = trideDM.TrideList[CurrentEnemy].maxCharacter;
+        enemyData = trideDM.TrideList[CurrentEnemy].Clone();
+         maxChar = enemyData.maxCharacter;
         yutcount = FindAnyObjectByType<YutPiace>();
 
 

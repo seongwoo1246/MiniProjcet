@@ -13,9 +13,8 @@ public class StateUi : LobbyUiManager
     [SerializeField] GameObject StateSlot1;
     [SerializeField] Transform SimpleCanva;
 
-    [SerializeField] Image EndAfter1;
-    [SerializeField] public TextMeshProUGUI save;
-    [SerializeField] public TextMeshProUGUI load;
+    
+ 
     private void Awake()
     {
         if (Instance == null)
@@ -32,25 +31,6 @@ public class StateUi : LobbyUiManager
 
     public override void Start()
     {
-
-        if (ScenesM.instance.IsviewEnd == true)
-        {
-            SoundManager.instance.PlayBGM(SoundManager.instance.hidenLobby);
-            EndAfter1.gameObject.SetActive(true);
-        }
-        else
-        {
-            SoundManager.instance.PlayBGM(SoundManager.instance.nomalLobby);
-            EndAfter1.gameObject.SetActive(false);
-        }
-
-       save.gameObject.SetActive(false);
-       load.gameObject.SetActive(false);
-
-        save.gameObject.SetActive(false);
-        load.gameObject.SetActive(false);
-        save.text = "흠냐흠냐 오늘 있던 일을 일기에 적습니다. (-.-)zZ";
-        load.text = "오늘 하루도 힘차게 출발합니다.(*ㅅ*)>";
 
         SimpleState.SetActive(false);
        

@@ -132,6 +132,8 @@ public class BattleSceneManager : MonoBehaviour
     // 영상 끝나고 넘어감
     void OnVideoEndToLobby(VideoPlayer videoPlayer)
     {
+        SaveLoadManager.instance.saveB.gameObject.SetActive(true);
+        SaveLoadManager.instance.loadB.gameObject.SetActive(true);
         videoPlayer.gameObject.SetActive(false);
         ToLobbyRaw.gameObject.SetActive(false);
         ResetScene();
@@ -390,6 +392,7 @@ public class BattleSceneManager : MonoBehaviour
                 tride.hp = 0;
                 enemyController.DeadMob();
                 ObjectPooling.instance.cleargarbage();
+               
                 GameOver();
             }
 

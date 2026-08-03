@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 [Serializable]
@@ -61,8 +62,10 @@ public class SaveLoadManager : MonoBehaviour
     [SerializeField] TrideDataManager trideM;
     [SerializeField] AlbumDataManager albumM;
     [SerializeField] TrainingDataManager trainingM;
-  
-    
+    [SerializeField] public TextMeshProUGUI save;
+    [SerializeField] public TextMeshProUGUI load;
+    [SerializeField] public Button saveB;
+    [SerializeField] public Button loadB;
 
     public static SaveLoadManager instance;
 
@@ -79,6 +82,16 @@ public class SaveLoadManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+
+        save.gameObject.SetActive(false);
+        load.gameObject.SetActive(false);
+        save.text = "Èì³ÄÈì³Ä ¿À´Ã ÀÖ´ø ÀÏÀ» ÀÏ±â¿¡ Àû½À´Ï´Ù. (-.-)zZ";
+        load.text = "¿À´Ã ÇÏ·çµµ ÈûÂ÷°Ô Ãâ¹ßÇÕ´Ï´Ù.(*¤µ*)>";
+
+    }
+
     public IEnumerator SaveLoadFalseText(TextMeshProUGUI Text)
     {
         yield return new WaitForSeconds(2f);
@@ -89,8 +102,8 @@ public class SaveLoadManager : MonoBehaviour
     public void SaveGame()
     {
         SoundManager.instance.PlaySFX("»Í");
-        StateUi.Instance.save.gameObject.SetActive(true);
-        StartCoroutine(SaveLoadFalseText(StateUi.Instance.save));
+       save.gameObject.SetActive(true);
+        StartCoroutine(SaveLoadFalseText(save));
 
         SaveData sd = new SaveData();
         sd.haveMoney = PlayerManager.Instance.haveMoney;
@@ -152,8 +165,8 @@ public class SaveLoadManager : MonoBehaviour
     public void LoadGame()
     {
         SoundManager.instance.PlaySFX("»Í");
-        StateUi.Instance.load.gameObject.SetActive(true);
-        StartCoroutine(SaveLoadFalseText(StateUi.Instance.load));
+       load.gameObject.SetActive(true);
+        StartCoroutine(SaveLoadFalseText(load));
         string path = Application.persistentDataPath+"/save.json";
      
         if (File.Exists(path) ==false) return;
