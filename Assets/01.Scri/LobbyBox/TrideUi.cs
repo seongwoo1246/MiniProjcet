@@ -29,7 +29,6 @@ public class TrideUi : LobbyUiManager
         if(instance == null)
         {
             instance = this;
-           // DontDestroyOnLoad(gameObject);
             ItTrideSlot();
             
         }

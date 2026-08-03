@@ -147,8 +147,8 @@ public class StartUi : MonoBehaviour
 
     public void ExitGame()
     {
-        IsIntroview = false;
-        SaveLoadManager.instance.SaveGame();
+
+        
         Application.Quit();
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Tutorial : LobbyUiManager
 {
-    [SerializeField] Image EndAfter1;
+   
 
 
 
@@ -25,17 +25,7 @@ public class Tutorial : LobbyUiManager
 
     public override void Start()
     {
-        if(ScenesM.instance.IsviewEnd == true)
-        {
-            SoundManager.instance.PlayBGM(SoundManager.instance.hidenLobby);
-            EndAfter1.gameObject.SetActive(true);
-        }
-        else
-        {
-            SoundManager.instance.PlayBGM(SoundManager.instance.nomalLobby);
-            EndAfter1.gameObject.SetActive(false);
-        }
-
+       
 
 
 

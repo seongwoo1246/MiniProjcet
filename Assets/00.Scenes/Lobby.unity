@@ -11992,6 +11992,9 @@ MonoBehaviour:
   SimpleState: {fileID: 971684898}
   StateSlot1: {fileID: 1984364436894184018, guid: aae6803121587e64e998f4f8fc09256c, type: 3}
   SimpleCanva: {fileID: 419707482}
+  EndAfter1: {fileID: 1100849070}
+  save: {fileID: 899349389}
+  load: {fileID: 1273132313}
 --- !u!1 &1615688850
 GameObject:
   m_ObjectHideFlags: 0
@@ -13256,8 +13259,6 @@ MonoBehaviour:
   trideM: {fileID: 11400000, guid: 8f060fa795172cc4396e4dbcc6a21258, type: 2}
   albumM: {fileID: 11400000, guid: 5bd2a8a8c1d001546b14f4cac8b9842d, type: 2}
   trainingM: {fileID: 11400000, guid: fd4076f6af25bec48a588d53d782b7dc, type: 2}
-  save: {fileID: 899349389}
-  load: {fileID: 1273132313}
 --- !u!4 &1813917491
 Transform:
   m_ObjectHideFlags: 0
@@ -15233,7 +15234,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tutorial
   dim: {fileID: 1156094236268068491, guid: 34a0b432c271c804a90f007bee871850, type: 3}
-  EndAfter1: {fileID: 1100849070}
   text1: {fileID: 1875824348}
   textreading: {fileID: 2079512830}
   page: {fileID: 788358314}

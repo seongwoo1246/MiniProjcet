@@ -489,7 +489,19 @@ public class BattleSceneManager : MonoBehaviour
     public int GainMoneys()
     {
         SoundManager.instance.PlaySFX("µ·¼Ò¸®");
-        int gainM = Random.Range(500, 2000);
+        int gainM =0;
+        switch (enemyController.enemyData.id)
+        {
+            case 0:  gainM =   Random.Range(500, 2001); break;
+            case 1:  gainM =  Random.Range(1000, 3001); break;
+            case 2:  gainM =  Random.Range(1500, 4001); break;
+            case 3:  gainM =  Random.Range(2000, 5001); break;
+            case 4:  gainM =  Random.Range(2500, 6001); break;
+            case 5:  gainM = Random.Range(5000, 12001); break;
+                default: gainM = Random.Range(500, 2001); break;
+        }
+
+       
         int gainMoney = gainM + PlayerManager.Instance.PlayerData.moneyUp;
         return gainMoney;
     }

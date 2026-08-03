@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 
 [Serializable]
@@ -62,8 +61,7 @@ public class SaveLoadManager : MonoBehaviour
     [SerializeField] TrideDataManager trideM;
     [SerializeField] AlbumDataManager albumM;
     [SerializeField] TrainingDataManager trainingM;
-    [SerializeField] TextMeshProUGUI save;
-    [SerializeField] TextMeshProUGUI load;
+  
     
 
     public static SaveLoadManager instance;
@@ -81,15 +79,6 @@ public class SaveLoadManager : MonoBehaviour
         }
     }
 
-
-
-    private void Start()
-    {
-        save.gameObject.SetActive(false);
-        load.gameObject.SetActive(false);
-        save.text = "Èì³ÄÈì³Ä ¿À´Ã ÀÖ´ø ÀÏÀ» ÀÏ±â¿¡ Àû½À´Ï´Ù. (-.-)zZ";
-        load.text = "¿À´Ã ÇÏ·çµµ ÈûÂ÷°Ô Ãâ¹ßÇÕ´Ï´Ù.(*¤µ*)>";
-    }
     public IEnumerator SaveLoadFalseText(TextMeshProUGUI Text)
     {
         yield return new WaitForSeconds(2f);
@@ -100,8 +89,8 @@ public class SaveLoadManager : MonoBehaviour
     public void SaveGame()
     {
         SoundManager.instance.PlaySFX("»Í");
-        save.gameObject.SetActive(true);
-        StartCoroutine(SaveLoadFalseText(save));
+        StateUi.Instance.save.gameObject.SetActive(true);
+        StartCoroutine(SaveLoadFalseText(StateUi.Instance.save));
 
         SaveData sd = new SaveData();
         sd.haveMoney = PlayerManager.Instance.haveMoney;
@@ -157,14 +146,14 @@ public class SaveLoadManager : MonoBehaviour
 
         string json =JsonUtility.ToJson(sd,true);
         File.WriteAllText(Application.persistentDataPath+ "/save.json",json);
-       
+        
     }
 
     public void LoadGame()
     {
         SoundManager.instance.PlaySFX("»Í");
-        load.gameObject.SetActive(true);
-        StartCoroutine(SaveLoadFalseText(load));
+        StateUi.Instance.load.gameObject.SetActive(true);
+        StartCoroutine(SaveLoadFalseText(StateUi.Instance.load));
         string path = Application.persistentDataPath+"/save.json";
      
         if (File.Exists(path) ==false) return;
