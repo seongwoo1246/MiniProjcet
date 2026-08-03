@@ -29,7 +29,6 @@ public class TrideUi : LobbyUiManager
         if(instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
             ItTrideSlot();
             
         }
@@ -49,6 +48,7 @@ public class TrideUi : LobbyUiManager
 
     public void ItTrideSlot()
     {
+       
 
         for (int i = 0; i < TrideM.TrideList.Count; i++)
         {
@@ -63,13 +63,26 @@ public class TrideUi : LobbyUiManager
 
                 if (slot != null)
                 {
-                    slot.SetTride(TrideData.id, TrideData.icon, TrideData.name, TrideData.character, TrideData.trideDescription);
+                    slot.SetTride(TrideData);
                     TrideUiList.Add(slot);
                     slot.gameObject.SetActive(true);
                 }
             }
         }
     }
+
+    public void ReFreshTrideUI()
+    {
+        foreach (var slot in TrideUiList)
+        {
+            if (slot != null) Destroy(slot.gameObject);
+        }
+        TrideUiList.Clear();
+
+        ItTrideSlot();
+    }
+
+
     public override void OpenPanel()
     {
         base.OpenPanel();
@@ -83,10 +96,10 @@ public class TrideUi : LobbyUiManager
 
     public void SelectTride(int id)
     {
-
+        SoundManager.instance.PlayVoice("¾È³çÇÏ¼¼¿ä");
         TrideId = id;
 
-        var TrideData = TrideM.TrideList[TrideId].Clone();
+        var TrideData = TrideM.TrideList[TrideId];
         if (TrideData != null)
         {
            iconIn.sprite = TrideData.icon;
@@ -99,19 +112,18 @@ public class TrideUi : LobbyUiManager
     }
     public void ExitSelect()
     {
+        SoundManager.instance.PlaySFX("»Í");
         TrideSelect.SetActive(false);
     }
 
     public void TrideSlectOk()
     {
+        SoundManager.instance.PlaySFX("»Í");
         if (TrideId == -1)
         { return; }
-        var TrideData = TrideM.TrideList[TrideId].Clone();
-        if (TrideData != null)
-        {
-           PlayerManager.instance.SetTridePlayer(TrideData);  
-        }
 
+        var TrideData = TrideM.TrideList[TrideId];
+        PlayerManager.Instance.SelectTride(TrideData);
 
         TrideSelect.SetActive(false);
         TrideSelectSpace.SetActive(false);

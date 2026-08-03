@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class AlbumUi : LobbyUiManager
 {
+    public static AlbumUi Instance;
+
     [SerializeField] private AlbumDataManager AlbumM;
 
 
@@ -19,6 +21,21 @@ public class AlbumUi : LobbyUiManager
     
 
     public List<AlbumSlot> albumSlots = new List<AlbumSlot>();
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+
+        }
+        else
+            Destroy(gameObject);
+    }
+
+
+
+
     public override void Start()
     {
         
@@ -30,11 +47,12 @@ public class AlbumUi : LobbyUiManager
 
     public void ItAlbumSlot()
     {
-        
+       
+
         for (int i = 0; i < AlbumM.AlbumList.Count; i++)
         {
          
-            var albumData = AlbumM.AlbumList[i].Clone();
+            var albumData = AlbumM.AlbumList[i];
            
             
             if (albumData != null)
@@ -44,7 +62,7 @@ public class AlbumUi : LobbyUiManager
              
                 if (slot != null)
                 {
-                    slot.SetMemori(albumData.id, albumData.image);
+                    slot.SetMemori(albumData);
                     albumSlots.Add(slot);
                     slot.gameObject.SetActive(true);
                 }
@@ -52,9 +70,19 @@ public class AlbumUi : LobbyUiManager
         }
     }
 
+    public void ReFreshAlbumUI()
+    {
+        foreach (var slot in albumSlots)
+        {
+            if(slot != null) Destroy(slot.gameObject);
+        }
+        albumSlots.Clear();
+
+        ItAlbumSlot();
+    }
     public void SelectMemori(int id )
     {
-
+        SoundManager.instance.PlaySFX("»Í");
         //id°¡ 1000ÀÌ¸é ¸®½ºÆ® 1000¹øÂ° ¾øÀ¸´Ï ¹üÀ§¸¦ ¹þ¾î³µ´Ù°í ³ª¿È
         var Data = AlbumM.AlbumList[id-1000].Clone();
        
@@ -81,6 +109,7 @@ public class AlbumUi : LobbyUiManager
 
     public void ViewMemoriExit()
     {
+        SoundManager.instance.PlaySFX("»Í");
         ViewMemoris.SetActive(false);
     }
 

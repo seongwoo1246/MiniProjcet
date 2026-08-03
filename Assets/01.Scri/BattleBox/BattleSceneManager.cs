@@ -1,0 +1,832 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Video;
+
+
+
+
+
+public enum Yut
+{
+    zero,
+    one,
+    two,
+    three,
+    four,
+    five,
+    back = -1
+}
+
+
+
+
+public interface canSkill
+{
+   void UseSkill70(float block, float luck);
+   void UseSkill50(float block, float luck);
+    void UseSkill30(float block, float luck);
+}
+
+
+
+public class BattleSceneManager : MonoBehaviour
+{
+   public static BattleSceneManager instance;
+
+    [SerializeField] GameObject GameOver1;
+
+    [SerializeField] TextMeshProUGUI resultYut;
+    [SerializeField] TextMeshProUGUI TurnCount;
+    [SerializeField] TextMeshProUGUI moCount;
+    [SerializeField] TextMeshProUGUI yutCount;
+    [SerializeField] TextMeshProUGUI yutname;
+    [SerializeField] TextMeshProUGUI First;
+    [SerializeField] TextMeshProUGUI GainMoney;
+    [SerializeField] TextMeshProUGUI Break;
+    [SerializeField] TextMeshProUGUI Tip;
+    [SerializeField] TextMeshProUGUI attacktext;
+    [SerializeField] public TextMeshProUGUI MaxCharCaption;
+
+    [SerializeField] Button ThrowButton;
+    [SerializeField] Button mo;
+    [SerializeField] Button yut;
+    [SerializeField] Button elseyut;
+    [SerializeField ] Button MyChar;
+    [SerializeField ] Button EnemyChar;
+    [SerializeField ] Button GoLobby;
+    [SerializeField ] Button TurnEND;
+
+    [SerializeField]private YutPlayer yutPlayer;
+
+    [SerializeField] VideoPlayer videoPlayer;
+    [SerializeField] RawImage ToLobbyRaw;
+
+    public YutPiace yutpiace;
+    public GameObject playData1;
+    public EnemyController CuttrentEnemy;
+    public EnemyController enemyController;
+    public YutPlayer Player;
+    public YutPlayer enemy;
+    private bool canthrow;
+    public bool CanThrow
+    {  get => canthrow;  set { canthrow = value;  ThrowButtonControll(); } }
+    public bool CanThrowEnemy;
+    public bool IsMyFirst;
+    private int Turn;
+    private int yutC=0;
+    private int moC=0;
+    private Yut currentRestYut = Yut.zero;
+    private bool canUseYut = false; 
+    public bool IsMyTurn;
+
+    public Yut selectYut;
+    public int selectMoveSpace = 0;
+    public bool isYutSelected =false;
+    
+    public bool countSuccess=false;
+
+    public List<Yut> TurnYutResult = new List<Yut>();
+
+    public List<YutPiace> allActiveChar = new List<YutPiace>();
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+            Destroy(gameObject);
+
+        
+    }
+
+    private void Start()
+    {
+        ThrowButton.gameObject.SetActive(false);
+        attacktext.gameObject.SetActive(false);
+        First.gameObject.SetActive(false);
+        MaxCharCaption.gameObject.SetActive(false);
+        GameOver1.SetActive(false);
+        Turn = 0;
+        TurnCount.text =$"경과 턴 : {Turn}";
+        FirstStart();
+        videoPlayer.gameObject.SetActive(false);
+        ToLobbyRaw.gameObject.SetActive(false);
+        videoPlayer.loopPointReached +=OnVideoEndToLobby;
+
+        PlayerManager.Instance.playerPiace = FindAnyObjectByType<YutPiace>();
+        PlayerManager.Instance.playerUiDate = playData1;
+
+        PlayerManager.Instance.ButtonSet();
+
+        Button button = GoLobby.GetComponent<Button>();
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(GoToLobby);
+
+    }
+
+    // 영상 끝나고 넘어감
+    void OnVideoEndToLobby(VideoPlayer videoPlayer)
+    {
+        videoPlayer.gameObject.SetActive(false);
+        ToLobbyRaw.gameObject.SetActive(false);
+        ResetScene();
+        PlayerManager.Instance.SetHp();
+        ScenesM.instance.LoadScenes(scenetpye.Lobby);
+    }
+    
+
+
+    //윷을 안 던지고 턴을 넘기는 것도 전략이다.
+    public void TurnEndButton()
+    {
+        if(IsMyTurn==true)
+        {
+            SoundManager.instance.PlaySFX("뽕");
+            TurnYutResult.Clear();
+            moC = 0;
+            moCount.text = $"{moC}";
+            yutC = 0;
+            yutCount.text = $"{yutC}";
+            currentRestYut = Yut.zero;
+            yutname.text = "";
+            TurnEnd();
+        }
+    }
+
+    // 턴 끝났을 때 행동
+    public void TurnEnd() 
+    {       
+
+        if(IsMyTurn)
+        {
+            
+            IsMyTurn = false;
+            enemyController.IsEnemyTurn = true;
+            canUseYut = false;
+            CanThrow = false;
+            CanThrowEnemy = true;
+            enemyController.EnemyTurn();
+        }
+        else
+        {
+            IsMyTurn = true;
+            enemyController.IsEnemyTurn = false;
+            CanThrowEnemy = false;
+            CanThrow = true;
+            Turn++;
+            TurnCount.text = $"경과 턴 : {Turn}";
+            if(PlayerManager.Instance.buttTurn>0)
+            {
+                PlayerManager.Instance.TurnDisCount();
+            }
+            else if (enemyController.buttTurn>0)
+            {
+                enemyController.TurnDisCount();
+            }
+            if(yutpiace.counterTurns>0)
+            {
+                yutpiace.AngelTurnDisCount();
+            }
+            
+           
+        }
+    }
+
+
+    // 말들 업었을 때 데미지 계산
+    public int countDamageUp(int basedamage , int count)
+    {
+        if(count >=8)
+        { count = 7; }
+        switch(count)
+        {
+            case 1: return basedamage;
+            case 2: return basedamage * 2; 
+            case 3: return basedamage * 4; 
+            case 4: return basedamage * 6; 
+            case 5: return basedamage * 9; 
+            case 6: return basedamage * 12; 
+            case 7: return basedamage + 9999999;
+            default: return basedamage;
+        }
+        
+    }
+    //구조적으로 같은 칸인지 검사
+    private bool IsSameTile(int targetA , PathState pathA , int targetB, PathState pathB )
+    {
+        if (targetA == targetB && pathA == pathB) return true;
+        if(pathA == PathState.autumn)
+        {
+            (targetA, targetB) = (targetB, targetA);
+            (pathA, pathB) = (pathB, pathA);
+        }
+
+        if (targetA == 3 && targetB == 0 && pathA == PathState.spring && pathB == PathState.autumn) return true;
+        if (targetA == 4 && targetB == 1 && pathA == PathState.spring && pathB == PathState.autumn) return true;
+        if (targetA == 5 && targetB == 2 && pathA == PathState.spring && pathB == PathState.autumn) return true;
+
+        return false;
+    }
+
+
+    //말을 잡을 수 있는 가 검사
+    public void checkCatchChar(YutPiace MovePiace)
+    {
+        //판에 없거나 업혀 있는 친구는 넘어가는 코드
+        if(MovePiace.currentPathIndex<0||MovePiace.isCarried) return;
+
+        bool isCaughtAnything = false;
+
+        foreach( YutPiace targetPiace in allActiveChar )
+        {
+            if (targetPiace.isCarried || targetPiace == MovePiace || !targetPiace.isMovingOnBorad) continue;
+
+           
+            //좌표와 루트가 같다면
+            if (IsSameTile(targetPiace.currentPathIndex, targetPiace.PathState1, MovePiace.currentPathIndex, MovePiace.PathState1))
+            {
+                // 적이라면 잡고 아군이면 업히는 코드
+                if(targetPiace.isEnemy == MovePiace.isEnemy)
+                {
+                   
+                    
+                    if(  MovePiace.carriedChar.Count>0)
+                    {
+                        targetPiace.carriedChar.AddRange(MovePiace.carriedChar);
+                        MovePiace.carriedChar.Clear();
+                    }
+                    targetPiace.carriedChar.Add(MovePiace);
+
+                    MovePiace.isCarried = true;
+                    string selectCharName = yutPlayer.GetCharPoolName();
+                    ObjectPooling.instance.ReturnObject(selectCharName, MovePiace.gameObject);
+                    
+                    targetPiace.UpdateVisuals();
+                    return;
+                }
+                else if(targetPiace.isEnemy != MovePiace.isEnemy)
+                {
+                    
+
+                    isCaughtAnything = true;
+                    if(PlayerManager.Instance.isGoblinSkillUsed ==true)
+                    {
+                        SoundManager.instance.PlayVoice("사악한웃음");
+                        PlayerManager.Instance.UsedGoblinSkill(MovePiace.player, targetPiace.player);
+                    }
+                    else if(enemyController.isGoblinSkillUsed ==true)
+                    {
+                        SoundManager.instance.PlayVoice("사악한웃음");
+                       enemyController.UsedGoblinSkill(MovePiace.player, targetPiace.player);
+                    }
+
+                    if (PlayerManager .Instance.isUndeadSkillUsed == true)
+                    {
+                        SoundManager.instance.PlayVoice("사악한웃음");
+                        PlayerManager.Instance.UsedUndeadSkill(MovePiace.player, MovePiace);
+                    }
+                    else if(enemyController.isUndeadSkillUsed)
+                    {
+                        SoundManager.instance.PlayVoice("사악한웃음");
+                        enemyController.UsedUndeadSkill(MovePiace.player, MovePiace);
+                    }
+
+
+
+                        foreach (YutPiace kid in targetPiace.carriedChar)
+                        {
+                            if (kid != null)
+                            {
+                                kid.CatchChar(MovePiace);
+                            }
+
+                        }
+                    targetPiace.carriedChar.Clear();
+
+                    targetPiace.CatchChar(MovePiace);
+
+                    break;
+                }
+            }
+
+        }
+        if(countSuccess == true)
+        {
+            countSuccess = false;
+            return;
+        }
+        else
+        {
+            if (IsMyTurn == true)
+            {
+                if (isCaughtAnything)
+                {
+                    CanThrow = true;
+                }
+            }
+            else
+            {
+                if (isCaughtAnything)
+                {
+                    CanThrowEnemy = true;
+                }
+            }
+        }
+       
+       
+    }
+
+    //전투 시작할 때 셋팅
+    public void ItbattleSet()
+    {
+        
+        if (Player== null&&PlayerManager.Instance != null)
+         Player = PlayerManager.Instance;
+        
+           
+            if (Player != null)
+            {
+            int myTrideId = PlayerManager.Instance.PlayerData.id;
+            Player.SetTrideId(myTrideId);
+            }
+
+        if (CuttrentEnemy != null)
+        {
+            int enemyTrideId = CuttrentEnemy.CurrentEnemy;
+            enemy.SetTrideId(enemyTrideId);
+        }
+
+    }
+
+
+    public  void TakeDamage(Tride tride, float miss,  int damage, int depence)
+    {
+       if(Random.value < miss )
+        {
+            SoundManager.instance.PlayVoice("빗나감");
+            attacktext.text = "공격을 회피했다.";
+            attacktext.gameObject.SetActive(true);
+            StartCoroutine(FalseText(attacktext));
+            return;
+            
+        }
+       else
+        {
+            SoundManager.instance.PlaySFX("폭팔");
+            attacktext.text = "공격을 명중했다.";
+            int totalDefence = depence + yutPlayer.currentDenfence;
+            int Damage = Mathf.Max(0, damage- totalDefence);
+
+            tride.hp-=Damage;
+
+            //게임 오버처리
+            if(tride.hp <=0)
+            {
+                tride.hp = 0;
+                enemyController.DeadMob();
+                ObjectPooling.instance.cleargarbage();
+                GameOver();
+            }
+
+            
+        }
+
+       attacktext.gameObject.SetActive(true);
+        StartCoroutine(FalseText(attacktext));
+    }
+
+    public int Attack( float critical ,int damage)
+    {
+        int finalDamage = damage;
+        if(Random.value<critical)
+        {
+            SoundManager.instance.PlaySFX("쨍그랑");
+            finalDamage = damage * 2;
+        }
+        return finalDamage;   
+    }
+
+   
+
+    public  void Heal( Tride tride, int heal)
+    {
+        tride.hp += heal;
+        if (tride.hp>=tride.maxHp)
+        {
+            tride.hp = tride.maxHp;
+        }
+
+       
+    }
+
+    public void GoToLobby()
+    {
+        videoPlayer.gameObject.SetActive (true);
+        ToLobbyRaw.gameObject.SetActive (true);
+       videoPlayer.Play();
+    }
+
+    public void ResetScene()
+    {
+        foreach( YutPiace yutPiace in allActiveChar)
+        {
+            yutPiace.transform.position = new Vector3(-39, -1, 0);
+            string selectCharName = yutPlayer.GetCharPoolName();
+            ObjectPooling.instance.ReturnObject(selectCharName, yutPiace.gameObject);
+            
+        }
+        PlayerManager.Instance.currentActiveChar = 0;
+       TurnYutResult.Clear();
+        Turn = 0;
+        TurnCount.text = $"경과 턴 : {Turn}";
+        attacktext.gameObject.SetActive(false);
+        First.gameObject.SetActive(false);
+        MaxCharCaption.gameObject.SetActive(false);
+        GameOver1.SetActive(false);
+        moC = 0;
+        moCount.text = $"{moC}";
+        yutC = 0;
+        yutCount.text = $"{yutC}";
+        currentRestYut = Yut.zero;
+        yutname.text = "";
+
+    }
+
+
+    public void GameOver()
+    {
+        int gain = GainMoneys();
+        PlayerManager.Instance.haveMoney +=gain;
+        GainMoney.text = $" 얻은 돈 : {gain} \n현재 소지금 : {PlayerManager.Instance.haveMoney}";
+        if (PlayerManager.Instance.PlayerData.hp == 0)
+        {
+            Break.text = "패배하셨군요 다음에 도전해 보세요.";
+            if(Random.Range(0,2)==1)
+            {
+                SoundManager.instance.PlaySFX("코난우우");
+
+            }
+            else 
+            {
+                SoundManager.instance.PlaySFX("크레이지우우");
+            }
+        }
+           
+
+        else
+        { Break.text = "승리를 축하드립니다.  상대 종족을 사용할 수 있게 되었습니다."; SoundManager.instance.PlayVoice("좋아하는소리"); }
+        GiveTip();
+
+            GameOver1.SetActive(true);
+       
+    }
+
+    public int GainMoneys()
+    {
+        SoundManager.instance.PlaySFX("돈소리");
+        int gainM =0;
+        switch (enemyController.enemyData.id)
+        {
+            case 0:  gainM =   Random.Range(500, 2001); break;
+            case 1:  gainM =  Random.Range(1000, 3001); break;
+            case 2:  gainM =  Random.Range(1500, 4001); break;
+            case 3:  gainM =  Random.Range(2000, 5001); break;
+            case 4:  gainM =  Random.Range(2500, 6001); break;
+            case 5:  gainM = Random.Range(5000, 12001); break;
+                default: gainM = Random.Range(500, 2001); break;
+        }
+
+       
+        int gainMoney = gainM + PlayerManager.Instance.PlayerData.moneyUp;
+        return gainMoney;
+    }
+
+    public void GiveTip()
+    {
+     int tipNum  = Random.Range(0, 3);
+
+        if (PlayerManager.Instance.PlayerData.hp == 0)
+        {
+            switch (tipNum)
+            {
+                case 0:
+                    Tip.text = " 좀 더 훈련해서 도전 해보는 걸 추천합니다.";
+                    break;
+                case 1:
+                    Tip.text = " 아쉽게도 이번에는 운이 없었군요. 다음에는 이길 수 있을 겁니다.";
+                    break;
+
+                case 2:
+                    Tip.text = " ai가 그렇게 똑똑하지 않습니다. 그 부분을 잘 노리면 이길 수 있을 겁니다.";
+                    break;
+            }
+        }
+        else
+        {
+            switch (tipNum)
+            {
+                case 0:
+                    Tip.text = "오? 이걸 이기네 축하합니다. 다음에는 좀 더 악마 같은 친구를 데려 오겠습니다.";
+                    break;
+                case 1:
+                    Tip.text = "그만해 그녀석에 HP는 이미 zero라고!!!";
+                    break;
+
+                case 2:
+                    Tip.text = "그녀석은 만든 적들 중에서 가장 약한 녀석이였다. 다음 적은 이렇게 쉽지 않을 걸!!!";
+                    break;
+            }
+        }
+
+       
+    }
+
+    // 문구가 사라지는 코루틴
+    public IEnumerator FalseText (TextMeshProUGUI Text)
+    {
+        yield return new WaitForSeconds(1f);
+       Text.gameObject.SetActive(false);
+
+    }
+    // 게임 시작시 선 정하기
+    private void FirstStart()
+    {
+        if(Random.Range(0,2)==1)
+        {
+            IsMyFirst = true;
+            CanThrow = true;
+            IsMyTurn = true;
+            First.text="당신이 선공입니다.";
+           
+        }
+        else
+        {
+            IsMyFirst= false;
+            CanThrow = false;
+            IsMyTurn= false;
+            CanThrowEnemy = true;
+            enemyController.IsEnemyTurn = true;
+            enemyController.EnemyTurn();
+            First.text = "당신이 후공입니다.";
+        }
+        First.gameObject.SetActive(true);
+        StartCoroutine(FalseText(First));
+    }
+
+    //윷 값 구하기
+    public Yut GetYut() 
+    {
+       int backSideYut = 0;
+
+        for (int i = 0; i <6 ; i++)
+        {
+            if(Random.Range(0,2)==1)
+            {
+                backSideYut++;
+            }
+        }
+
+        Yut result;
+
+        switch(backSideYut)
+        {
+            case 6: result = Yut.back; break;
+            case 5: result = Yut.zero; break;
+            case 1: result = Yut.one; break;
+            case 2: result = Yut.two; break;
+            case 3: result = Yut.three; break;
+            case 4: result = Yut.four; break;
+            case 0: result = Yut.five; break;
+            default: result = Yut.zero; break;
+        }
+
+        return result;
+    }
+
+    public void ThrowButtonControll()
+    {
+        if(CanThrow)
+        {
+            ThrowButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            ThrowButton.gameObject.SetActive(false);
+        }
+    }
+    //윷 던지기
+    public void OnClickThrowButton()
+    {
+        SoundManager.instance.PlaySFX("뽕");
+        if (enemyController.IsEnemyTurn||!CanThrow)
+            { return; }
+        ThrowYut();
+    }
+
+    public void ThrowYut()
+    {
+        
+
+
+        bool IsEnemy = enemyController.IsEnemyTurn;
+
+        if (!IsEnemy)
+        {
+            if (!CanThrow) return;
+            
+        }
+        else
+        {
+            if(!CanThrowEnemy) return;
+            
+        }
+
+
+            Yut currentYut = GetYut();
+        TurnYutResult.Add(currentYut);
+     
+        if (currentYut == Yut.zero)
+        {
+            SoundManager.instance.PlayVoice("앙대");
+            resultYut.text = "저런 낙이 나왔습니다 턴을 넘기세요.";
+            resultYut.gameObject.SetActive(true);
+            StartCoroutine(FalseText(resultYut));
+            TurnYutResult.Clear();
+            moC = 0;
+            moCount.text = $"{moC}";
+            yutC = 0;
+            yutCount.text = $"{yutC}";
+            currentRestYut = Yut.zero;
+            yutname.text = "";
+            CanThrowEnemy=false;
+            canthrow = false;
+            return;
+        }
+        if(currentYut == Yut.four|| currentYut == Yut.five)
+        {
+            if (currentYut == Yut.four) 
+            { yutC++; yutCount.text = $"{yutC}"; }
+            else 
+            { moC++; moCount.text = $"{moC}"; }
+
+            resultYut.text = $" {ChangeYutText(currentYut)}이 나왔군요. 한 번 더 던지세요";
+
+            if(!IsEnemy)
+            {
+                CanThrow = true;
+                canUseYut = false;
+            }
+            else 
+            {
+                CanThrowEnemy = true;
+                resultYut.gameObject.SetActive(true);
+                StartCoroutine(FalseText(resultYut));
+                return;
+            }
+        }
+        else 
+        {
+            resultYut.text = ChangeYutText(currentYut);
+            yutname.text = ChangeYutText(currentYut);
+            CanThrow = false;
+            currentRestYut = currentYut;
+
+            if(IsEnemy)
+            {
+                
+               CanThrowEnemy = false;
+            }
+        }
+        resultYut.gameObject.SetActive(true);
+        StartCoroutine(FalseText(resultYut));
+        if (!IsEnemy)
+        { canUseYut = true; }
+    }
+
+
+    public void RemoveYutUi(Yut yut)
+    {
+        switch(yut)
+        {
+            case Yut.five:
+                moC--;
+                moCount.text = $"{moC}";
+                break;
+           case Yut.four:
+                yutC--;
+                yutCount.text = $"{yutC}";
+                break;
+            default:
+                currentRestYut = Yut.zero;
+                yutname.text = "";
+                break;
+        }
+    }
+
+    
+    // enum 스트링 변환기
+    private string ChangeYutText(Yut yut)
+    {
+        switch(yut)
+        {
+            case Yut.back: return "뒷도";
+            case Yut.zero: return "낙";
+            case Yut.one: return "도";
+            case Yut.two: return "개";
+            case Yut.three: return "걸";
+            case Yut.four: return "윷";
+            case Yut.five: return "모";
+            default: return "";
+        }
+    }
+
+   
+    //윷 결과 버튼 함수
+
+    public void OnClickYutSlot(int value)
+    {
+        if(canthrow ==true)
+        { return; }
+
+
+        SoundManager.instance.PlaySFX("뽕");
+
+        if (canUseYut == true)
+        {
+            Yut targetYut;
+
+            if (value == -999)
+            {
+                if (currentRestYut == Yut.zero) return;
+                targetYut = currentRestYut;
+            }
+            else
+            {
+                targetYut = (Yut)value;
+            }
+            if (TurnYutResult.Contains(targetYut))
+            {
+                selectYut = targetYut;
+                selectMoveSpace = (int)targetYut;
+                isYutSelected = true;
+            }
+        }
+
+       
+    }
+
+    // 사용한 윷 결과
+    public void UseSelectedYut()
+    {
+       
+        
+           
+        
+
+        if (TurnYutResult.Contains(selectYut))
+        {
+            TurnYutResult.Remove(selectYut);
+            if(selectYut == Yut.five)
+            {
+                moC--;
+                moCount.text = $"{moC}";
+            }
+            else if (selectYut == Yut.four)
+            {
+                yutC--;
+                yutCount.text = $"{yutC}";
+            }
+            else
+            {
+                currentRestYut = Yut.zero;
+                yutname.text = "";
+            }
+            isYutSelected = false;
+            selectMoveSpace = 0;
+        }
+    }
+
+    //새로운 말 출발 코드
+    public void OnChilckStartNewChar()
+    {
+        
+        if(TurnYutResult ==null|| TurnYutResult.Count ==0|| isYutSelected == false) return;
+        if (TurnYutResult[0]== Yut.zero)
+        { TurnYutResult.RemoveAt(0); return; }
+       
+           
+            Player.StartNewChar(selectMoveSpace,false);
+
+            UseSelectedYut();
+
+    }
+
+    
+    
+
+}

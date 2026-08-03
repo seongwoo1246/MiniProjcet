@@ -10,6 +10,7 @@ public class LobbyUiManager : MonoBehaviour
     virtual public void Start() { }
     virtual public void  OpenPanel()
     {
+        SoundManager.instance.PlaySFX("»Í");
         if (dimClone != null) return;
         dimClone = Instantiate(dim,this.transform);
         dimClone.transform.SetAsFirstSibling();
@@ -17,7 +18,8 @@ public class LobbyUiManager : MonoBehaviour
 
     virtual public void ExitPanel()
     {
-      if(dimClone != null)
+        SoundManager.instance.PlaySFX("»Í");
+        if (dimClone != null)
         {
             Destroy(dimClone);
             dimClone = null;

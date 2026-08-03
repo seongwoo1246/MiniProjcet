@@ -9,6 +9,11 @@ public class SetUPUi : LobbyUiManager
     public override void Start()
     {
         SetUP.SetActive(false);
+
+        BGMVolume.SetValueWithoutNotify(SoundManager.instance.GetBGM());
+        SFXVolume.SetValueWithoutNotify(SoundManager.instance.GetSFX());
+        VoiceVolume.SetValueWithoutNotify(SoundManager.instance.GetVoice());
+
     }
     public override void OpenPanel()
     {
@@ -37,5 +42,10 @@ public class SetUPUi : LobbyUiManager
     {
         volume = SFXVolume.value;
         SoundManager.instance.SetSFXVolume(volume);
+    }
+    public void GoStart()
+    {
+       
+        ScenesM.instance.LoadScenes(scenetpye.start);
     }
 }

@@ -15,17 +15,20 @@ EditorBuildSettings:
     path: Assets/00.Scenes/BattleHumen.unity
     guid: 2726b7c662cead6479752406b5ab0fd3
   - enabled: 1
-    path: Assets/00.Scenes/Battle Undead.unity
-    guid: d8cffe8a12bce0048be0eb5c53bf067b
+    path: Assets/00.Scenes/BattleUndead.unity
+    guid: 2ed0c3b2c60e37e40a11fa9f5b60a857
   - enabled: 1
-    path: Assets/00.Scenes/Battle Goblin.unity
-    guid: dfd5db64ba0306a4084e4ff1e73f66f6
+    path: Assets/00.Scenes/BattleGoblin.unity
+    guid: 18803979749de8c40a2ada44e4cb954f
   - enabled: 1
-    path: Assets/00.Scenes/Battle Elf.unity
-    guid: 9b752c305f0b2214f8f10a660ffd4748
+    path: Assets/00.Scenes/BattleElf.unity
+    guid: acd1dcb73013828439917720e8403753
   - enabled: 1
-    path: Assets/00.Scenes/Battle Angel.unity
-    guid: 9efd2bbb459d93c4da098cc1c92a2ff4
+    path: Assets/00.Scenes/BattleAngel.unity
+    guid: 19e3a11f2d8c211488c23dc2bf553f96
+  - enabled: 1
+    path: Assets/00.Scenes/LastBattle.unity
+    guid: 4dc8231628b5d0f499c0817ff78e6c9b
   - enabled: 1
     path: Assets/00.Scenes/GameEnding.unity
     guid: 6059e6036ad4d1940853051a8ebee360

@@ -673,10 +673,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainingSlot
   TrainingM: {fileID: 11400000, guid: fd4076f6af25bec48a588d53d782b7dc, type: 2}
-  icon: {fileID: 8070841951131488020}
+  icon1: {fileID: 8070841951131488020}
   Level: {fileID: 6043777721163313124}
   name1: {fileID: 4645814275372545582}
-  price: {fileID: 5490343085118196680}
+  price1: {fileID: 5490343085118196680}
 --- !u!1 &8207494277833406669
 GameObject:
   m_ObjectHideFlags: 0

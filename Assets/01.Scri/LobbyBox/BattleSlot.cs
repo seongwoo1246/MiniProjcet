@@ -6,7 +6,7 @@ public class BattleSlot : TrideSlot
 {
     private int battleId = -1;
 
-   
+    public Image UnLockedBattle;
 
 
     public void OnSlotBattle()
@@ -17,24 +17,29 @@ public class BattleSlot : TrideSlot
         BattleUi.Instance.SelectEnemy.SetActive(true);
     }
 
-    public override void SetTride(int id, Sprite icon, string name, string character, string Description)
+    public override void SetTride(Tride tride)
     {
-        if (id == -1) return;
-        battleId = id;
-        TrideId = id;
-
-        if(icon1 != null)
-            icon1.sprite = icon;
+        if (tride.id == -1) return;
+        battleId = tride.id;
+        TrideId = tride.id;
+        
+        UnLockedBattle.gameObject.SetActive(!tride.isUnLocked);
+        if (icon1 != null)
+            icon1.sprite = tride.icon;
         
         if (name != null)
-            SelectSlotName.text = name;
+            SelectSlotName.text = tride.name;
 
         if ( BattleUi.Instance != null )
         {
-            BattleUi.Instance.iconIn.sprite = icon;
-            BattleUi.Instance.name1.text = name;
-            BattleUi.Instance.character.text = character;
-            BattleUi.Instance.TrideDescription.text = Description;
+            BattleUi.Instance.iconIn.sprite = tride.icon;
+            BattleUi.Instance.name1.text = tride.name;
+            BattleUi.Instance.character.text = tride.character;
+            BattleUi.Instance.TrideDescription.text = tride.trideDescription;
         }
     }
+
+
+
+
 }

@@ -5,6 +5,7 @@ public class AlbumSlot : MonoBehaviour
 {
     private AlbumUi album;
     public Image memori;
+   
 
     private int Albumid = -1;
 
@@ -18,7 +19,8 @@ public class AlbumSlot : MonoBehaviour
 
     public void ViewMemori()
     {
-        if(GetSprite()==null)
+        SoundManager.instance.PlaySFX("»Í");
+        if (GetSprite()==null)
         {
             return;
         }
@@ -32,10 +34,22 @@ public class AlbumSlot : MonoBehaviour
 
     }
 
-    public void SetMemori(int id, Sprite sprite)
+    public void SetMemori(Album album)
     {
-        Albumid = id;
-        memori.sprite = sprite;
+       
+        Albumid = album.id;
+        if(album.isUnLocked)
+        {
+            memori.sprite = album.image;
+            memori.color = Color.white;
+        }
+        else
+        {
+            memori.sprite = null;
+            memori.color = Color.black;
+        }
+       
+        
 
     }
 }

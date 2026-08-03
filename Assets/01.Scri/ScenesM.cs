@@ -2,11 +2,44 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
+public enum scenetpye
+{
+    start,
+   Lobby, 
+    humun,
+    undead,
+    goblin,
+    elf,
+    angel,
+    last,
+    Ending
+
+}
+
+public enum Difficulty
+{
+    easy,
+    normal,
+    hard
+}
+
+
+
+
+
+
+
+
+
+
 public class ScenesM : MonoBehaviour
 {
     public static ScenesM instance;
-
+    public Difficulty SelectedDifficulty = Difficulty.normal;
  
+
+
+    public bool IsviewEnd = false;
     
 
     private void Awake()
@@ -20,37 +53,16 @@ public class ScenesM : MonoBehaviour
             Destroy(gameObject); 
     }
 
-
-
-  // 반복문으로 만들기?
-    public void LoadLobbyScene()
+    public void LoadScenes(scenetpye type)
     {
-        SceneManager.LoadScene(1);
-    }
-    public void LoadHumenScene()
-    {
-        SceneManager.LoadScene(2);
-    }
-    public void LoadUndeadScene()
-    {
-        SceneManager.LoadScene(3);
-    }
-    public void LoadGoblinScene()
-    {
-        SceneManager.LoadScene(4);
-    }
-    public void LoadElfScene()
-    {
-        SceneManager.LoadScene(5);
-    }
-    public void LoadAngelScene()
-    {
-        SceneManager.LoadScene(6);
-    }
-    public void LoadEndingScene()
-    {
-        SceneManager.LoadScene(7);
+        SoundManager.instance.PlayVoice("진실의방으로");
+        SceneManager.LoadScene((int)type);
     }
 
+    public void SetDifficulty(Difficulty difficulty)
+    {
+        SelectedDifficulty = difficulty;
+    }
+   
    
 }

@@ -26,6 +26,7 @@ public class Tride
     public float rivival;
     public string character;
     public string trideDescription;
+    public bool isUnLocked;
 
     public Tride(int _id, Sprite _icon, string _name, float _maxHp, float _hp, int _damage, int _depence, float _critical, int _moneyUp,
         int _maxCharacter, int _heal, float _luck, float _block, float _miss, int _length, float _infection, float _kidanp, float _rivival, string _cahr, string _trideDescription)
@@ -50,11 +51,14 @@ public class Tride
         rivival = _rivival;
         character = _cahr;
         trideDescription = _trideDescription;
+        isUnLocked = false;
     }
 
     public Tride Clone()
     {
-        return new Tride(id, icon, name, maxHp, hp, damage, depence, critical, moneyUp, maxCharacter, heal, luck, block, miss, length, infection, kidnap, rivival, character, trideDescription);
+        Tride tride= new Tride(id, icon, name, maxHp, hp, damage, depence, critical, moneyUp, maxCharacter, heal, luck, block, miss, length, infection, kidnap, rivival, character, trideDescription);
+        tride.isUnLocked = isUnLocked;
+        return tride;
     }
 
 
