@@ -120,7 +120,7 @@ MonoBehaviour:
   - id: 114
     icon: {fileID: 6088844549917994531, guid: 4be68065f671a164b81ada40a79b1ced, type: 3}
     name: "\uC774\uAC83\uC740... \uACFC\uC5F0?"
-    price: 999999
+    price: 99999
     upgrad: 0
     des: "{0} \uC774 \uAF43\uC5D0 \uB3C4\uB2EC\uD588\uAD70\uC694. \uB2F9\uC2E0\uD55C\uD0DC
       \uB450\uB824\uC6B8 \uAC83\uC740 \uC5C6\uC2B5\uB2C8\uB2E4. \uC804\uBD80 \uD574\uCE58\uC6B0\uC138\uC694."

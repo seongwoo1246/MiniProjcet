@@ -53,7 +53,15 @@ public class EnemyController : YutPlayer
 
     }
 
- 
+    public void HiddenAttack()
+    {
+        
+        
+            enemyData.hp = 0;
+            PlayerManager.Instance.isGetItem = false;
+        
+
+    }
 
 
     private void ApplyDifficulty(Difficulty difficulty)

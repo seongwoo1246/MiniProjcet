@@ -9,6 +9,7 @@ public class UnDead : EnemyController ,canSkill
         CurrentEnemy = 3;
         SetEnemy(CurrentEnemy);
         BattleSceneManager.instance.ItbattleSet();
+        maxChar = 3;
     }
          public override void GoalIn(YutPiace targetPiace)
     {

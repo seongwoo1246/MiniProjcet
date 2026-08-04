@@ -33,7 +33,7 @@ public class YutPiace : MonoBehaviour
     public bool isEnemy = false;
     public bool isMovingOnBorad = false;
     public bool isCarried = false;
-    
+    public bool isReturned = false;
 
 
     public List<YutPiace>carriedChar = new List<YutPiace>();
@@ -88,6 +88,7 @@ public class YutPiace : MonoBehaviour
         currentPathIndex = -1;
         PathState1 = PathState.main;
         isCarried = false;
+        isReturned = false;
     }
 
 
@@ -152,6 +153,8 @@ public class YutPiace : MonoBehaviour
     //잡히거나 골인 후 말이 돌아가는 내용
     public void returnReady()
     {
+        if (isReturned) return;
+        isReturned = true;
         string poolname = GetmyPoolName();
 
         if(this ==null||gameObject==null) return;
@@ -220,17 +223,17 @@ public class YutPiace : MonoBehaviour
                     if (PathState1 == PathState.summer)
                     {
                         PathState1 = PathState.main;
-                        currentPathIndex = 2;
+                        currentPathIndex = 3;
                     }
                     else if (PathState1 == PathState.spring)
                     {
                         PathState1 = PathState.main;
-                        currentPathIndex = 7;
+                        currentPathIndex = 8;
                     }
                     else if (PathState1 == PathState.autumn)
                     {
                         PathState1 = PathState.summer;
-                        currentPathIndex = 1;
+                        currentPathIndex = 2;
                     }
                 }
                 else
@@ -439,6 +442,8 @@ public class YutPiace : MonoBehaviour
         leaderPiece.currentPathIndex = finalSpace;
         foreach( YutPiace kid in leaderPiece.carriedChar)
         {
+            if (kid == null) continue;
+
             kid.currentPathIndex = finalSpace;
             kid.transform.position = leaderPiece.transform.position;
         }

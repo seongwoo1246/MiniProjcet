@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 using UnityEngine.UI;
 
 
@@ -88,23 +89,29 @@ public class SkillManager : MonoBehaviour
         else if(player == enemyController)
         {
             YutPiace absoluteBestTarget = null;
+           
             int maxBsetCount = 0;
 
-            foreach(var mypiece in enemyController.EnemyGroup)
-            {
-                if(enemyController ==null ||enemyController.enemyData == null)
-                {
-                    Debug.Log("에너미 콘트롤러  에너미 데이터 빈상자");
-                }
+            var allchar = BattleSceneManager.instance.allActiveChar;
 
-                if (CanUseElfSkill(false, skillRange, caster.currentPathIndex, caster.PathState1, out YutPiace bestTarget, out int bestcount))
+            foreach (var candidatecaster in allchar)
+            {
+                if (candidatecaster.isEnemy != true||candidatecaster.isCarried||candidatecaster.isMoveing) continue;
+
+                foreach (var mypiece in allchar)
                 {
-                    if( bestcount > maxBsetCount||(bestcount==maxBsetCount&&absoluteBestTarget != null && bestTarget.currentPathIndex>absoluteBestTarget.currentPathIndex))
+
+                    if (CanUseElfSkill(false, skillRange, candidatecaster.currentPathIndex, candidatecaster.PathState1, out YutPiace bestTarget, out int bestcount))
                     {
-                        maxBsetCount = bestcount;
-                        absoluteBestTarget = bestTarget;
+                        if (bestcount > maxBsetCount || (bestcount == maxBsetCount && absoluteBestTarget != null && bestTarget.currentPathIndex > absoluteBestTarget.currentPathIndex))
+                        {
+                            maxBsetCount = bestcount;
+                            absoluteBestTarget = bestTarget;
+                            
+                        }
+
                     }
-                    
+
                 }
             }
             if(absoluteBestTarget != null)

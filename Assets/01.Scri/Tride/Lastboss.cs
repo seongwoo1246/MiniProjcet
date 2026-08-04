@@ -96,6 +96,8 @@ public class Lastboss : EnemyController, canSkill
         }
 
     }
+
+  
     public override void DeadMob()
     {
         if(enemyData.hp<=0)

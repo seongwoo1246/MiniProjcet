@@ -40,7 +40,8 @@ public class ScenesM : MonoBehaviour
 
 
     public bool IsviewEnd = false;
-    
+    public bool IsIntroview = false;
+
 
     private void Awake()
     {

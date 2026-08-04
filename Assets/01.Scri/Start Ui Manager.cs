@@ -12,44 +12,16 @@ public class StartUi : MonoBehaviour
     [SerializeField] Button Hard;
     [SerializeField] Button ExitGameButton;
     [SerializeField] VideoPlayer VideoPlay;
-    [SerializeField] VideoPlayer IntroPlay;
     [SerializeField] RawImage raw;
-    [SerializeField] Image EndAfter;
-    [SerializeField] GameObject IntroCanvas;
-    [SerializeField] GameObject dim;
-    private bool IsIntroview = false;
+   
+   
+   
 
 
 
     void Start()
     {
-        if (IsIntroview == false)
-        {
-            if (dim != null) dim.SetActive(true);
-            if (IntroCanvas != null) IntroCanvas.SetActive(true);
-            IntroPlay.gameObject.SetActive(true);
-
-            IntroPlay.playOnAwake = false;
-
-            IntroPlay.prepareCompleted -= onVideoPreParred;
-            IntroPlay.prepareCompleted += onVideoPreParred;
-
-            IntroPlay.loopPointReached -= IntroEnd;
-            IntroPlay.loopPointReached += IntroEnd;
-
-            if (IntroPlay.targetTexture != null)
-            {
-                IntroPlay.targetTexture.Release();
-            }
-
-            IntroPlay.Prepare();
-
-
-            if (IntroPlay.targetTexture != null)
-            {
-                IntroPlay.targetTexture.Release();
-            }
-        }
+        
 
         Easy.gameObject.SetActive(false);
         Normal.gameObject.SetActive(false);
@@ -60,36 +32,11 @@ public class StartUi : MonoBehaviour
        
     }
 
-  
-
-    private void onVideoPreParred(VideoPlayer videoPlayer)
-    {
-        videoPlayer.Play();
-    }
 
 
-    void IntroEnd(VideoPlayer videoPlayer)
-    {
-        IsIntroview = true;
-
-        IntroPlay.prepareCompleted -= onVideoPreParred;
-        IntroPlay.loopPointReached -= OnvideoEnd;
 
 
-        if(dim !=null)dim.SetActive(false);
-        if(IntroCanvas != null)IntroCanvas.SetActive(false);
 
-        if (ScenesM.instance.IsviewEnd == true)
-        {
-            SoundManager.instance.PlayBGM(SoundManager.instance.hidenStart);
-            EndAfter.gameObject.SetActive(true);
-        }
-        else
-        {
-            SoundManager.instance.PlayBGM(SoundManager.instance.nomalStart);
-            EndAfter.gameObject.SetActive(false);
-        }
-    }
 
     void OnvideoEnd(VideoPlayer videoPlayer)
     {
@@ -104,7 +51,7 @@ public class StartUi : MonoBehaviour
 
     }
 
-   public void GameStart()
+    public void GameStart()
     {
         SoundManager.instance.PlayVoice("æ»≥Á«œººø‰");
         StartB.gameObject.SetActive(false);

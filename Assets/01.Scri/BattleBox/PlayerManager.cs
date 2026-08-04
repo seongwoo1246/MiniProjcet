@@ -28,7 +28,7 @@ public class PlayerManager : YutPlayer
 
     public bool CanAttackLastBoss = false;
     public bool CanGoEnd = false;
-
+    public bool isGetItem = false;
 
     public Tride PlayerData { get; private set; }
 

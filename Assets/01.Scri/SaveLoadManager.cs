@@ -49,6 +49,7 @@ public class SaveData
     public int lastSelectTrideId;
     public bool CanAttackLastBossData;
     public bool CanGoEndData;
+    public bool isviewEndData;
     public List<TrideSaveData> TribeStates = new List<TrideSaveData>();
     public List<AlbumSaveData> AlbumSaveDatas = new List<AlbumSaveData>();
     public List<TrainingSaveData> TrainingSaveDatas = new List<TrainingSaveData>();
@@ -110,6 +111,7 @@ public class SaveLoadManager : MonoBehaviour
         sd.lastSelectTrideId = PlayerManager.Instance.PlayerData.id;
         sd.CanGoEndData = PlayerManager.Instance.CanGoEnd;
         sd.CanAttackLastBossData = PlayerManager.Instance.CanAttackLastBoss;
+        sd.isviewEndData = ScenesM.instance.IsviewEnd;
 
         foreach (var t in PlayerManager.Instance.TrideDataDic)
         {
@@ -177,6 +179,7 @@ public class SaveLoadManager : MonoBehaviour
         TrainingUi.Instance.money.text = $"ÇöÀç ¼ÒÀ¯ µ· : {sd.haveMoney}";
         PlayerManager.Instance.CanGoEnd = sd.CanGoEndData;
         PlayerManager.Instance.CanAttackLastBoss = sd.CanAttackLastBossData;
+        ScenesM.instance.IsviewEnd = sd.isviewEndData;
         foreach (var saved in sd.TribeStates)
         {
             Tride original = trideM.TrideList.Find(t => t.id == saved.id);
@@ -242,6 +245,8 @@ public class SaveLoadManager : MonoBehaviour
         BattleUi.Instance.RefreshBattleUi();
         StateUi.Instance.SetState();
 
+
+        BattleUi.Instance.setstatebattle();
     }
 
    

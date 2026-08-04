@@ -100,7 +100,7 @@ public class TrainingSlot : MonoBehaviour
                         Data.price += 5000;
                         break;
                     case 114:
-                        playerState.damage += 99999;
+                        PlayerManager.Instance.isGetItem = true;
                         TrainingUi.Instance.Secret.gameObject.SetActive(true);
                         TrainingUi.Instance.SecretRaw.gameObject.SetActive(true);
                        TrainingUi.Instance.Secret.Play();

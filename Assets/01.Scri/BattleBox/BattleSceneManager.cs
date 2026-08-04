@@ -389,6 +389,15 @@ public class BattleSceneManager : MonoBehaviour
             //게임 오버처리
             if(tride.hp <=0)
             {
+                if(PlayerManager.Instance.isGetItem == true ||enemyController.CurrentEnemy ==5)
+                {
+                    enemyController.HiddenAttack();
+                    enemyController.DeadMob();
+                    ObjectPooling.instance.cleargarbage();
+
+                    GameOver();
+                    return;
+                }
                 tride.hp = 0;
                 enemyController.DeadMob();
                 ObjectPooling.instance.cleargarbage();

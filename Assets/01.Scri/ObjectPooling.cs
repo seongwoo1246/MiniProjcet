@@ -12,7 +12,7 @@ public class ObjectPooling : MonoBehaviour
     Queue<GameObject> poolQ = new Queue<GameObject>();
 
     Dictionary<string,Queue<GameObject>> poolD = new Dictionary<string,Queue<GameObject>>();
-
+    private HashSet<GameObject> activeobj = new HashSet<GameObject>();
 
     public List<GameObject> garbage = new List<GameObject>();
 
@@ -32,7 +32,7 @@ public class ObjectPooling : MonoBehaviour
 
     private void Start()
     {
-        poolSize = 30;
+        poolSize = 400;
 
         foreach(GameObject obj in Objects)
         {
@@ -54,22 +54,35 @@ public class ObjectPooling : MonoBehaviour
     {
         if (!poolD.ContainsKey(name))
             return null;
-        if(poolD[name].Count > 0)
+
+        GameObject go;
+        if (poolD[name].Count > 0)
         {
-            GameObject go = poolD[name].Dequeue();
-            go.SetActive(true);
-            return go;
+            go = poolD[name].Dequeue();
+           
         }
         else 
         {
-         GameObject go = Instantiate(Objects.Find(obj =>  obj.name == name));
-            return go;
+           go = Instantiate(Objects.Find(obj =>  obj.name == name));
+            
         }
+
+        go.SetActive(true);
+        activeobj.Add(go);
+        return go;
     }
 
     public void ReturnObject(string name,GameObject obj)
     {
         if( obj == null ) return;
+
+        if(!activeobj.Contains(obj))
+        {
+          
+            return;
+        }
+            
+        activeobj.Remove(obj);
 
         if(!poolD.ContainsKey(name))
         {

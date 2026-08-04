@@ -21,6 +21,7 @@ public class BattleUi : LobbyUiManager
     [SerializeField] RawImage EnRaw;
     [SerializeField] Button LastBattle;
     [SerializeField] Image EndAfter1;
+    [SerializeField] Button GoEndB;
 
     private scenetpye ST;
     public GameObject SelectEnemy;
@@ -71,20 +72,20 @@ public class BattleUi : LobbyUiManager
             LastBattle.gameObject.SetActive(false);
         }
 
-        if (PlayerManager.Instance.CanGoEnd == true)
+
+        if(PlayerManager.Instance.CanGoEnd)
         {
-            LoToEnd.gameObject.SetActive(true);
-            EnRaw.gameObject.SetActive(true);
-            LoToEnd.Play();
+            GoEndB.gameObject.SetActive(true);
         }
         else
         {
-            LoToEnd.gameObject.SetActive(false);
-            EnRaw.gameObject.SetActive(false);
+            GoEndB.gameObject.SetActive(false);
         }
-
-
             
+        LoToEnd.gameObject.SetActive(false);
+        EnRaw.gameObject.SetActive(false);
+
+
         BaRaw.gameObject.SetActive(false);
        
         Battle.SetActive(false);
@@ -96,9 +97,50 @@ public class BattleUi : LobbyUiManager
         LoToBa.loopPointReached += ToBattle;
     }
 
+    public void GoEnd()
+    {
+      LoToEnd.gameObject.SetActive(true);
+      EnRaw.gameObject.SetActive(true);
+      LoToEnd.Play();
+    }
+
+    public void setstatebattle()
+    {
+        if (ScenesM.instance.IsviewEnd == true)
+        {
+            SoundManager.instance.PlayBGM(SoundManager.instance.hidenLobby);
+            EndAfter1.gameObject.SetActive(true);
+        }
+        else
+        {
+            SoundManager.instance.PlayBGM(SoundManager.instance.nomalLobby);
+            EndAfter1.gameObject.SetActive(false);
+        }
+
+
+        if (PlayerManager.Instance.CanAttackLastBoss == true)
+        {
+            LastBattle.gameObject.SetActive(true);
+        }
+        else
+        {
+            LastBattle.gameObject.SetActive(false);
+        }
+
+        if (PlayerManager.Instance.CanGoEnd == true)
+        {
+            GoEndB.gameObject.SetActive(true);
+        }
+        else
+        {
+            GoEndB.gameObject.SetActive(false);
+        }
+    }
+
     // º¸½ºÇÑÅÂ °¡´Â ¹öÆ° 
     public void LastBattleStart()
     {
+       
         SoundManager.instance.PlaySFX("ÆøÆÈ");
         LoToBa.gameObject.SetActive(true);
         BaRaw.gameObject.SetActive(true);
@@ -118,18 +160,23 @@ public class BattleUi : LobbyUiManager
     {
         if (PlayerManager.Instance.CanAttackLastBoss == true)
         {
+            SaveLoadManager.instance.saveB.gameObject.SetActive(false);
+            SaveLoadManager.instance.loadB.gameObject.SetActive(false);
             LoToBa.gameObject.SetActive(false);
             BaRaw.gameObject.SetActive(false);
             ScenesM.instance.LoadScenes(scenetpye.last);
         }
         else
         {
+            SaveLoadManager.instance.saveB.gameObject.SetActive(false);
+            SaveLoadManager.instance.loadB.gameObject.SetActive(false);
             LoToBa.gameObject.SetActive(false);
             BaRaw.gameObject.SetActive(false);
             ScenesM.instance.LoadScenes(ST);
         }
 
-        
+       
+
     }
 
     
@@ -208,8 +255,7 @@ public class BattleUi : LobbyUiManager
     public void StartBattel()
     {
         SoundManager.instance.PlaySFX("»Í");
-        SaveLoadManager.instance.saveB.gameObject.SetActive(false);
-        SaveLoadManager.instance.loadB.gameObject.SetActive(false);
+        
         if (battleId == -1)
             return;
         Battle.SetActive(false);

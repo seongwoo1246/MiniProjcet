@@ -1209,6 +1209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScenesM
   SelectedDifficulty: 1
   IsviewEnd: 0
+  IsIntroview: 0
 --- !u!4 &951750234
 Transform:
   m_ObjectHideFlags: 0
@@ -1655,6 +1656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1344619509}
   - component: {fileID: 1344619508}
+  - component: {fileID: 1344619510}
   m_Layer: 0
   m_Name: Main Ui manager
   m_TagString: Untagged
@@ -1680,11 +1682,7 @@ MonoBehaviour:
   Hard: {fileID: 361414779}
   ExitGameButton: {fileID: 1923170132}
   VideoPlay: {fileID: 1544880221}
-  IntroPlay: {fileID: 2065273860}
   raw: {fileID: 1101502610}
-  EndAfter: {fileID: 621165063}
-  IntroCanvas: {fileID: 303112873}
-  dim: {fileID: 1553046169}
 --- !u!4 &1344619509
 Transform:
   m_ObjectHideFlags: 0
@@ -1700,6 +1698,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1344619510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344619507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8289a3c0cbfd94d9cc4213e66f4ca4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IntroManager
+  IntroPlay: {fileID: 2065273860}
+  IntroCanvas: {fileID: 949859958}
+  dim: {fileID: 1553046169}
+  EndAfter: {fileID: 621165063}
 --- !u!1 &1544880219
 GameObject:
   m_ObjectHideFlags: 0
