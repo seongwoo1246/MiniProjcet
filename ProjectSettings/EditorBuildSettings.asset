@@ -32,6 +32,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/00.Scenes/GameEnding.unity
     guid: 6059e6036ad4d1940853051a8ebee360
+  - enabled: 1
+    path: Assets/00.Scenes/multiPlay.unity
+    guid: ba28f2e2f14936d42a99b4025acfa02f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

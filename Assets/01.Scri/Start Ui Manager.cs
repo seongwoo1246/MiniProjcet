@@ -13,7 +13,7 @@ public class StartUi : MonoBehaviour
     [SerializeField] Button ExitGameButton;
     [SerializeField] VideoPlayer VideoPlay;
     [SerializeField] RawImage raw;
-   
+  
    
    
 
