@@ -1,9 +1,11 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+
 
 
 
@@ -38,7 +40,7 @@ public class BattleSceneManager : MonoBehaviour
 
     [SerializeField] GameObject GameOver1;
 
-    [SerializeField] TextMeshProUGUI resultYut;
+    [SerializeField] public TextMeshProUGUI resultYut;
     [SerializeField] TextMeshProUGUI TurnCount;
     [SerializeField] TextMeshProUGUI moCount;
     [SerializeField] TextMeshProUGUI yutCount;
@@ -50,7 +52,7 @@ public class BattleSceneManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI attacktext;
     [SerializeField] public TextMeshProUGUI MaxCharCaption;
 
-    [SerializeField] Button ThrowButton;
+    [SerializeField] public Button ThrowButton;
     [SerializeField] Button mo;
     [SerializeField] Button yut;
     [SerializeField] Button elseyut;
@@ -107,26 +109,28 @@ public class BattleSceneManager : MonoBehaviour
     private void Start()
     {
         ThrowButton.gameObject.SetActive(false);
-        attacktext.gameObject.SetActive(false);
-        First.gameObject.SetActive(false);
         MaxCharCaption.gameObject.SetActive(false);
-        GameOver1.SetActive(false);
         Turn = 0;
         TurnCount.text =$"°æ°ú ÅÏ : {Turn}";
-        FirstStart();
-        videoPlayer.gameObject.SetActive(false);
-        ToLobbyRaw.gameObject.SetActive(false);
-        videoPlayer.loopPointReached +=OnVideoEndToLobby;
 
-        PlayerManager.Instance.playerPiace = FindAnyObjectByType<YutPiace>();
-        PlayerManager.Instance.playerUiDate = playData1;
+        if (PlayerManager.Instance != null)
+        {
+            attacktext.gameObject.SetActive(false);
+            First.gameObject.SetActive(false);
+            GameOver1.SetActive(false);
+            FirstStart();
+            videoPlayer.gameObject.SetActive(false);
+            ToLobbyRaw.gameObject.SetActive(false);
+            videoPlayer.loopPointReached += OnVideoEndToLobby;
+            PlayerManager.Instance.playerPiace = FindAnyObjectByType<YutPiace>();
+            PlayerManager.Instance.playerUiDate = playData1;
 
-        PlayerManager.Instance.ButtonSet();
+            PlayerManager.Instance.ButtonSet();
 
-        Button button = GoLobby.GetComponent<Button>();
-        button.onClick.RemoveAllListeners();
-        button.onClick.AddListener(GoToLobby);
-
+            Button button = GoLobby.GetComponent<Button>();
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(GoToLobby);
+        }
     }
 
     // ¿µ»ó ³¡³ª°í ³Ñ¾î°¨
@@ -276,29 +280,31 @@ public class BattleSceneManager : MonoBehaviour
                     
 
                     isCaughtAnything = true;
-                    if(PlayerManager.Instance.isGoblinSkillUsed ==true)
+                    if (PlayerManager.Instance != null)
                     {
-                        SoundManager.instance.PlayVoice("»ç¾ÇÇÑ¿ôÀ½");
-                        PlayerManager.Instance.UsedGoblinSkill(MovePiace.player, targetPiace.player);
-                    }
-                    else if(enemyController.isGoblinSkillUsed ==true)
-                    {
-                        SoundManager.instance.PlayVoice("»ç¾ÇÇÑ¿ôÀ½");
-                       enemyController.UsedGoblinSkill(MovePiace.player, targetPiace.player);
-                    }
+                        if (PlayerManager.Instance.isGoblinSkillUsed == true)
+                        {
+                            SoundManager.instance.PlayVoice("»ç¾ÇÇÑ¿ôÀ½");
+                            PlayerManager.Instance.UsedGoblinSkill(MovePiace.player, targetPiace.player);
+                        }
+                        else if (enemyController.isGoblinSkillUsed == true)
+                        {
+                            SoundManager.instance.PlayVoice("»ç¾ÇÇÑ¿ôÀ½");
+                            enemyController.UsedGoblinSkill(MovePiace.player, targetPiace.player);
+                        }
 
-                    if (PlayerManager .Instance.isUndeadSkillUsed == true)
-                    {
-                        SoundManager.instance.PlayVoice("»ç¾ÇÇÑ¿ôÀ½");
-                        PlayerManager.Instance.UsedUndeadSkill(MovePiace.player, MovePiace);
-                    }
-                    else if(enemyController.isUndeadSkillUsed)
-                    {
-                        SoundManager.instance.PlayVoice("»ç¾ÇÇÑ¿ôÀ½");
-                        enemyController.UsedUndeadSkill(MovePiace.player, MovePiace);
-                    }
+                        if (PlayerManager.Instance.isUndeadSkillUsed == true)
+                        {
+                            SoundManager.instance.PlayVoice("»ç¾ÇÇÑ¿ôÀ½");
+                            PlayerManager.Instance.UsedUndeadSkill(MovePiace.player, MovePiace);
+                        }
+                        else if (enemyController.isUndeadSkillUsed)
+                        {
+                            SoundManager.instance.PlayVoice("»ç¾ÇÇÑ¿ôÀ½");
+                            enemyController.UsedUndeadSkill(MovePiace.player, MovePiace);
+                        }
 
-
+                    }
 
                         foreach (YutPiace kid in targetPiace.carriedChar)
                         {
@@ -642,8 +648,10 @@ public class BattleSceneManager : MonoBehaviour
 
     public void ThrowYut()
     {
-        
-
+        if (MultiYutGameManager.instance != null)
+        {
+            if (PhotonNetwork.LocalPlayer.ActorNumber != MultiYutGameManager.instance.currentTurnPlayerActorNumber) return;
+        }
 
         bool IsEnemy = enemyController.IsEnemyTurn;
 
@@ -718,6 +726,12 @@ public class BattleSceneManager : MonoBehaviour
         StartCoroutine(FalseText(resultYut));
         if (!IsEnemy)
         { canUseYut = true; }
+        
+        if(MultiYutGameManager.instance != null)
+        {
+            MultiYutGameManager.instance.view.RPC("RPC_ShowYUtResult", RpcTarget.All, currentYut, PhotonNetwork.LocalPlayer.NickName);
+        }
+       
     }
 
 
@@ -795,11 +809,6 @@ public class BattleSceneManager : MonoBehaviour
     // »ç¿ëÇÑ À· °á°ú
     public void UseSelectedYut()
     {
-       
-        
-           
-        
-
         if (TurnYutResult.Contains(selectYut))
         {
             TurnYutResult.Remove(selectYut);

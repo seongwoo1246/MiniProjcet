@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-
+using Photon.Pun;
 
 
 public enum PathState
@@ -36,13 +36,21 @@ public class YutPiace : MonoBehaviour
     public bool isReturned = false;
 
 
+    //멀티 관련 코드
+    public int priceID;
+    public int ownerActorNo;
+
     public List<YutPiace>carriedChar = new List<YutPiace>();
 
     private void Awake()
     {
         
         icon = GetComponent<SpriteRenderer>();
-        enemyController = FindAnyObjectByType<EnemyController>();
+        if(enemyController  != null )
+        {
+            enemyController = FindAnyObjectByType<EnemyController>();
+        }
+       
     }
 
     public void Init(YutPlayer ownerPlayer)
@@ -130,12 +138,6 @@ public class YutPiace : MonoBehaviour
         {
             this.returnReady();
         }
-
-
-
-
-
-
 
 
         if (this.isEnemy == true)
@@ -455,38 +457,56 @@ public class YutPiace : MonoBehaviour
     {
 
         SoundManager.instance.PlaySFX("뽕");
-        var skill = SkillManager.instance;
 
-        if(skill.isWaitingForElfSkillTarget&&!isEnemy)
+        if (MultiYutGameManager.instance != null)
         {
-            skill.isWaitingForElfSkillTarget = false;
-            if(skill.CanUseElfSkill(true, skill.currentElfSkillRange,this.currentPathIndex, this.PathState1, out YutPiace bestTarget, out int bestcount))
-            {
-                skill.CatchAllOnTile(bestTarget);
-
-            }
-            return;
-        }
-
-        if (skill.isWaitingForAngelTarget && !isEnemy)
-        {
-            skill.AngelSkill(this);
-            skill.isWaitingForAngelTarget = false;
-        }
-        
-        var manger = BattleSceneManager.instance;
-
-        if (manger.isYutSelected == false)
-        { return; }
-        if (manger.IsMyTurn == false)
-        { return; }
-        if (this.isEnemy == true)
-        { return; }
-        if(this.isMoveing ==true)
+            var multi = MultiYutGameManager.instance;
+            if (PhotonNetwork.LocalPlayer.ActorNumber != multi.currentTurnPlayerActorNumber)
+            { return; }
+            if (ownerActorNo != PhotonNetwork.LocalPlayer.ActorNumber)
             { return; }
 
-        this.StartMove(manger.selectMoveSpace);
-        manger.UseSelectedYut();
+            
+        }
+
+
+        if (SkillManager.instance != null)
+        {
+            var skill = SkillManager.instance;
+
+            if (skill.isWaitingForElfSkillTarget && !isEnemy)
+            {
+                skill.isWaitingForElfSkillTarget = false;
+                if (skill.CanUseElfSkill(true, skill.currentElfSkillRange, this.currentPathIndex, this.PathState1, out YutPiace bestTarget, out int bestcount))
+                {
+                    skill.CatchAllOnTile(bestTarget);
+
+                }
+                return;
+            }
+
+            if (skill.isWaitingForAngelTarget && !isEnemy)
+            {
+                skill.AngelSkill(this);
+                skill.isWaitingForAngelTarget = false;
+            }
+        }
+        if (BattleSceneManager.instance != null)
+        {
+            var manger = BattleSceneManager.instance;
+
+            if (manger.isYutSelected == false)
+            { return; }
+            if (manger.IsMyTurn == false)
+            { return; }
+            if (this.isEnemy == true)
+            { return; }
+            if (this.isMoveing == true)
+            { return; }
+
+            this.StartMove(manger.selectMoveSpace);
+            manger.UseSelectedYut();
+        }
     }
 
     // 골인하는지 체크
